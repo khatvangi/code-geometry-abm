@@ -1,0 +1,38 @@
+{
+  "check1": {
+    "shared_metrics_equal": true,
+    "agent_summary_equal": true,
+    "pass": true
+  },
+  "check2": {
+    "baseline": {
+      "median_exit_rate": 0.2971428571428571,
+      "median_top5_share": 0.782783326096396,
+      "median_enforcer_punish_share": 0.9673822591016208
+    },
+    "alpha_only": {
+      "median_exit_rate": 0.2742857142857143,
+      "median_top5_share": 0.7706561360874848,
+      "median_enforcer_punish_share": 0.9695229583686245
+    },
+    "exit_lower": true,
+    "shares_stable": true,
+    "pass": true
+  },
+  "check3": {
+    "baseline": {
+      "median_exit_rate": 0.2971428571428571,
+      "median_top5_share": 0.782783326096396,
+      "median_enforcer_punish_share": 0.9673822591016208
+    },
+    "delta_only": {
+      "median_exit_rate": 0.2628571428571428,
+      "median_top5_share": 0.7573258085522032,
+      "median_enforcer_punish_share": 0.9738540852792593
+    },
+    "exit_lower": true,
+    "shares_stable": true,
+    "pass": true
+  },
+  "all_pass": true
+}

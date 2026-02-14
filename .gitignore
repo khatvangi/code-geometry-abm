@@ -15,5 +15,15 @@ results/**
 !results/v2.5_corrected_sweep_regime_search_fast/**
 !results/v2.5_corrected_three_regime_confirm/
 !results/v2.5_corrected_three_regime_confirm/**
+!results/v2.6_validation/
+!results/v2.6_validation/**
+!results/v2.6_retention_sweep/
+!results/v2.6_retention_sweep/**
+!results/v2.6_ablation_alpha_only/
+!results/v2.6_ablation_alpha_only/**
+!results/v2.6_ablation_delta_only/
+!results/v2.6_ablation_delta_only/**
+!results/v2.6_ablation_v25_recovery/
+!results/v2.6_ablation_v25_recovery/**
 .DS_Store
 .claude_resources.json
