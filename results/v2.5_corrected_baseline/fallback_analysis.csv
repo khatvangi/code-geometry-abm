@@ -1,0 +1,2 @@
+n_seeds,fallback_drop_t_median,fallback_drop_t_min,fallback_drop_t_max,late_or_never_drop_frac,late_or_never_drop_n,literalism_d_median_excluding_late_seeds
+30,33.0,21.0,62.0,0.06666666666666667,2,

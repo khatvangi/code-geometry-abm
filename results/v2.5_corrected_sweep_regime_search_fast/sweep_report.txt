@@ -1,0 +1,4 @@
+n_runs=216
+legacy_regimes_found=['COLLAPSE', 'MIXED', 'QUIET']
+hier_regimes_found=['COLLAPSE', 'MIXED', 'QUIET']
+seeds_per_combo=2

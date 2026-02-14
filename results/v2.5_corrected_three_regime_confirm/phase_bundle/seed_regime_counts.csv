@@ -1,0 +1,8 @@
+regime,n_seed_runs,schema
+MIXED,178,legacy
+QUIET,137,legacy
+COLLAPSE,45,legacy
+MIXED,166,hierarchical
+QUIET,137,hierarchical
+COLLAPSE,45,hierarchical
+CAPTURE_HIERARCHICAL,12,hierarchical

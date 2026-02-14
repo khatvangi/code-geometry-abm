@@ -1,0 +1,5 @@
+n_runs=360
+legacy_regimes_found=['COLLAPSE', 'MIXED', 'QUIET']
+hier_regimes_found=['CAPTURE_HIERARCHICAL', 'COLLAPSE', 'MIXED', 'QUIET']
+capture_exit_cap=0.3
+seeds_per_combo=5

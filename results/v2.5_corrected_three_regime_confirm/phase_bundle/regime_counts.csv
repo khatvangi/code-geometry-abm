@@ -1,0 +1,8 @@
+regime,n_cells,schema
+MIXED,37,legacy
+QUIET,26,legacy
+COLLAPSE,9,legacy
+MIXED,36,hierarchical
+QUIET,26,hierarchical
+COLLAPSE,9,hierarchical
+CAPTURE_HIERARCHICAL,1,hierarchical

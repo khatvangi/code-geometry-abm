@@ -1,0 +1,4 @@
+n_runs=120
+legacy_regimes_found=['MIXED']
+hier_regimes_found=['MIXED']
+seeds_per_combo=5
