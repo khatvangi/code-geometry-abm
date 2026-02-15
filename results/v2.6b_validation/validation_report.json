@@ -1,0 +1,23 @@
+{
+  "check1": {
+    "shared_metrics_equal": true,
+    "agent_summary_equal_on_shared_cols": true,
+    "pass": true
+  },
+  "check2": {
+    "baseline": {
+      "median_exit_rate": 0.2971428571428571,
+      "median_top5_share": 0.782783326096396,
+      "median_enforcer_punish_share": 0.9673822591016208
+    },
+    "mu_only": {
+      "median_exit_rate": 0.2942857142857142,
+      "median_top5_share": 0.7863673303535148,
+      "median_enforcer_punish_share": 0.9713336336682834
+    },
+    "exit_lower": true,
+    "shares_stable": true,
+    "pass": true
+  },
+  "all_pass": true
+}

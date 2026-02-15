@@ -27,5 +27,15 @@ results/**
 !results/v2.6_ablation_v25_recovery/**
 !results/v2.6_delta_threshold_sweep/
 !results/v2.6_delta_threshold_sweep/**
+!results/v2.6b_validation/
+!results/v2.6b_validation/**
+!results/v2.6b_membership_sweep/
+!results/v2.6b_membership_sweep/**
+!results/v2.6b_ablation_mu/
+!results/v2.6b_ablation_mu/**
+!results/v2.6b_ablation_delta/
+!results/v2.6b_ablation_delta/**
+!results/v2.6b_ablation_interaction/
+!results/v2.6b_ablation_interaction/**
 .DS_Store
 .claude_resources.json

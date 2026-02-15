@@ -1,0 +1,15 @@
+n_cells=60
+n_runs=600
+base_opp=0.3
+exit_threshold=-1.0
+capture_exit_cap=0.2
+regime_majority_counts={'MIXED': 60}
+seed_regime_counts={'MIXED': 594, 'CAPTURE': 6}
+exit_rate_median_range=(0.238571,0.388571)
+max_punish_median_range=(0.125714,0.171429)
+enforcer_share_median_range=(0.951066,0.976822)
+anomalies=none
+synergy_rows=32
+synergy_capture70_count=0
+interaction_exit_median=0.001429
+moderate_synergy_capture70_count=0
