@@ -24,3 +24,12 @@ Primary publication-ready files:
 - `results/v2.5_corrected_three_regime_confirm/phase_bundle/phase_map_legacy.png`
 - `results/v2.5_corrected_three_regime_confirm/phase_bundle/phase_map_hierarchical.png`
 - `results/v2.5_corrected_three_regime_confirm/phase_bundle/RESULTS_V2_5_PHASE_BUNDLE.md`
+
+Publication figure set (cleaned + captioned):
+
+- `results/v2.5_corrected_three_regime_confirm/figures_publication/fig1_phase_map_hierarchical.png`
+- `results/v2.5_corrected_three_regime_confirm/figures_publication/fig2_regime_counts.png`
+- `results/v2.5_corrected_three_regime_confirm/figures_publication/fig3_concentration_by_regime.png`
+- `results/v2.5_corrected_three_regime_confirm/figures_publication/fig4_regime_timeseries.png`
+- `results/v2.5_corrected_three_regime_confirm/figures_publication/fig5_literalism_enrichment.png`
+- `results/v2.5_corrected_three_regime_confirm/figures_publication/FIGURE_CAPTIONS.md`
