@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "Code-Geometry ABM: Endogenous Enforcement Delegation in Religious Communities"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Khatvangi
+    given-names: Kiran
+    orcid: ""
+repository-code: "https://github.com/khatvangi/code-geometry-abm"
+license: MIT
+version: 1.0.0
+date-released: "2026-02-16"
+keywords:
+  - agent-based model
+  - religious fundamentalism
+  - costly signaling
+  - enforcement delegation
+  - institutional monopoly
+  - punishment concentration
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Khatvangi
+      given-names: Kiran
+  title: "DOI forthcoming"
+  year: 2026

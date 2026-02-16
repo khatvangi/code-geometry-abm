@@ -39,3 +39,5 @@ results/**
 !results/v2.6b_ablation_interaction/**
 .DS_Store
 .claude_resources.json
+*.log
+*.pid

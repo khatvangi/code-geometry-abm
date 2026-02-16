@@ -1,0 +1,12 @@
+# pinned from known-good venv (Python 3.12.4)
+# minimal set for simulation + analysis + figure generation
+mesa==3.4.2
+numpy==2.4.2
+pandas==3.0.0
+networkx==3.6.1
+matplotlib==3.10.8
+tqdm==4.67.3
+imageio==2.37.2
+imageio-ffmpeg==0.6.0
+scipy==1.17.0
+pillow==12.1.1

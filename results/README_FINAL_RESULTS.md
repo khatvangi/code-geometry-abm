@@ -16,6 +16,26 @@ Included result directories:
 - `results/v2.5_corrected_sweep_capture_probe/`
   - Capture-focused probe sweep and summaries.
 
+Additional module results (v2.6/v2.6b):
+
+- `results/v2.6_validation/` -- doctrinal retention module validation
+- `results/v2.6_retention_sweep/` -- retention parameter sweep
+- `results/v2.6_ablation_alpha_only/` -- alpha-only ablation
+- `results/v2.6_ablation_delta_only/` -- delta-only ablation
+- `results/v2.6_ablation_v25_recovery/` -- v2.5 recovery ablation
+- `results/v2.6_delta_threshold_sweep/` -- delta threshold confirmation
+- `results/v2.6b_validation/` -- membership module validation
+- `results/v2.6b_membership_sweep/` -- membership parameter sweep
+- `results/v2.6b_ablation_mu/` -- mu ablation
+- `results/v2.6b_ablation_delta/` -- delta ablation
+- `results/v2.6b_ablation_interaction/` -- interaction ablation
+
+NOT included in this submission artifact:
+
+- `v2.7*` results (endogenous delta, experimental) -- not part of the current manuscript
+- `v2.5_corrected_sweep/`, `v2.5_corrected_sweep_regime_search/` -- intermediate exploratory runs
+- `.log` and `.pid` files -- runtime artifacts, gitignored
+
 Primary publication-ready files:
 
 - `results/v2.5_corrected_three_regime_confirm/phase_bundle/phase_table.csv`
