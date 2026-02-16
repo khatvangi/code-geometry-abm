@@ -30,9 +30,13 @@ echo "[2/4] installing dependencies..."
 pip install -q -r requirements.txt
 
 # --- step 3: fix absolute paths in sweep_seed_results.csv ---
-# the CSV contains absolute paths from the original machine; rebase to clone location
+# the CSV contains absolute paths from the original run environment.
+# this rewrites path prefixes only (not numeric data) so that the figure
+# build script can locate per-seed agent_summary.csv files in the clone.
 if grep -q "/storage/social-science/religion-code-geometry-abm" "$SWEEP_CSV" 2>/dev/null; then
     echo "[3/4] rebasing absolute paths in sweep_seed_results.csv..."
+    echo "       (paths only -- numeric data unchanged; backup at .csv.bak)"
+    cp "$SWEEP_CSV" "${SWEEP_CSV}.bak"
     sed -i "s|/storage/social-science/religion-code-geometry-abm|${REPO_ROOT}|g" "$SWEEP_CSV"
 fi
 

@@ -49,10 +49,13 @@ python scripts/build_v2_5_publication_figures.py \
 python scripts/validate_figures_from_csv.py
 ```
 
-**Note:** The figure build script reads `agent_summary.csv` paths from
-`sweep_seed_results.csv`. These paths are rebased to the repo root
-automatically by `reproduce.sh`. If running manually, ensure your working
-directory is the repo root.
+### Path portability note
+
+Some CSVs store absolute paths from the original run environment (the
+`run_dir` column in `sweep_seed_results.csv`). `reproduce.sh` rewrites
+these path prefixes to the local clone path on first run; this affects
+paths only, not numeric data. A backup is saved as `.csv.bak` before
+any rewrite.
 
 ## Full rerun (expensive -- not required for review)
 
