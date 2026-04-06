@@ -1,0 +1,31 @@
+--- GDP-only model (HC3) ---
+                Coef.  Std.Err.          z         P>|z|     [0.025     0.975]
+const       31.110385  2.743292  11.340531  8.264178e-30  25.733632  36.487139
+log_gdp_pc  -2.339769  0.274426  -8.526032  1.514534e-17  -2.877634  -1.801903
+R² = 0.6074
+
+--- Legislation-only model (HC3) ---
+           Coef.  Std.Err.          z         P>|z|    [0.025    0.975]
+const   5.050808  0.414917  12.173065  4.325292e-34  4.237586  5.864030
+relleg  0.077158  0.012715   6.068292  1.292777e-09  0.052237  0.102079
+R² = 0.5164
+
+--- Combined model (HC3) ---
+                Coef.  Std.Err.         z     P>|z|     [0.025     0.975]
+const       23.018262  5.090428  4.521872  0.000006  13.041207  32.995318
+log_gdp_pc  -1.653075  0.460248 -3.591705  0.000329  -2.555144  -0.751005
+relleg       0.044599  0.020181  2.209936  0.027110   0.005045   0.084152
+R² = 0.7277
+
+--- Bootstrap (n=10000) ---
+median R² ratio: 1.18
+95% CI: [0.64, 2.18]
+original: 1.18
+
+CI includes 1.0: cannot claim significant difference.
+soften language to 'substantially more' without the 4.4x claim.
+
+--- Power analysis ---
+combined model R² = 0.7277
+Cohen's f² = 2.6718
+power at N=36: 0.182

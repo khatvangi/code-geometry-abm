@@ -27,7 +27,7 @@ def load_best_params(best_json: Path):
 def classify_regime(exit_rate: float, prevalence: float, max_punish: float, capture_exit_cap: float = 0.20) -> str:
     if exit_rate >= 0.90:
         return "COLLAPSE"
-    if prevalence >= 0.10 and max_punish >= 0.10 and exit_rate <= capture_exit_cap:
+    if prevalence >= 0.90 and exit_rate <= capture_exit_cap:
         return "CAPTURE"
     if max_punish >= 0.10:
         return "MIXED"

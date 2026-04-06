@@ -633,7 +633,8 @@ class ReligionABM(Model):
             mean_r_all=float(rs_all.mean()),
             mean_b_all=float(bs_all.mean()),
             fund_prevalence_all=float((Fs_all > ps.F_star).mean()),
-            punish_rate=float((punished > 0).mean()),
+            # v2.7.1: denominator restricted to active (non-exited) agents
+            punish_rate=float((punished[~exited] > 0).mean()) if (~exited).any() else 0.0,
             mean_punished=float(punished.mean()),
             exit_rate=float(exited.mean()),
             mean_exit_intent=float(exit_intent.mean()),
