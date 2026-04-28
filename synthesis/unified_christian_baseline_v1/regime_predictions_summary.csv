@@ -1,0 +1,17 @@
+case_id,regime_unit,sigma,subst,enf_aff,central,exit_cost,predicted_regime,observed_regime,regime_match,match_type,n_open_questions
+LR007,"Missionary-colonial conversion regimes, 16th–20th centuries, Americas Africa Asi...",,,,,,,,,,3
+LR001,"First Crusade mobilization apparatus, 1095–1099, Latin Christendom under Urban I...",3,3,3,3,2,mixed,mixed,True,substantive,1
+LR002,"Albigensian crusade and Cathar suppression, 1209–1229, Languedoc, Innocent III t...",3,3,3,3,3,mixed,mixed,True,substantive,1
+LR003,"Spanish Inquisition tribunal system, 1478 (Sixtus IV bull *Exigit Sincerae Devot...",3,3,4,4,3,capture,capture,True,substantive,1
+LR004,"Portuguese Inquisition tribunal system, 1536–1821, metropolitan Lisbon-Évora-Coi...",3,3,4,4,3,capture,capture,True,substantive,1
+LR005,Doctrine-of-Discovery legal-doctrinal regime: papal bulls 1452 (*Dum Diversas*) ...,3,3,3,4,2,mixed,mixed,True,formal_only_mechanism_mismatch,1
+LR006,"U.S. antebellum pro-slavery clerical-print regime, ~1820–1865, Protestant + Cath...",3,3,2,2,2,mixed,mixed,True,substantive,1
+LR008,"Early-modern European witch trial complex, ~1480 (publication of *Malleus Malefi...",3,3,3,2,3,mixed,mixed,True,substantive,1
+LR009,"Medieval Roman Inquisition, 1231 (Gregory IX *Excommunicamus*) – 1542 (founding ...",3,3,3,3,3,mixed,mixed,True,substantive,2
+LR010,"Latin Christian anti-Jewish expulsion-and-persecution complex, ~1215 (Lateran IV...",2,2,2,2,3,mixed,mixed,True,substantive,1
+LR011,"Atlantic Christian abolitionist scriptural-counterreading network, 1780s (organi...",1,0,1,1,0,quiet,quiet,True,boring_null,1
+LR012,"Quaker (Religious Society of Friends) abolitionist organizing tradition, 1758 (P...",1,0,0,0,0,quiet,quiet,True,boring_null,1
+LR013,"Latin American Catholic + Protestant liberation-theology movement, ~1968 (Medell...",1,1,1,1,1,quiet,quiet,True,boring_null,1
+LR014,Late-20th-century mainstream Christian softening (post-Vatican II Catholic + lib...,1,1,1,1,0,mixed,mixed,True,substantive,1
+LR015,"Canadian Indian Residential School system, 1880s (early federal involvement) – 1...",4,4,4,4,4,capture,capture,True,formal_only_mechanism_mismatch,2
+LR016,"U.S. federal Indian boarding school system, 1879 (Carlisle Indian Industrial Sch...",4,4,4,3,4,capture,capture,True,formal_only_mechanism_mismatch,2

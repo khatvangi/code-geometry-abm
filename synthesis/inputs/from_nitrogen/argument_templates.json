@@ -1,0 +1,82 @@
+[
+  {
+    "template_id": "T1_exclusive_salvation",
+    "template_name": "Exclusive salvation",
+    "short_definition": "Only this path, person, revelation, or covenant saves; outsiders are lost or condemned.",
+    "structural_variables": "C,A,O,U",
+    "example_canonical_sources": "John 14:6; Mark 16:16",
+    "historical_execution_modes": "Boundary-policing, mission urgency, anti-heresy argument",
+    "counter_reading_sources": "Romans 2; Acts 10",
+    "notes": "Requires interpretive care; metaphysical exclusivity is not identical to coercive enforcement."
+  },
+  {
+    "template_id": "T2_final_sorting",
+    "template_name": "Final sorting",
+    "short_definition": "History culminates in a final division of humanity into saved and lost.",
+    "structural_variables": "C,A,U,O",
+    "example_canonical_sources": "Matthew 25; Revelation 20",
+    "historical_execution_modes": "Apocalyptic mobilization, crisis rhetoric, last-chance warnings",
+    "counter_reading_sources": "Matthew 7; Luke 6",
+    "notes": "Heightens urgency even where earthly coercion is not explicitly commanded."
+  },
+  {
+    "template_id": "T3_expansion_mandate",
+    "template_name": "Expansion mandate",
+    "short_definition": "Insiders must spread, teach, convert, or discipline beyond the community.",
+    "structural_variables": "M,U,A",
+    "example_canonical_sources": "Matthew 28:19-20; Acts 1:8",
+    "historical_execution_modes": "Mission, evangelization, corrective discipline, civilizing rhetoric",
+    "counter_reading_sources": "1 Peter 3:15; Romans 12",
+    "notes": "Expansion can remain non-coercive, but it widens implementation scope."
+  },
+  {
+    "template_id": "T4_purification",
+    "template_name": "Purification",
+    "short_definition": "The community or world must be cleansed of impurity, idolatry, apostasy, or corruption.",
+    "structural_variables": "C,M,E,O,R",
+    "example_canonical_sources": "Deuteronomy 13; 1 Corinthians 5",
+    "historical_execution_modes": "Heresy suppression, moral policing, iconoclasm, purity campaigns",
+    "counter_reading_sources": "John 8; Matthew 13",
+    "notes": "Purity logic often becomes sharper under institutional stress."
+  },
+  {
+    "template_id": "T5_sacred_enforcement",
+    "template_name": "Sacred enforcement",
+    "short_definition": "Coercion is legitimated because authority is framed as divine, final, or non-negotiable.",
+    "structural_variables": "M,E,R,A",
+    "example_canonical_sources": "Romans 13; selected conquest and discipline passages",
+    "historical_execution_modes": "Legal repression, inquisitorial procedure, sacred war argument",
+    "counter_reading_sources": "Matthew 26:52; Luke 9:54-56",
+    "notes": "Requires careful distinction between descriptive and prescriptive use."
+  },
+  {
+    "template_id": "T6_softened_modern_interpretation",
+    "template_name": "Softened modern interpretation",
+    "short_definition": "Earlier coercive structures are retained textually but re-read through metaphor, privatization, or spiritualization.",
+    "structural_variables": "P against C,A,M,E,O,R",
+    "example_canonical_sources": "Spiritualized conquest or judgment readings",
+    "historical_execution_modes": "Pastoral reinterpretation, liberal theology, private conscience emphasis",
+    "counter_reading_sources": "Galatians 3:28; James 2",
+    "notes": "A real interpretive layer, not merely rhetorical evasion in every case."
+  },
+  {
+    "template_id": "T7_counter_reading",
+    "template_name": "Counter-reading",
+    "short_definition": "The same canon is mobilized against coercion through mercy, dignity, non-retaliation, and compassion.",
+    "structural_variables": "P",
+    "example_canonical_sources": "Matthew 5; Luke 6; Micah 6:8",
+    "historical_execution_modes": "Abolitionist, peace church, pluralist, anti-coercive arguments",
+    "counter_reading_sources": "Primary template rather than counterexample",
+    "notes": "Important for comparing stable canon with divergent implementation."
+  },
+  {
+    "template_id": "T8_asymmetric_modern_rights_borrowing",
+    "template_name": "Asymmetric modern rights borrowing",
+    "short_definition": "An exclusionary framework appeals to modern rights or tolerance to shield itself from critique while retaining non-reciprocal metaphysical hierarchy.",
+    "structural_variables": "A,C,O with modern restraint language layered on top",
+    "example_canonical_sources": "Case-dependent; usually doctrinal argument rather than a single verse",
+    "historical_execution_modes": "Selective pluralist rhetoric, asymmetrical free-exercise claims, anti-reciprocal tolerance",
+    "counter_reading_sources": "Modern equal-rights norms; reciprocal liberty arguments",
+    "notes": "The contradiction is analytical, not a license for retaliation. Modern rights are maintained as our restraint code."
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "exported_at_utc": "2026-04-28T03:40:31.633965+00:00",
+  "live_case_count": 16,
+  "live_evidence_row_count": 66,
+  "deep_dive_packets": {
+    "LR015": 9,
+    "LR006": 7
+  },
+  "argument_template_count": 8,
+  "source_registry_size": 66,
+  "frozen_baseline_label": "christian_baseline_v1",
+  "drift_vs_frozen_baseline": {
+    "live_master_sha256": "62ca90436461935abd12f42e2ef790de87220b6fb22423167f8783d2810d74fa",
+    "frozen_master_sha256": "738ab6747363180da6338800944ccf682c5907d7b8bb20ac7fc65172b6cb3345",
+    "match": false,
+    "field_drift": [
+      {
+        "case_id": "LR001",
+        "field": "historical_use_status",
+        "frozen_value": "plausible",
+        "live_value": "documented"
+      },
+      {
+        "case_id": "LR005",
+        "field": "historical_use_status",
+        "frozen_value": "plausible",
+        "live_value": "documented"
+      },
+      {
+        "case_id": "LR006",
+        "field": "historical_use_status",
+        "frozen_value": "plausible",
+        "live_value": "documented"
+      },
+      {
+        "case_id": "LR011",
+        "field": "historical_use_status",
+        "frozen_value": "plausible",
+        "live_value": "documented"
+      },
+      {
+        "case_id": "LR015",
+        "field": "historical_use_status",
+        "frozen_value": "plausible",
+        "live_value": "documented"
+      }
+    ]
+  },
+  "case_id_mismatches_with_status_md_promoted_to_documented_in_live": [
+    "LR001",
+    "LR005",
+    "LR006",
+    "LR011"
+  ],
+  "orphan_source_ids": [],
+  "row_internal_inconsistencies": []
+}
