@@ -1,7 +1,7 @@
 # Synthesis Working Document
 
 **Project:** Code-Geometry ABM (Boron) ↔ Christianity Application (Nitrogen)
-**Status:** Internal alignment doc. Not for publication.
+**Status:** Internal alignment doc. Not for publication. Phase S1 complete (2026-04-27); folded findings below. Phase S2 in planning.
 **Date:** 2026-04-27
 **Author/owner:** Kiran Boggavarapu
 
@@ -147,6 +147,18 @@ Concretely: a Christian missionary regime in colonial Canada is not a free-stand
 **Extension:** Decompose exit cost into mechanisms: (legal apostasy penalty, kinship endogamy, economic dependence, language non-portability, child custody, geographic isolation). MCI = 3 corresponds to high values on the last three mechanisms specifically. This decomposition matters because Paper 3 (caste) needs to distinguish between exit costs operating through caste endogamy versus exit costs operating through colonial mission custody — these are different mechanisms even if the scalar exit cost is identical.
 
 **Cost:** ~100 lines, optional sweep over decomposition.
+
+### Extension 5 — Target-population modeling (NEW, surfaced by Phase S1)
+
+**Status quo:** The ABM models a single voluntary-membership population subject to internal enforcement. Exit_cost is the only mechanism preventing departure under enforcement pressure; all agents are members; sanction targets the deviant member.
+
+**Extension:** Add a target population that the regime acts on but whose members are not regime members. The regime's σ × π applies to the target via classification-and-sanction, but the target's exit options, exit costs, and counterfactual life-paths differ structurally from members'. Concretely: target_member agents have no membership benefits, no internal belief-update toward the regime's y0, and their "exit cost" is the cost of escaping enforcement custody rather than the cost of leaving voluntary membership. The regime's enforcement capital still accumulates from punishing them, but the agents themselves are not selecting compliance to gain in-group benefit.
+
+**Why it is required.** Phase S1 found three of fifteen scored Christian cases (LR005 Doctrine of Discovery, LR015 Canadian residential schools, LR016 U.S. boarding schools) score `match_type=formal_only_mechanism_mismatch`. The formal σ × π × exit_cost profile predicts CAPTURE, but the case's actual mechanism is enforcement projected onto a non-member or captive population, not voluntary-membership-with-blocked-exit. The current ABM cannot represent the distinction. Paper 3 (caste — colonial-Brahminical regime projecting onto lower jātis) is structurally an Extension 5 problem and cannot proceed without it.
+
+**Cost:** ~400 lines, new agent class, new sweep dimension. Likely v3.1 or v4.0 of the ABM.
+
+**Decision required:** Whether to include in revised Paper 2 or defer to Paper 3 as its native extension. My recommendation: defer. Note in revised Paper 2 §7 that captive-population regimes are outside Layer B's scope and require Extension 5; the four CAPTURE cases in Phase S1 reduce to two substantive matches (LR003, LR004) under the current ABM, which is the honest framing.
 
 ### Extensions to defer
 
@@ -294,11 +306,11 @@ Paper 3 was originally going to apply Paper 2 to the colonial-caste nexus. With 
 
 Recommended order:
 
-**Phase S1 — Translation (1–2 weeks).**
-Rescore the 16 Christian cases in unified vocabulary (§6 above). No ABM code changes. Output: `unified_christian_baseline_v1.csv` plus per-case markdown notes. This is doable now and forces the synthesis to be concrete before any ABM extension is attempted. If the rescoring reveals that the Nitrogen cases cannot be cleanly mapped to ABM parameters at the case level, that is itself a finding that constrains Extension 1.
+**Phase S1 — Translation. COMPLETE 2026-04-27.**
+Output: `synthesis/unified_christian_baseline_v1/` with 16 cases scored (15 substantive, 1 declined per Q1). Substantive match rate 9/12 = 75% under the Q5 schema (boring_null and formal_only_mechanism_mismatch decomposed honestly). Surfaced Extension 5 as a new fifth extension (this revision adds it to §5). Surfaced the COLLAPSE-narrow-definition issue and the regime-vs-event-axis issue as Phase S5 manuscript-revision items (logged in §15 below). Confirmed the active-rate gotcha quantitatively: 18 of 72 v2.5 cells flip QUIET → MIXED under corrected classification.
 
-**Phase S2 — ABM Extension 1 (argument-template input vector). 2–4 weeks.**
-Most theoretically important extension. Tests whether code content can be made an input to the geometry without breaking the ABM's existing claims.
+**Phase S2 — ABM Extension 1 (argument-template input vector). 2–4 weeks. NEXT.**
+Per Q1 resolution (theoretical derivation, see §12), envelope mapping derives from the eight templates' structural variables in `argument_templates.json`, not from empirical calibration on the 16-case corpus. Saves 1–2 weeks relative to the empirical-calibration path. New work goes in `src/religion_fundamentalism_abm_v3_0.py` per the append-only versioning rule. Sweep specification: 8 templates × 5 grid points along a low-π → high-π diagonal within each envelope × 30 seeds = 1,200 runs. Active-rate-at-sweep-time required (no post-hoc reclassification). Detailed task spec in `INSTRUCTION_BORON_S2.md` (forthcoming).
 
 **Phase S3 — ABM Extensions 3 and 4 (non-textual forces; exit-cost decomposition). 2 weeks.**
 Mechanically simpler. Can run in parallel with S2.
@@ -346,6 +358,18 @@ These are unresolved and the synthesis cannot proceed past Phase S2 without answ
 
 I lean (b) for revised Paper 2 and (c) once Extension 2 is built.
 
+### Resolutions from Phase S1 (2026-04-27)
+
+**Q1 RESOLVED — theoretical derivation.** Template usage in the 16-case corpus is too skewed for empirical envelope calibration: T2 has 0 cases, T1/T6/T8 each have ≤1. Theoretical derivation from the structural variables (C, A, M, E, O, U, R, P) specified in `argument_templates.json` is the path. Empirical match within the corpus serves as consistency check, not primary calibration. Detailed derivation rationale appears in `INSTRUCTION_BORON_S2.md` §3.
+
+**Q2 RESOLVED — `text_role_assessment` stays as a Layer C coding annotation.** Phase S1 found the field correlates meaningfully with regime classification (`coordinating` perfectly correlates with QUIET; `authorizing`/`legal_basis` cluster around MIXED→CAPTURE; `legitimating` flags cases where non-textual forces dominate) but is not derivable from ABM dynamics alone. Keep it traveling alongside case data; do not promote to first-class ABM input or output.
+
+**Q3 DEFERRED to Phase S5.** The transpersonal authority (apaurusheya) discussion stays where it is in the current manuscript with a `speculative` flag, pending the comparative phase.
+
+**Q4 RESOLVED — option (b) for revised Paper 2; transition to (c) once Extension 2 is built.** Restraint cases (LR011–LR014) included as low-σ × low-π regimes that did not produce enforcement equilibria. Their `match_type=boring_null` for three of four (the framework correctly predicts QUIET for low-everything but this is a sanity check, not validation) is reported separately from substantive matches.
+
+**Q5 (added in S1) RESOLVED — match-type schema preserved.** Four-valued `match_type` field (`substantive`, `boring_null`, `formal_only_mechanism_mismatch`, `null`) is the honest reporting unit. The raw match rate (15/15 = 100% if reported alone) overstates framework performance; the substantive rate (9/12 = 75%) is the framework-validation number.
+
 ## 13. What to do next
 
 If you accept this synthesis architecture: instruct Codex on Boron to begin Phase S1 — produce `unified_christian_baseline_v1.csv` rescoring all 16 cases in the unified vocabulary, with per-case markdown notes citing existing Nitrogen evidence trails. This requires no new ABM code, no new sweeps. It is a translation exercise, but a concrete one that exposes whether the synthesis architecture survives contact with the cases.
@@ -384,4 +408,22 @@ The user's global `~/.claude/CLAUDE.md` specifies seaborn/plotly + camelCase. Th
 
 ---
 
-*End of synthesis working document. Update upon Phase S1 completion.*
+## 15. Phase S1 findings beyond the original instruction
+
+Three findings surfaced in Phase S1 that are not absorbed into §5–§12 above and are tracked here for Phase S5 manuscript revision:
+
+### 15.1 COLLAPSE-narrow-definition
+
+The ABM's COLLAPSE label requires `exit_rate ≥ 0.90` (enforcement-induced depopulation). This excludes a real and empirically common regime type: slow attrition under loose enforcement (mainline Protestant decline, late-modern Catholicism, the "nones" demographic transition). LR014 forced this finding. Phase S5 manuscript-revision item: clarify in §6.10 that COLLAPSE in the ABM denotes specifically enforcement-induced depopulation, and that slow attrition under loose enforcement is observationally distinct but currently flattened to MIXED or QUIET. The framework's substantive claim — that code geometry produces the four labeled regime *types* — is preserved; the manuscript clarification is about what the labels denote, not what the ABM produces.
+
+### 15.2 Regime-vs-event-axis
+
+Two cases (LR001 First Crusade 1095–1099, LR002 Albigensian Crusade 1209–1229) are mobilization episodes shorter than the ABM's 500-step steady-state assumption suggests. They were scored by treating the regime unit as the underlying papal authorization apparatus during the crusade window. Phase S5 manuscript-revision item: add a brief note in §5 (Scoring Rubric) clarifying that the regime unit must be long enough for steady-state enforcement to be a defined notion. Episodes shorter than ~50 simulation timesteps' equivalent should either be reframed to the underlying enduring apparatus or scored with explicit confidence flags.
+
+### 15.3 Active-rate gotcha — manuscript figure rebuild
+
+Quantitatively confirmed in Phase S1: 18 of 72 v2.5 confirmatory cells flip QUIET → MIXED under corrected classification (8 quiet / 54 mixed / 9 collapse / 1 capture, vs. manuscript-reported 26 / 36 / 9 / 1). Phase S5 must regenerate §8.1, Table 5, Figure 1, Figure 2, and per-regime concentration metrics from `reclassified_seed_results.csv` and place them in a new whitelisted result directory (suggested: `results/v2.5_corrected_three_regime_confirm_active_rate/`). The original `results/v2.5_corrected_three_regime_confirm/` directory must not be overwritten — per CLAUDE.md it is a frozen reproducibility artifact.
+
+---
+
+*End of synthesis working document. Last update: 2026-04-27, post-Phase-S1.*

@@ -48,6 +48,8 @@ results/**
 !results/ablation_gate/**
 !results/bootstrap_regression/
 !results/bootstrap_regression/**
+!synthesis/
+!synthesis/**
 codex-mod/
 HISTORY.md
 .DS_Store
