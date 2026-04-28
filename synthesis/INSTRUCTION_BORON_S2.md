@@ -60,7 +60,7 @@ base_opp_floor(template) = baseline + bonus if {O, E} ⊆ vars(template)
 exit_cost_baseline(template) = baseline + bonus if O ∈ vars(template)
 ```
 
-Concrete numeric specification (units match v2.5 Params dataclass):
+Concrete numeric specification (units match v2.5 Params dataclass). The values below reproduce §3.3 exactly; see §3.2.5 for the verification.
 
 ```
 base_σ = 0.20
@@ -68,18 +68,31 @@ base_σ = 0.20
 σ_cap_when_P_present = 0.55
 
 base_π = 0.05
-π_raise = {C: 0.0, A: 0.0, M: 0.10, E: 0.20, O: 0.0, U: 0.10, R: 0.10, P_contributes: 0.0}
+π_raise = {C: 0.05, A: 0.0, M: 0.15, E: 0.15, O: 0.0, U: 0.05, R: 0.05, P_contributes: 0.0}
 π_cap_when_P_present = 0.15
-π_cap_when_T8_modern_restraint_active = 0.25
 
 base_opp_baseline = 0.30
 base_opp_bonus_OE = 0.40
 
 exit_cost_baseline_default = 0.30
 exit_cost_baseline_O_bonus = 0.40
+
+# T8-specific overrides (modern-restraint regime — see §3.2.4)
+sigma_max_T8_override = 0.45
+pi_max_T8_override    = 0.25
 ```
 
-Apply σ_cap and π_cap as hard ceilings when P appears in the structural-variable set. T8 has its own modern-restraint cap on π (looser than P's cap, reflecting that T8's restraint is rhetorical rather than programmatic).
+**Semantic rules layered on top of the additive formula:**
+
+§3.2.1 — P-cap precedence. When P appears in the structural-variable set, σ_max and π_max are computed by the additive formula and then capped at σ_cap_when_P_present (0.55) and π_cap_when_P_present (0.15) respectively. The cap is a hard ceiling, not a floor.
+
+§3.2.2 — P shadows E for base_opp_floor only. The base_opp_floor bonus requires both O and E to be active *and not P-shadowed*. When P is present, E is treated as neutralized for envelope-floor purposes — the regime is rhetorically committed against enforcement, so the {O,E} → "outside-option degraded by enforcement" mechanism does not apply. T6 (P against C,A,M,E,O,R) therefore has base_opp_floor = 0.30 (the baseline) rather than 0.70.
+
+§3.2.3 — P does not shadow O for exit_cost_baseline. The O bonus for exit_cost_baseline applies whenever O is in the variable set, regardless of P. Outsider framing operates psychologically as an exit barrier even under formal restraint — softened-modern-interpretation regimes (T6) still inherit the canonical-text outsider framing as a baseline pull on members not to leave, even though they cap active enforcement. T6 therefore has exit_cost_baseline = 0.70.
+
+§3.2.4 — T8 modern-restraint override. T8's "asymmetric modern rights borrowing" template overrides both σ_max and π_max with fixed values (0.45 and 0.25 respectively), bypassing the additive formula. This reflects the template's structural claim: the regime rhetorically restrains visible enforcement (capping σ below what its A+C+O variable set would suggest) while preserving non-trivial actual enforcement reward (raising π above what the bare formula computes). The override is a setting, not a cap-or-floor pair — T8 envelope is fixed at exactly (0.45, 0.25, 0.30, 0.70).
+
+§3.2.5 — Verification. Applying the additive formula plus §3.2.1–§3.2.4 reproduces §3.3 exactly. T1: σ = 0.20+0.20(C)+0.20(A)+0.05(O) = 0.65; π = 0.05+0.05(C)+0.05(U) = 0.15. T3: σ = 0.20+0.20(A) = 0.40; π = 0.05+0.15(M)+0.05(U) = 0.25. T4: σ = 0.20+0.20(C)+0.05(O) = 0.45; π = 0.05+0.05(C)+0.15(M)+0.15(E)+0.05(R) = 0.45; base_opp_floor = 0.30+0.40 = 0.70 ({O,E} both present, no P). T5: σ = 0.20+0.20(A) = 0.40; π = 0.05+0.15(M)+0.15(E)+0.05(R) = 0.40. T6: pre-cap σ = 0.20+0.20(C)+0.20(A)+0.05(O) = 0.65, capped to 0.55; pre-cap π = 0.05+0.05(C)+0.15(M)+0.15(E)+0.05(R) = 0.45, capped to 0.15; base_opp_floor: {O,E} present but P shadows E → no bonus → 0.30; exit_cost_baseline: O present (P does not shadow) → 0.70. T7: σ = 0.20; π = 0.05; both below P-caps so caps are inert. T8: overridden to (0.45, 0.25). All eight rows reproduced.
 
 ### §3.3 Resulting envelope per template
 
