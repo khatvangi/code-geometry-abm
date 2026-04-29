@@ -309,11 +309,11 @@ Recommended order:
 **Phase S1 — Translation. COMPLETE 2026-04-27.**
 Output: `synthesis/unified_christian_baseline_v1/` with 16 cases scored (15 substantive, 1 declined per Q1). Substantive match rate 9/12 = 75% under the Q5 schema (boring_null and formal_only_mechanism_mismatch decomposed honestly). Surfaced Extension 5 as a new fifth extension (this revision adds it to §5). Surfaced the COLLAPSE-narrow-definition issue and the regime-vs-event-axis issue as Phase S5 manuscript-revision items (logged in §15 below). Confirmed the active-rate gotcha quantitatively: 18 of 72 v2.5 cells flip QUIET → MIXED under corrected classification.
 
-**Phase S2 — ABM Extension 1 (argument-template input vector). 2–4 weeks. NEXT.**
-Per Q1 resolution (theoretical derivation, see §12), envelope mapping derives from the eight templates' structural variables in `argument_templates.json`, not from empirical calibration on the 16-case corpus. Saves 1–2 weeks relative to the empirical-calibration path. New work goes in `src/religion_fundamentalism_abm_v3_0.py` per the append-only versioning rule. Sweep specification: 8 templates × 5 grid points along a low-π → high-π diagonal within each envelope × 30 seeds = 1,200 runs. Active-rate-at-sweep-time required (no post-hoc reclassification). Detailed task spec in `INSTRUCTION_BORON_S2.md` (forthcoming).
+**Phase S2 — ABM Extension 1 (argument-template input vector). COMPLETE 2026-04-28.**
+Per Q1 resolution (theoretical derivation, see §12), envelope mapping derived from the eight templates' structural variables in `argument_templates.json`. Sweep executed: 8 templates × 5 grid points × 30 seeds = 1,200 runs in `results/v3_0_envelope_sweep/` with 0 failures. Headline finding: **zero CAPTURE cells across 1,200 runs.** Q-S2-1..4 adjudicated 2026-04-28: Q-S2-1 = invert E directionality (recorded in `INSTRUCTION_BORON_S2.md §3.5`, applies to Phase S3 v3.1 model); Q-S2-2 = weak claim adopted (templates set QUIET-vs-active threshold; non-textual forces close the CAPTURE gap); Q-S2-3 = (b) skip re-sweep; Q-S2-4 = tighten §1 prediction (recorded in §1.1). Findings doc: `synthesis/envelope_sweep_v1/synthesis_findings_s2.md`.
 
-**Phase S3 — ABM Extensions 3 and 4 (non-textual forces; exit-cost decomposition). 2 weeks.**
-Mechanically simpler. Can run in parallel with S2.
+**Phase S3 — ABM Extensions 3 and 4 (non-textual forces; exit-cost decomposition). NEXT.**
+Mechanically simpler. Inherits the corrected envelope (T4 base_opp_floor 0.70 → 0.30) and the weak Phase S2 claim. New model file `src/religion_fundamentalism_abm_v3_1.py` per append-only versioning. Extension 3 is the natural test of the weak claim: do non-textual forces close the CAPTURE gap that the textual envelope alone cannot?
 
 **Phase S4 — Christian regime replication sweep. 1 week.**
 Validates the synthesis. For each of 16 cases, score parameters from Phase S1, run ABM, compare predicted regime to observed regime. Failures are findings.
@@ -372,13 +372,15 @@ I lean (b) for revised Paper 2 and (c) once Extension 2 is built.
 
 ## 13. What to do next
 
-If you accept this synthesis architecture: instruct Codex on Boron to begin Phase S1 — produce `unified_christian_baseline_v1.csv` rescoring all 16 cases in the unified vocabulary, with per-case markdown notes citing existing Nitrogen evidence trails. This requires no new ABM code, no new sweeps. It is a translation exercise, but a concrete one that exposes whether the synthesis architecture survives contact with the cases.
+**As of 2026-04-28**, Phase S1 + S2 are complete and Q-S2-1..4 are adjudicated. The next-step menu is:
 
-If Phase S1 succeeds, the larger ABM extensions (Phases S2–S4) follow.
+- **Phase S3 (primary path)** — Extensions 3 and 4 + Christian regime replication. Begins with `src/religion_fundamentalism_abm_v3_1.py` (v3.0 + corrected `ENVELOPE_TABLE` for T4 per `INSTRUCTION_BORON_S2.md §3.5`). Extension 3 (non-textual force decomposition) is the structural test of the weak Phase S2 claim. Detailed task spec: `INSTRUCTION_BORON_S3.md` (to be authored).
+- **Phase S5 manuscript-revision items (parallelizable)** — three pending: (a) §6.10 COLLAPSE-narrow-definition clarification per §15.1; (b) §5 regime-vs-event-axis note per §15.2; (c) active-rate-gotcha figure rebuild per §15.3 (new whitelisted result dir, do NOT overwrite `results/v2.5_corrected_three_regime_confirm/`). These can run in parallel with Phase S3 since they touch the manuscript and v2.5 reclassification, not Phase S3 code.
+- **Extension 5 (target-population modeling)** — surfaced by Phase S1 as a fifth extension blocking Paper 3 (caste). Specified in §5 above; not yet scheduled.
 
-If Phase S1 reveals that the 16 cases resist rescoring — for instance, if multiple cases require sub-regime decomposition that the ABM cannot represent — that is a finding that constrains the synthesis and may force narrower scope.
+**Original Phase S1 launch instruction (historical, kept for the audit trail):** instruct Codex on Boron to begin Phase S1 — produce `unified_christian_baseline_v1.csv` rescoring all 16 cases in the unified vocabulary. No new ABM code, no new sweeps. Translation exercise. Phase S1 completed 2026-04-27 with `synthesis/unified_christian_baseline_v1/`.
 
-The Nitrogen rescoring should happen on Boron, not Nitrogen, because the ABM lives there and the rescoring's purpose is to feed into ABM extensions. Nitrogen becomes the source of evidence and the source-of-truth for documentation; Boron becomes the home of the unified scored cases. This avoids duplicating evidence trails.
+The Nitrogen rescoring happened on Boron (this repo) per the original plan. Nitrogen remains the source of evidence; Boron is the home of the unified scored cases.
 
 ## 14. Issues surfaced by the Boron CLAUDE.md authoring session (2026-04-27)
 
@@ -426,4 +428,4 @@ Quantitatively confirmed in Phase S1: 18 of 72 v2.5 confirmatory cells flip QUIE
 
 ---
 
-*End of synthesis working document. Last update: 2026-04-27, post-Phase-S1.*
+*End of synthesis working document. Last update: 2026-04-28, post-Phase-S2 (Q-S2 adjudicated).*

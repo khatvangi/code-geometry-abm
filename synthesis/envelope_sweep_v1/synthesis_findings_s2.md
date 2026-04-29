@@ -267,4 +267,67 @@ All committed except the per-seed `metrics.csv` / `agent_summary.csv` files (und
 
 ---
 
-*End of Phase S2 findings. Awaiting Kiran's resolution of Q-S2-1 through Q-S2-4 before Phase S3 work begins.*
+*End of Phase S2 findings as written 2026-04-28 morning. Decisions recorded in §10 below.*
+
+---
+
+## §10 — Decisions adjudicated (2026-04-28)
+
+Kiran adjudicated all four Q-S2 decision points in this order. The resolutions and their downstream consequences:
+
+### §10.1 — Q-S2-1: §3.1 base_opp directionality → Option B (invert)
+
+**Decision:** E does NOT raise `base_opp_floor`. The {O,E} pairing degrades the perceived outside option, so when both are present `base_opp_floor` is pulled *down* (or held at baseline), not pushed up. The §3.1 row for E was directionally inverted with respect to v2.5's `exit_opportunity_base` semantics.
+
+**Application:**
+- The §3.1, §3.2, §3.3 sections of `INSTRUCTION_BORON_S2.md` are NOT retroactively edited. They are the spec-of-record for the committed 1,200-run sweep; rewriting them would silently invalidate the audit trail.
+- Correction is recorded in a new `INSTRUCTION_BORON_S2.md §3.5 — Directionality correction (post-S2 adjudication)` and applies in Phase S3 onward via a new model file.
+- Net envelope change: T4 `base_opp_floor` shifts 0.70 → 0.30 in Phase S3. Other templates unchanged (no other template has {O,E} both present without P-shadowing).
+
+### §10.2 — Q-S2-2: Phase S2 claim → weak claim adopted
+
+**Decision:** Phase S2's substantive claim is the weak form: **templates set the QUIET-vs-active threshold; non-textual forces and exit-cost mechanisms determine the MIXED-vs-CAPTURE outcome.** The strong claim ("templates can reach CAPTURE in isolation") is empirically false in this corpus and is not what Phase S2 demonstrated.
+
+**Why this is the right reading:** consistent with Phase S1's `formal_only_mechanism_mismatch` cases (LR005/LR015/LR016) where CAPTURE was driven by non-textual mechanisms (custody-of-minors, state power, residential schooling) rather than the textual envelope alone. The 1,200-run zero-CAPTURE result is the empirical anchor for the weak claim, not a sign of broken implementation.
+
+**Application:**
+- Phase S2's substantive finding is now: "templates determine which σ × π region is reachable along the QUIET → active transition; non-textual forces close the CAPTURE gap." Phase S3's Extension 3 (non-textual force decomposition) is the natural next test.
+- Manuscript revisions in Phase S5 should reference this framing rather than the original strong claim.
+
+### §10.3 — Q-S2-3: Re-sweep decision → (b) skip re-sweep
+
+**Decision:** No re-sweep. The S2 1,200-run sweep stands as the anchor for the weak claim. The directionality correction is carried into Phase S3 as an envelope input rather than re-validated in S2.
+
+**Why:** under the weak claim, the S2 sweep's purpose is to establish the QUIET-vs-active envelope, which the current data already does cleanly. CAPTURE would not be expected under the corrected envelope without non-textual forces (which Phase S2 explicitly excludes per §3.4). Spending 15 min on a re-sweep with directionality flipped would not change the headline finding; it would only test whether T4 grid_4 alone hits CAPTURE under corrected base_opp, which Phase S3's Extension 3 sweep will test more rigorously alongside non-textual forces.
+
+**Application:**
+- `results/v3_0_envelope_sweep/` is the canonical Phase S2 result dir. No new sweep dir.
+- Phase S3 starts from the corrected envelope (per §10.1) without intermediate validation.
+
+### §10.4 — Q-S2-4: T6/T7 prediction violations → tighten §1
+
+**Decision:** Tighten the §1 prediction language; do not re-spec the §3.1 P semantics. P is a ceiling on enforcement intensity, not a gate on activation — the §1 ">80% quiet" prediction was inconsistent with the §3.1 specification, not vice versa.
+
+**Application:**
+- Refined predictions recorded in `INSTRUCTION_BORON_S2.md §1.1`:
+  - T6 → "≤60% mixed across the envelope" (was: ">80% quiet").
+  - T7 → "predominantly QUIET except COLLAPSE at low-exit_cost cells" (was: ">80% quiet across all cells"). T7 grid_0 COLLAPSE is now a documented finding consistent with Phase S1 §15.1 COLLAPSE-narrow-definition, not a violation.
+- §3.1 P semantics ("caps σ_max and π_max regardless of other variables") is unchanged.
+
+---
+
+## §11 — Phase S3 entry conditions (post-adjudication)
+
+With Q-S2-1..4 resolved, Phase S3 may begin with the following inherited inputs:
+
+1. **Corrected envelope** per §10.1 / `INSTRUCTION_BORON_S2.md §3.5`. T4 `base_opp_floor` 0.70 → 0.30; all other rows unchanged.
+2. **Weak Phase S2 claim** per §10.2 as the working synthesis frame. Phase S3 explicitly tests whether non-textual forces (Extension 3) close the CAPTURE gap that the textual envelope alone cannot.
+3. **No re-sweep** per §10.3. Phase S2 sweep results in `results/v3_0_envelope_sweep/` are final.
+4. **Refined predictions** per §10.4 / `§1.1` are the predictions of record for any future re-validation.
+5. **Append-only model versioning per CLAUDE.md.** Phase S3 will create `src/religion_fundamentalism_abm_v3_1.py` (copy of v3.0 with `ENVELOPE_TABLE` updated for T4 only). v3.0 stays frozen.
+
+Phase S3 sequencing per `synthesis/SYNTHESIS_WORKING_DOC.md §10` is otherwise unchanged: Extension 3 + Extension 4 + Christian regime replication sweep.
+
+---
+
+*End of Phase S2 findings, with adjudicated decisions. Phase S3 may begin.*

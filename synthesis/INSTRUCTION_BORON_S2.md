@@ -21,6 +21,15 @@ The phase tests one substantive claim: **template structure constrains which σ 
 
 If any of these qualitative predictions is violated systematically across seeds, the envelope mapping is wrong and §3 needs revision.
 
+### §1.1 Refined predictions (post-S2 adjudication, 2026-04-28)
+
+The 1,200-run sweep produced two findings that the §1 predictions did not anticipate. Per Q-S2-4 the §1 predictions are tightened in place (the §3.1 P semantics are not re-spec'd):
+
+- **T6 (P + C, A, M, E, O, R) — refine "predominantly quiet" to "≤60% mixed across the envelope".** P caps σ_max and π_max but does not gate activation; T6 grid_4 (σ=0.55, π=0.15) sits above v2.5's QUIET → active threshold (manuscript §8.12 dose-response). Empirically T6 produced 43% mixed at 1,200 runs. P is a ceiling on enforcement intensity, not a gate on activation.
+- **T7 (P-only) — predict "predominantly QUIET except COLLAPSE at low-exit_cost cells".** T7 grid_0 (σ=0.10, π=0.01, base_opp=0.30, exit_cost=0.30) collapses in a majority of seeds because counter-reading templates lack the in-group enforcement reward and exit_cost is low enough to let agents leave. T7's COLLAPSE at low-exit_cost cells is a documented finding consistent with Phase S1 §15.1 COLLAPSE-narrow-definition (exit-cost-too-low-to-retain).
+
+These refinements do not change §3 (the additive formula and P-cap semantics are unchanged). They tighten what the envelope is claimed to predict.
+
 ## §2 Decisions inherited from Phase S1
 
 - **Q1 resolved (theoretical derivation).** No empirical calibration of envelopes from the 16-case corpus. Template usage is too skewed (T2 has 0 cases, T1/T6/T8 each ≤1) for corpus calibration to be defensible. The corpus serves as consistency check post-sweep, not primary calibration.
@@ -118,6 +127,43 @@ These are the ceilings of each template's envelope. The grid points within each 
 - It does not encode `non_textual_forces`. Forces enter as Phase S3 Extension 3 perturbations on top of the template envelope.
 
 These limits are stated here so a reviewer cannot claim the envelope was overfit to interactions or to non-textual forces.
+
+### §3.5 Directionality correction (post-S2 adjudication, 2026-04-28)
+
+Per Q-S2-1 = Option B, the §3.1 mapping for E is directionally inverted with respect to v2.5's `exit_opportunity_base` semantics. The §3.1 row says E "raises base_opp_floor by raising in-group benefits of compliance"; but in v2.5 `base_opp` IS the outside-option attractiveness — raising it raises exit pressure, which works *against* capture. The textual logic E encodes is "enforcement makes leaving look worse" → outside option degraded → *lower* base_opp_floor.
+
+**The correction is NOT applied to §3.1, §3.2, §3.3 above.** Those sections are the spec-of-record against which the v3.0 envelope sweep was executed; rewriting them retroactively would silently invalidate the committed `results/v3_0_envelope_sweep/` CSVs. The correction is recorded here for Phase S3 and applied in a new model file (v3.1) per the append-only versioning rule.
+
+Corrected mapping for Phase S3 onward:
+
+| Variable | ABM-parameter consequence (corrected) |
+|---|---|
+| E (enforcement directive) | Raises π_max directly. When paired with O, **lowers** perceived outside option (the {O,E} pairing degrades, rather than enhances, base_opp_floor). |
+
+Corrected formula (Phase S3 only):
+
+```
+base_opp_floor(template) = baseline                    # default
+                         = baseline                    # if {O,E} ⊄ vars or P ∈ vars (P shadows E)
+                         (no bonus added — old +0.40 was directionally wrong)
+
+base_opp_baseline = 0.30
+base_opp_bonus_OE = 0.0       # was +0.40; corrected to 0.0 per Q-S2-1
+```
+
+Net effect on the envelope table for Phase S3:
+
+| Template | base_opp_floor (S2) | base_opp_floor (S3, corrected) | Why changed |
+|---|---:|---:|---|
+| T1, T2, T3, T5, T7 | 0.30 | 0.30 | unchanged ({O,E} not both present) |
+| T4 (C, M, E, O, R) | 0.70 | 0.30 | {O,E} present, +0.40 bonus removed |
+| T6 (P-shadows-E) | 0.30 | 0.30 | unchanged (P shadows E for base_opp) |
+| T8 (override) | 0.30 | 0.30 | unchanged (T8 is fixed-override, not formula-derived) |
+
+This puts T4 (the highest-π template) at (σ_max=0.45, π_max=0.45, base_opp_floor=0.30, exit_cost_baseline=0.70) for Phase S3. That cell is much closer to v2.5's CAPTURE corner (σ=0.95, π=0.50, base_opp=0.30) than the S2 envelope was — but σ_max is still well below 0.95, so whether T4 reaches CAPTURE under the corrected envelope is an empirical question to be tested in Phase S3, not a foregone conclusion.
+
+The Phase S3 deliverable that touches this:
+- A new `src/religion_fundamentalism_abm_v3_1.py` (copy of v3.0 with `ENVELOPE_TABLE` updated for T4) when Phase S3 begins. v3.0 stays frozen.
 
 ## §4 v3.0 implementation specification
 
@@ -244,4 +290,32 @@ Recommended order (each step gates the next):
 
 ---
 
-*End of Phase S2 instruction. Update upon Phase S2 completion with a "Status: COMPLETE" entry and a link to `synthesis_findings_s2.md`.*
+## §10 Status: COMPLETE (2026-04-28)
+
+**Implementation status:** Phase S2 complete. Sweep executed, findings written, decision points adjudicated.
+
+**Artifacts:**
+- Model: `src/religion_fundamentalism_abm_v3_0.py` (970 lines, +83 over v2.5)
+- Sweep script: `scripts/run_v3_0_envelope_sweep.py`
+- Aggregator: `scripts/aggregate_v3_0_envelope_sweep.py`
+- Sweep output: `results/v3_0_envelope_sweep/` (1,200 runs, 0 failed)
+- Findings: `synthesis/envelope_sweep_v1/synthesis_findings_s2.md`
+- Phase map: `results/v3_0_envelope_sweep/phase_map_v3_0.png`
+
+**Q-S2 decisions (full text in `synthesis_findings_s2.md` §10):**
+
+| Decision | Resolution | Effect |
+|---|---|---|
+| Q-S2-1 (E directionality) | Option B — invert | Recorded in §3.5; applies in Phase S3 v3.1 model |
+| Q-S2-2 (claim strength) | Weak claim adopted | Templates set QUIET-vs-active threshold; CAPTURE requires non-textual forces |
+| Q-S2-3 (re-sweep) | (b) skip re-sweep | S2 sweep stands as anchor for weak claim; Phase S3 inherits corrected envelope |
+| Q-S2-4 (T6/T7 prediction) | Tighten §1, not §3.1 | Recorded in §1.1 above |
+
+**Phase S3 readiness:** gate open. Phase S3 (Extensions 3 + 4 + Christian regime replication per `SYNTHESIS_WORKING_DOC.md §10`) inherits:
+- The §3.5 corrected envelope (T4 base_opp_floor 0.70 → 0.30).
+- The weak Phase S2 claim (templates → QUIET-vs-active; non-textual forces → MIXED-vs-CAPTURE).
+- A new model file `src/religion_fundamentalism_abm_v3_1.py` to be created at the start of Phase S3.
+
+---
+
+*End of Phase S2 instruction.*
