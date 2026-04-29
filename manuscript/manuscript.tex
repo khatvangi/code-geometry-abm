@@ -1,0 +1,1111 @@
+\documentclass[12pt]{article}
+
+% -- fonts (Times Roman via TeX Gyre Termes) --
+\usepackage[T1]{fontenc}
+\usepackage{tgtermes}
+
+% -- layout --
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+% -- line numbers --
+\usepackage{lineno}
+\linenumbers
+
+% -- math --
+\usepackage{amsmath}
+
+% -- tables --
+\usepackage{booktabs}
+
+% -- figures --
+\usepackage{graphicx}
+
+% -- hyperlinks (no colored links) --
+\usepackage[colorlinks=false,hidelinks]{hyperref}
+
+% -- PLOS requires "Fig" not "Figure" --
+\renewcommand{\figurename}{Fig}
+
+% ============================================================
+% TITLE AND AUTHOR
+% ============================================================
+
+\title{Code Geometry and Endogenous Enforcement Concentration in Codified Moral Systems: An Agent-Based Model}
+
+\author{Boggavarapu Kiran$^{1}$}
+
+\date{}
+
+\newcommand{\affiliation}{$^{1}$Department of Chemistry and Physics, McNeese State University, Lake Charles, LA 70607. Email: kiran@mcneese.edu}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+\noindent\affiliation
+\vspace{1em}
+
+% ============================================================
+% ABSTRACT
+% ============================================================
+
+\begin{abstract}
+Enforcement-dominant dynamics in codified moral systems are often explained through extremists, charismatic leaders, or exogenous political shocks. This paper develops an alternative account: such dynamics can arise endogenously from the structural geometry of the code itself. We formalize five dimensions of code geometry, namely legibility, substitutability, enforcement affordance, centralization, and exit cost, and test their consequences in an agent-based model with symmetric agents, no pre-assigned enforcement roles, and 3,246 simulations across five sweeps. The model generates four recurrent regimes: quiet, mixed enforcement, collapse, and capture. Results show that enforcement activation is governed not by legibility alone but by a joint boundary between legibility and enforcement reward: low values on both suppress enforcement, while higher values open a stable enforcement niche. Once active, institutional delegation and capital compounding concentrate punishment in an endogenously selected minority. Two plausible retention mechanisms, sanctified suffering and membership reward, fail across their tested ranges to convert mixed enforcement into durable capture. By contrast, endogenous degradation of the perceived outside option sharply reduces exit and broadens the capture region. Ablation shows that punishment concentration does not depend on orthodoxy drift or monopoly artifacts, but on delegation and compounding enforcement capital. The main implication is structural: enforcement concentration and minority capture need not be imported into codified systems from outside. Under identifiable conditions, they are equilibrium outcomes of the system itself.
+\end{abstract}
+
+\newpage
+
+% ============================================================
+% 1. INTRODUCTION
+% ============================================================
+
+\section{Introduction}
+
+When religious fundamentalism is discussed as a social problem, the standard causal story runs through actors. Extremists capture institutions, radicalize communities, and impose orthodoxy on reluctant majorities. The implied prescription follows naturally: remove the extremists, weaken their organizations, and the system will relax. This framing treats enforcement specialists as exogenous to the belief system itself, as though they were a contingent infestation rather than a structurally available role.
+
+This paper argues that the framing is incomplete. Enforcement-dominant dynamics, what is commonly labeled fundamentalism, can arise endogenously from the internal structure of codified moral systems. The key explanatory variable is not theological content as such, but what I call code geometry: the configuration of legibility, substitutability, enforcement affordance, centralization of adjudication, and exit cost. The claim is not that all codified systems generate the same outcomes, nor that history and politics do not matter. It is that these outcomes become more or less available depending on how a system makes moral standing visible, enforceable, and difficult to escape.
+
+The model developed here tests that claim in a deliberately minimal way. Agents are symmetric at initialization. No enforcement class is imposed ex ante. No charismatic leader, exogenous shock, or abnormal psychological distribution is needed to produce the core dynamics. Under appropriate parameter combinations, punishment becomes concentrated in a small minority selected endogenously through institutional delegation and capital compounding. The system then moves among four recurrent regimes, quiet, mixed enforcement, collapse, and capture, depending on whether enforcement becomes viable, whether exit remains open, and whether the outside option is progressively degraded.
+
+The central empirical prediction is structural. Codified moral systems that make compliance highly observable, permit visible performance to substitute for inner transformation, and reward sanctioning will tend to generate enforcement-specialist niches regardless of doctrinal content. This prediction is domain-general. It applies to religious traditions, but also to secular ideologies, revolutionary movements, and other identity-bearing systems that codify behavioral expectations and attach status to compliance. Religion provides the richest historical archive of such systems, which is why it remains the principal terrain of discussion here, but the mechanism is not confined to supernatural belief.
+
+Three features distinguish the framework from existing accounts. First, legibility is treated as a structural property of the code rather than as a cost paid by agents or a generic marker of strictness. This draws on James C.\ Scott's concept of state legibility and extends it to the problem of belief enforcement. Second, the model yields distinct regime types rather than a single continuum of tightening. Third, minority enforcement concentration emerges from institutional delegation and compounding enforcement capital, not merely from preference asymmetry or the presence of unusually rigid actors. In this respect, the paper shifts the explanation of fundamentalist tightening away from personalities and toward institutional geometry.
+
+A further claim follows from the results and should be stated carefully. Legibility is not a solitary master variable. The simulations show that enforcement activation is governed by a joint boundary between legibility and enforcement reward: $\sigma$ determines whether compliance can be monitored efficiently, while $\pi$ determines whether anyone has reason to specialize in policing it. Once enforcement is active, endogenous degradation of the outside option determines whether the system remains mixed or becomes durably captive. The argument, then, is not ``legibility explains everything,'' but that code geometry organizes the space in which enforcement, exit, and capture become possible.
+
+The paper proceeds as follows. Section~2 reviews the relevant literature by mechanism rather than by discipline and identifies the unresolved theoretical gap. Section~3 defines the code-geometry framework. Sections~4 and~5 translate that framework into an observable mapping and a falsifiable scoring protocol. Section~6 specifies the agent-based model. Section~7 discusses scope and limitations. Section~8 presents the simulation results. Section~9 considers empirical consistency, competing frameworks, and falsifiability. Section~10 concludes.
+
+
+% ============================================================
+% 2. LITERATURE POSITIONING
+% ============================================================
+
+\section{Literature Positioning}
+
+\subsection{Enforcement and strictness in the rational-choice tradition}
+
+The dominant formal framework for understanding why high-cost religious groups persist and grow is the club-goods model developed by Iannaccone \cite{iannaccone1992,iannaccone1994}. In this framework, costly behavioral demands (dietary restrictions, dress codes, tithing, time-intensive rituals) function as screening mechanisms that exclude free-riders, raising the average quality of participation and the value of club goods (mutual aid, social capital, communal identity). Strictness is the price of admission; groups that charge higher prices attract more committed members and outcompete lenient groups in cohesion and mobilization.
+
+This framework captures an important mechanism, and the empirical pattern it explains (that strict denominations grow while lenient ones decline) is robust. But it leaves three questions unanswered that are central to the phenomenon of enforcement-dominant dynamics. First, enforcement in the club model operates through screening (an ex ante mechanism): costly demands filter the population before entry. The model does not address ex post enforcement: the active policing, sanctioning, and punishment of members who have already joined. The transition from ``strict requirements attract committed members'' to ``enforcement specialists police the community'' is not formalized.
+
+Second, the club model does not produce a structural distinction between moderate strictness (functional screening) and enforcement dominance (coercive control by a specialized minority). These are treated as points on a continuum rather than as qualitatively different regimes. Iannaccone \cite{iannaccone1994} acknowledged that excessive strictness can backfire: ``a church reaches [the tipping] point when it fails to offer acceptable substitutes for everything it has asked its members to give up,'' but the tipping point is not modeled as a regime transition. Third, the club model assumes voluntary participation. Members choose the strict bundle; those who dislike it leave. This assumption is reasonable for denominational choice in pluralistic religious markets but fails in contexts where exit is blocked, where apostasy carries legal penalties, kinship networks are wholly internal, or economic livelihood depends on community membership.
+
+Berman \cite{berman2000} extended the club framework to ultra-Orthodox Jewish communities, where yeshiva attendance creates non-transferable religious human capital that functions as a powerful exit cost. Berman and Laitin \cite{berman2008} applied similar logic to terrorist organizations, where sacrifice requirements solve principal-agent problems in covert operations. Carvalho \cite{carvalho2013} formalized veiling as a commitment mechanism with implicit reputational costs for non-compliance. These extensions move closer to the dynamics of enforcement (Berman's religious capital is the strongest existing formalization of exit cost as a lock-in device), but none introduces positive enforcement payoffs to sanctioners, institutional delegation of punishment authority, or the compounding of enforcement capacity over time. The gap is consistent: the club tradition explains why strict groups can be stable but does not explain how enforcement authority concentrates in a minority or how enforcement regimes become self-reinforcing.
+
+\subsection{Punishment, monitoring, and the observability problem}
+
+A parallel literature in evolutionary game theory addresses the conditions under which punishment can stabilize cooperation. Boyd, Gintis, Bowles, and Richerson \cite{boyd2003} demonstrated that altruistic punishment can evolve in large groups because punishment costs decrease as punishers become common. Fehr and G\"{a}chter \cite{fehr2000,fehr2002} provided experimental evidence that costly punishment sustains cooperation and that cooperation collapses when punishment is unavailable. Axelrod \cite{axelrod1986} showed that metanorms (punishing those who fail to punish) can stabilize norm enforcement through second-order sanctioning.
+
+These results establish that enforcement equilibria are achievable under general conditions. But a structural feature unites these models: punishment is treated as a cost to the enforcer. Punishment is altruistic; it benefits the group at the expense of the individual punisher. This is a reasonable assumption for many settings, but it does not describe the dynamics of institutionalized enforcement in codified belief systems, where enforcers routinely gain status, institutional access, and material rewards for policing. Clerical promotion contingent on orthodoxy enforcement, social prestige for public correction of deviants, and institutional budgets tied to enforcement activity all represent positive payoffs to sanctioners. When enforcement is profitable rather than costly, the dynamics change qualitatively: enforcement becomes self-sustaining not because punishers are altruistic but because the enforcement niche is structurally rewarding.
+
+The closest formal predecessor to this dynamic is Centola, Willer, and Macy's \cite{centola2005} Emperor's Dilemma, an agent-based model where cascades of support for unpopular norms emerge when enforcement is observable and enforcers gain status. A small minority of ``true believers'' can induce majority compliance through self-reinforcing enforcement cascades. This model captures the core intuition (that enforcement can spread as a social strategy even without genuine belief), but it treats compliance as binary, does not model exit, and does not introduce institutional delegation or compounding enforcement capacity. The cascade operates through decentralized peer pressure rather than through a specialized enforcement apparatus.
+
+A second structural limitation of the punishment literature is the treatment of observability. Punishment requires that defection (or noncompliance) be observable. This observation-dependence is implicit in nearly all punishment models but is rarely formalized as a variable property of the system being enforced. The degree to which a moral code renders compliance observable is not a constant; it is a design feature of the code itself. A code that demands observable acts (attend Friday prayers, wear prescribed clothing, observe dietary restrictions publicly) generates fundamentally different enforcement dynamics than a code that demands internal states (reduce anger, cultivate compassion, attain non-attachment). Scott \cite{scott1998} developed this insight at length for state governance (standardization and simplification render populations legible to administrative control), but no formal model has applied Scott's legibility concept to belief enforcement. This gap is the origin of our $\sigma$ parameter.
+
+\subsection{Exit, voice, and the regime problem}
+
+Hirschman's \cite{hirschman1970} \textit{Exit, Voice, and Loyalty} provides the canonical framework for organizational responses to decline: members can leave (exit), attempt reform (voice), or remain despite dissatisfaction (loyalty). Hirschman noted that religions explicitly position themselves as unsubstitutable, thereby raising loyalty and suppressing both exit and voice. The framework is structurally binary (exit or voice, modulated by loyalty) and does not distinguish between the qualitatively different outcomes that exit cost variation produces.
+
+When exit is cheap and enforcement escalates, the expected outcome is fragmentation: dissatisfied members leave, the population contracts, and the enforcement apparatus loses targets. When exit is expensive and enforcement escalates, the expected outcome is very different: dissatisfied members are trapped, dissent is internalized, and enforcement can stabilize without corrective feedback from departures. These are not points on a continuum; they are distinct dynamical regimes with different attractor structures.
+
+Kuran's \cite{kuran1995} theory of preference falsification comes closest to formalizing this distinction. Citizens publicly express preferences differing from private beliefs under social pressure, producing ``collective conservatism'' (stable falsification) or ``revolutionary cascades'' (sudden dissolution when the falsification threshold breaks). Kuran discussed religious preference falsification explicitly (crypto-Judaism under the Inquisition, Shia taqiyya) and his two-regime structure maps partially onto the collapse and mixed-enforcement regimes in our framework. However, Kuran does not formalize hierarchical capture as a distinct stable equilibrium. For him, all falsification equilibria are potentially unstable, subject to revolutionary cascade. The possibility that an enforcement-dominant minority can stabilize the system indefinitely through institutional delegation and compounding enforcement capital, preventing cascade even when private dissent is near-universal, is outside his framework.
+
+The leaving-religion literature \cite{bromley1998,cragun2011,streib2009} provides extensive empirical documentation of exit costs and their consequences, but this scholarship is primarily descriptive and case-based. It does not formalize how exit cost interacts with enforcement parameters to generate distinct regime types. Agent-based models of secularization \cite{gelfand2011,norenzayan2013} model affiliation and disaffiliation dynamics but typically drive these through existential security or cognitive variables rather than enforcement geometry.
+
+\subsection{Delegation, monopoly, and the missing mechanism of minority capture}
+
+The theoretical gap that motivates this paper sits at the intersection of three well-developed literatures that have not been formally integrated.
+
+State-formation theory provides the vocabulary of coercive monopoly. Weber \cite{weber1946} defined the state by its successful claim to monopoly over legitimate force. Tilly \cite{tilly1985} described state-making as organized coercion with a ratcheting dynamic: war requires taxation, taxation requires administrative capacity, administrative capacity enables more war. Mann \cite{mann1986} distinguished despotic power (command) from infrastructural power (the capacity to penetrate society with rules and monitoring). These frameworks describe compounding coercive capacity at the macro-political level but have rarely been applied to the internal governance of belief systems.
+
+New institutionalism provides the theory of enforcement equilibria and path dependence. North \cite{north1990} defined institutions as formal and informal constraints plus enforcement characteristics, and noted that ``formal rules are created to serve the interests of those with the bargaining power to create new rules'': minority capture by institutional design. Greif \cite{greif2006} analyzed the transition from distributed to specialized enforcement in merchant communities. Greif and Mokyr \cite{greif2016} observed that ``the fact that such an agent has been asked to legitimize a ruler is a source of additional power to such agents,'' a description of compounding enforcement capital that remains unformal. Pierson \cite{pierson2000} formalized path dependence as an increasing-returns dynamic where early institutional advantages compound over time.
+
+Political economy of religion provides case studies of enforcement delegation. Rubin \cite{rubin2017} analyzed religious authorities as ``legitimizing agents'' who sit at the political bargaining table; Ottoman ulama monopolized religious scholarship and commercial law interpretation for centuries. Cook \cite{cook2000} traced the Islamic hisbah doctrine from individual Muslim obligation to institutional enforcement apparatus. Given \cite{given1997} documented how the medieval Inquisition accumulated records, informers, and procedural knowledge that compounded its enforcement capability across decades. Kelly \cite{kelly1989} described the transition from personal inquisitorial authority to institutional jurisdiction, the shift from distributed to delegated enforcement.
+
+Each of these literatures contains ingredients of the mechanism we formalize: coercive monopoly, enforcement delegation, compounding capacity, path dependence. But they have not been combined into a unified micro-level model that derives enforcement regimes from the interaction of code structure and institutional design. Evolutionary game theory has partially filled this gap through the distinction between peer punishment and pool punishment \cite{hilbe2014,sigmund2010}, showing that delegated institutional punishment produces qualitatively different equilibria than distributed individual punishment. But pool-punishment models treat the institution as solving the second-order punishment problem (who punishes non-punishers?), not as enabling minority capture of doctrinal authority through compounding enforcement capital.
+
+\subsection{The gap}
+
+No existing formal model combines the following five components: (1) legibility of moral compliance as a continuous structural parameter of the code, distinct from signaling cost; (2) positive enforcement payoffs to sanctioners, generating a self-sustaining enforcement niche; (3) exit cost as a regime determinant that distinguishes collapse from capture; (4) institutional delegation of punishment authority, concentrating enforcement in a minority; and (5) compounding enforcement capital that creates path-dependent power accumulation in the enforcement apparatus.
+
+Each component has strong antecedents. Iannaccone formalized costly demands; Boyd et al.\ formalized punishment dynamics; Berman formalized exit costs; Weber \cite{weber1946} and Tilly \cite{tilly1985} described coercive monopoly; Greif and Pierson described path dependence. The synthesis is what generates the novel predictions: four qualitatively distinct regime types rather than binary outcomes, endogenous minority capture from enforcement geometry rather than from preference asymmetry, and the formal separation of enforcement intensity from belief prevalence, a divergence that existing models do not produce but that is empirically well-documented \cite{cohen2001,ulmer2008,wedeen1999}.
+
+The contribution of this paper is to build that synthesis as a working computational model, demonstrate its regime structure, identify the causal mechanism through ablation, and provide a falsifiable scoring rubric for empirical evaluation.
+
+
+% ============================================================
+% 3. THEORETICAL FRAMEWORK
+% ============================================================
+
+\section{Theoretical Framework}
+
+\subsection{Codified Moral Systems}
+
+A codified moral system is a socially shared normative structure in which obligations, prohibitions, and membership criteria are articulated in transmissible rule-form and maintained across generations through institutional mechanisms. Religious traditions are the most historically durable instances. The framework developed here is not restricted to religion; any identity-bearing system that codifies behavioral expectations and enforces compliance falls within scope. Political ideologies with loyalty tests, revolutionary movements with purity requirements, and professional bodies with ethical codes all instantiate codification to varying degrees.
+
+As codified systems scale beyond face-to-face interaction, they confront a structural problem: moral quality must be made legible. Internal states (intention, sincerity, compassion, detachment) are opaque to observers. Institutions that must evaluate adherence therefore face pressure to adopt observable proxies. Ritual participation, dress codes, dietary restrictions, speech markers, formal declarations, and codified behaviors become instruments of classification. This shift is not incidental. It is a functional response to the problem of monitoring at scale. But it alters the incentive structure of the system. When moral standing becomes externally classifiable, enforcement roles become structurally viable.
+
+We formalize this transformation as a problem of code geometry: the structural configuration of a codified moral system along dimensions that jointly determine whether enforcement equilibria become reachable.
+
+\subsection{Dimensions of Code Geometry}
+
+Five structural dimensions characterize the enforcement landscape of a codified system. These are not evaluative. They describe the formal properties of the code, not the moral worth of any tradition.
+
+\textbf{Legibility ($\sigma$)} refers to the degree to which compliance can be externally observed and socially verified. A system is highly legible when observers can classify adherence through visible acts (dress, attendance, dietary practice, ritual performance, verbal formulae) without privileged access to internal states. A system is low in legibility when compliance depends on dispositions that cannot be reliably assessed by third parties. Legibility determines the feasibility of monitoring.
+
+\textbf{Substitutability} captures whether externally observable compliance can function as a sufficient condition for moral standing. In high-substitutability systems, ritual performance or formal adherence terminates moral evaluation: an agent who fulfills the visible requirements is classified as moral regardless of internal state. In low-substitutability systems, external acts are explicitly necessary but insufficient; moral status depends on interior transformation that cannot be replaced by proxy performance.
+
+Substitutability is analytically distinct from legibility. A system may render compliance visible (high legibility) without allowing visible compliance to substitute for interior reform (low substitutability). The joint condition (high legibility and high substitutability) is what makes proxy compliance a stable strategy: agents can achieve moral standing through externally performable acts alone, and observers accept this.
+
+In the agent-based model, the parameter $\sigma$ represents the joint legibility-substitutability axis. Formally, $\sigma$ is the weight of external compliance ($s_i$) relative to internal cultivation ($x_i$) in the perceived moral score: $m_i = (1 - \sigma)x_i + \sigma s_i$. At low $\sigma$, moral evaluation depends on internal states that are opaque to observers; monitoring is infeasible and enforcement is unrewarding. At high $\sigma$, moral evaluation terminates at visible performance; monitoring is cheap and enforcement becomes structurally viable. The model collapses legibility and substitutability into a single parameter because in most codified systems these covary: systems that make compliance externally visible also tend to accept visible compliance as sufficient for moral standing. The theoretical framework distinguishes them because they can separate (monastic behavioral codes, for instance, render compliance visible without treating external observance as sufficient for spiritual attainment). The model tests the joint condition because it is the joint condition that creates the enforcement niche. Concrete indicators of high-$\sigma$ systems include dress-code compliance, attendance records, dietary markers, public prayer performance, and verbal orthodoxy tests. Concrete indicators of low-$\sigma$ systems include meditative attainment stages, sincerity of intention, character transformation, and contemplative depth. The separate observability parameters ($v_{\text{obs}}$, $a_{\text{obs}}$) in the model handle the pure observation-accuracy dimension: $v_{\text{obs}}$ captures how reliably external compliance signals are perceived, while $a_{\text{obs}}$ captures the (typically very low) probability that internal states are observable.
+
+\textbf{Enforcement affordance} refers to the ease with which deviations can be detected, classified, and sanctioned. Systems with binary violation categories (permitted/forbidden), well-defined infraction types, and established institutional sanction pathways possess high enforcement affordance. Systems characterized by interpretive ambiguity, graduated evaluation, and contested authority possess low enforcement affordance. High enforcement affordance reduces the per-act cost of policing.
+
+\textbf{Centralization of adjudication} describes whether interpretive and disciplinary authority is monopolized or distributed. Under high centralization, a recognized clerical, judicial, or institutional body defines orthodoxy, controls appeals, and limits interpretive plurality. Under low centralization, multiple legitimate interpretive authorities coexist, norm enforcement is local and heterogeneous, and no single body can authoritatively define deviation. Centralization does not itself produce enforcement, but it amplifies enforcement once initiated by coordinating sanctioning across a population.
+
+\textbf{Exit cost} refers to the social, economic, legal, and identity penalties associated with leaving or dissenting from the system. When exit cost is high (apostasy carries severe sanctions, kinship networks are internal to the community, economic livelihood depends on membership, identity foreclosure makes departure psychologically costly), disaffected members are trapped. Dissent is expressed internally rather than through departure. When exit cost is low, enforcement escalation produces fragmentation rather than compliance: members leave rather than submit. Exit cost therefore determines whether tightening leads to collapse or persistence.
+
+\subsection{From Geometry to Regimes}
+
+The interaction of these dimensions generates distinct structural regimes. Four are consistently observed in simulation and have historical correlates.
+
+In the \textit{quiet regime}, legibility and enforcement affordance are low, or enforcement reward is insufficient to sustain sanctioning as an adaptive strategy. Punishment remains negligible, exit is low, and the system persists without generating an enforcement niche. The code may be codified, but its structure does not render compliance auditable or sanctioning profitable.
+
+In the \textit{collapse regime}, legibility and enforcement affordance are high but exit cost is low. Enforcement escalation triggers departure. The population shrinks, monitoring loses targets, and the system fragments. Tightening is self-defeating.
+
+In the \textit{capture regime}, legibility, substitutability, and enforcement affordance are jointly high and exit cost is also high. Enforcement escalation does not produce mass departure. Sanctioning stabilizes because it is rewarded: enforcers gain status, institutional access, or material benefits. Compliance becomes self-reinforcing. The system converges on an enforcement-dominated equilibrium in which visible compliance is near-universal but may coexist with private dissent.
+
+In the \textit{mixed regime}, exit is feasible but non-trivial, and membership confers benefits sufficient to retain a substantial fraction of the population. Partial exit coexists with a hardened enforcement core. Overall prevalence may decline, but active participants exhibit higher rigidity and enforcement intensity than the pre-tightening population. The system persists in reduced form.
+
+These regimes arise from structural incentives. They do not require abnormal psychological distributions, charismatic leaders, or exogenous political shocks, though all of these can shift parameters and change which regime the system occupies.
+
+
+% ============================================================
+% 4. PARAMETER-OBSERVABLE MAPPING
+% ============================================================
+
+\section{Parameter-Observable Mapping}
+
+The agent-based model is intended not as an abstract toy, but as a formalization of observable structural features of codified moral systems. Each model parameter corresponds to a property that can, at least in principle, be identified in historically bounded institutional settings without taking a theological position on the truth or falsity of the underlying doctrine. The aim of this section is therefore not to rank traditions, but to specify how a regime can be located in a common structural space.
+
+\subsection{Parameter-to-observable mapping}
+
+The mapping proceeds from model parameters to institutional indicators. Legibility refers to the extent to which compliance is externally classifiable through visible acts, speech, dress, attendance, dietary practice, or other public markers. Empirically, this dimension is approximated by the proportion of canonical prescriptions and disciplinary expectations that target observable behavior rather than opaque interior states. Substitutability refers to whether such visible compliance is treated as sufficient, or near-sufficient, for moral standing. A regime scores high on substitutability when external performance functions not merely as evidence of discipline, but as an accepted proxy for virtue, orthodoxy, or salvation.
+
+Enforcement affordance refers to the ease with which deviations can be detected, coded as violations, and linked to sanctions. Observable indicators include the presence of binary or low-ambiguity rule structures, explicit violation categories, routinized complaint channels, and established disciplinary procedures. Centralization refers to the concentration of interpretive and punitive authority. It is indexed by the existence of recognized adjudicating bodies, monopoly claims over orthodoxy, restricted appeal channels, and institutional mechanisms that convert local accusations into system-wide disciplinary action. Exit cost refers to the penalties associated with leaving, defecting, or openly dissenting. It is approximated by legal apostasy penalties, kinship endogamy, economic dependence on the community, identity foreclosure, and the social cost of disaffiliation.
+
+The model also includes enforcement reward and delegation variables, which are especially important for distinguishing mere rule density from enforcement specialization. Enforcement reward is operationalized through promotion incentives, prestige for orthodoxy policing, access to institutional resources, or material compensation tied to disciplinary activity. Delegation is operationalized through the existence of specialized offices, enforcement jurisdictions, or recognized actors whose role includes monitoring and sanctioning others. The complete scoring anchors and observable proxies are provided in S1 Text; the purpose of the present section is to make explicit the logic of the mapping rather than duplicate the full rubric.
+
+% -- Tables 1-4: Parameter-to-observable mapping --
+
+\begin{table}[ht]
+\centering
+\caption{Code geometry dimensions and observable indicators.}
+\label{tab:dimensions}
+\begin{tabular}{lp{5.5cm}p{5.5cm}}
+\toprule
+Dimension & Model parameter & Observable indicators \\
+\midrule
+Legibility & $\sigma$ (substitution weight, 0--1) & Proportion of prescriptions targeting visible behavior; dress codes, attendance records, dietary markers \\
+Substitutability & Collapsed into $\sigma$ & Whether visible compliance is accepted as sufficient for moral standing \\
+Enforcement affordance & $\pi$ (enforcement reward), $\kappa$ (cost) & Binary violation categories, routinized complaint channels, established sanction pathways \\
+Centralization & Cadre selection, monopoly flag & Recognized adjudicating bodies, monopoly over orthodoxy, restricted appeals \\
+Exit cost & base\_opp, $\delta$, exit\_threshold & Legal apostasy penalties, kinship endogamy, economic dependence, identity foreclosure \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Agent-level parameters and defaults.}
+\label{tab:agent-params}
+\begin{tabular}{llll}
+\toprule
+Parameter & Symbol & Default & Description \\
+\midrule
+Legibility weight & $\sigma$ & 0.75 & Weight of external compliance in moral perception \\
+External observability & $v_{\text{obs}}$ & 0.90 & Probability of observing external compliance \\
+Internal observability & $a_{\text{obs}}$ & 0.05 & Probability of observing internal cultivation \\
+Enforcement reward & $\pi$ & 0.22 & Status gain per successful punishment \\
+Enforcement cost & $\kappa$ & 0.08 & Backlash risk per punishment act \\
+Punishment severity & $\lambda$ & 0.25 & Utility penalty imposed on target \\
+Literalism trait & $L$ & Beta(1.5, 4.5) & Fixed agent trait, right-skewed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Institutional and network parameters.}
+\label{tab:inst-params}
+\begin{tabular}{llll}
+\toprule
+Parameter & Default & Range tested & Function \\
+\midrule
+Population $N$ & 350 & Fixed & Agent count \\
+Network & Scale-free & Fixed & Barab\'asi--Albert \\
+Enforcer quota $q$ & 0.08 & 0.04--0.25 & Fraction designated as cadre \\
+Authority threshold & 0.35 & Fixed & $A$ level activating monopoly \\
+Capital gain/punish & 0.15 & Fixed & Compounding per act \\
+Capital decay & 0.005/step & Fixed & Slow institutional decay \\
+Shock schedule & $t = 100, 220, 320$ & Fixed & Exogenous threat timing \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Exit and retention parameters.}
+\label{tab:exit-params}
+\begin{tabular}{llll}
+\toprule
+Parameter & Default & Range tested & Function \\
+\midrule
+Base opportunity & 0.30 & 0.30--0.90 & Baseline outside-option quality \\
+Exit threshold & $-1.0$ & $-1.0$, $1.5$ & Utility level triggering exit evaluation \\
+Block exponent & 2.5 & Fixed & Nonlinear exit suppression \\
+Exit cost & 0.4 & Fixed & Per-departure penalty \\
+Alt. degradation $\delta$ & 0.0 & 0.0--1.0 & Perceived outside-world quality \\
+Drift speed $\eta$ & 0.0 & 0.0--0.30 & Rate of endogenous $\delta$ drift \\
+Punish floor & 0.08 & 0.04--0.15 & Intensity gate for drift activation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{What this mapping does and does not claim}
+
+This mapping does not claim that any single dimension is sufficient to determine regime type. The theory is configurational. High legibility without high exit cost may generate fragmentation rather than capture. High exit cost without legibility may trap members without producing a stable enforcement niche. High centralization without substitutability may concentrate adjudication while still failing to make visible compliance a dominant strategy. The predictive object is therefore the joint geometry of the regime, not an isolated score.
+
+The mapping also does not treat traditions as fixed wholes. The unit of analysis is a historically bounded regime in a specific institutional and legal context, not ``Islam,'' ``Catholicism,'' or ``Buddhism'' in the abstract. The same tradition may occupy different regions of parameter space across centuries, across states, or even across rival internal institutions operating at the same time. The framework is therefore comparative without being essentialist: it compares configurations, not civilizations.
+
+Finally, the mapping does not claim direct measurement of latent interior states. It instead specifies how institutional systems proxy, ignore, reward, or displace such states. This matters because the theory's central question is not whether inner transformation is real, but whether a regime's structure allows externally auditable performance to dominate moral classification. That is an observable institutional property, and it is the property the model seeks to formalize.
+
+
+% ============================================================
+% 5. SCORING RUBRIC
+% ============================================================
+
+\section{Scoring Rubric}
+
+The scoring rubric translates the conceptual dimensions of code geometry into a reproducible comparative protocol. Its function is not to generate decorative case labels, but to create a disciplined bridge between theory, simulation, and historical evidence. If the rubric cannot be applied consistently across independently scored cases, then the framework has failed at the point where theoretical ambition meets empirical audit.
+
+\subsection{Protocol}
+
+Each historically bounded regime is scored on five primary dimensions: legibility, substitutability, enforcement affordance, centralization, and exit cost. Scores are assigned on a 0--4 ordinal scale by two independent raters using explicit anchor definitions. Ratings are based on canonical texts where relevant, but are not determined by texts alone. They also draw on legal history, institutional structure, disciplinary practice, sociological accounts of boundary maintenance, and documented mechanisms of sanction and dissent management.
+
+The scoring unit is the regime, not the tradition. This distinction is non-negotiable. ``Catholicism'' is too broad and internally heterogeneous to be a valid observational unit; ``Counter-Reformation Catholicism under the Roman Inquisition'' is not. ``Islam'' is not scored; ``Taliban governance in Afghanistan, 1996--2001'' is. This regime-based protocol prevents theological essentialism and forces the analysis onto historically bounded institutional configurations.
+
+A further requirement follows: the regime unit must be sufficiently durable for steady-state enforcement to be a defined notion. Mobilization episodes shorter than approximately fifty simulation timesteps' equivalent (such as the First Crusade, 1095--1099, or the Albigensian Crusade, 1209--1229) should be scored against their underlying enduring authorization apparatus rather than against the episode itself, or marked with explicit duration confidence flags.
+
+Disagreements greater than one scale point are resolved through return to source evidence and written adjudication. Cohen's kappa is calculated for each dimension. Dimensions with inadequate inter-rater reliability are not silently retained; they trigger rubric revision. In this sense, the rubric is not merely applied to evidence. It is itself subject to evidence.
+
+% -- Table 5: Illustrative regime scores --
+
+\begin{table}[ht]
+\centering
+\caption{Illustrative code-geometry scores for historically bounded regimes. Scores are 0--4 ordinal; full anchor definitions in S1 Text.}
+\label{tab:scores}
+\begin{tabular}{lccccc}
+\toprule
+Regime & Legib. & Subst. & Enf. aff. & Central. & Exit cost \\
+\midrule
+Taliban Afghanistan (1996--2001) & 4 & 4 & 4 & 4 & 4 \\
+Saudi CPVPV (pre-2016) & 4 & 3 & 4 & 3 & 3 \\
+Counter-Ref. Catholicism & 3 & 3 & 3 & 4 & 3 \\
+Medieval Inquisition & 3 & 3 & 4 & 4 & 4 \\
+Ultra-Orthodox Judaism & 3 & 3 & 3 & 2 & 3 \\
+Stalinist party discipline & 4 & 4 & 4 & 4 & 4 \\
+Mainstream Sunni Islam & 2 & 2 & 2 & 1 & 2 \\
+Therav\=ada Buddhist vinaya & 2 & 1 & 2 & 1 & 1 \\
+Advaita Ved\=anta & 0 & 0 & 0 & 0 & 0 \\
+Early Quaker movement & 1 & 0 & 1 & 0 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Falsifiability, illustrative cases, and use conditions}
+
+The rubric is designed to be falsifiable in both positive and negative directions. A false positive occurs if regimes that score high across the core dimensions repeatedly fail to exhibit enforcement-dominant dynamics, minority sanction concentration, or institutionalized orthodoxy policing. A false negative occurs if regimes that score low on legibility and substitutability nonetheless repeatedly generate stable enforcement specialization and minority capture comparable to high-scoring cases. Either pattern would require revision of the theory, not cosmetic reinterpretation of the cases.
+
+The illustrative regime scores provided in S1 Text are therefore not offered as final judgments on civilizational traditions. They are demonstrations of application under a protocol whose validity depends on reproducibility, disagreement tracking, and exposure to disconfirming cases. Their purpose is methodological: to show how the rubric operates, what kinds of evidence it uses, and what kinds of comparative claims it can and cannot support at the present stage.
+
+The rubric also yields null predictions, and these are as important as the positive ones. A regime with high legibility but weak sanctioning machinery should produce visible conformity pressures without stable enforcement specialization. A regime with strong punitive capacity but low legibility should generate noisy or error-prone coercion rather than efficient orthodoxy enforcement. A regime with high scores on the core enforcement dimensions but very low exit cost should tend toward fragmentation or collapse rather than durable capture. These are not afterthoughts. They are the empirical choke points of the framework. If they fail systematically, the theory fails systematically.
+
+For that reason, the rubric should be used in only three ways in the present paper. First, to demonstrate that the model parameters correspond to institutionally intelligible observables. Second, to identify candidate historical cases consistent with the regime logic produced by the ABM. Third, to define future comparative tests capable of adjudicating between this framework and rival explanations centered primarily on personality, modernization, or exogenous political shock. It should not yet be used to claim a final ranked taxonomy of traditions. At this stage, it is a disciplined measurement protocol, not a completed atlas.
+
+
+% ============================================================
+% 6. AGENT-BASED MODEL
+% ============================================================
+
+\section{Agent-Based Model}
+
+\subsection{Design rationale}
+
+The theoretical framework (\S3) identifies five structural dimensions of codified moral systems and predicts four qualitatively distinct enforcement regimes from their interaction. The agent-based model tests whether these regime predictions hold under micro-level dynamics: whether individual agents following local decision rules, with no global coordination and no pre-assigned enforcement roles, produce the macro-level enforcement patterns the theory predicts. The model is intentionally minimal. It implements the structural ingredients the theory claims are sufficient for enforcement concentration (legibility, enforcement reward, delegation, capital compounding, exit cost) and omits features the theory claims are unnecessary (abnormal psychological distributions, charismatic leadership, exogenous shocks). If enforcement concentration emerges under these conditions, the sufficiency claim is supported. If it does not, the theory requires revision.
+
+\subsection{Population and network}
+
+The model initializes $N = 350$ agents on a Watts-Strogatz small-world network \cite{watts1998}. The neighbor count $k$ is set to $\max(4, \text{round}(\sqrt{N}))$, yielding $k = 18$ for $N = 350$. The rewiring probability is $p = 0.10$, producing a network with high clustering and short average path length, consistent with the social structure of bounded religious communities in which most interactions are local but occasional long-range ties exist. The network is static; agents do not form or sever ties during the simulation. This is a simplification addressed in \S7.
+
+\subsection{Agent state}
+
+Each agent $i$ carries the following state variables, all initialized from uniform distributions on $[0, 1]$ unless otherwise noted.
+
+\textbf{Internal cultivation} ($x_i$): a continuous variable representing the degree of genuine moral transformation (e.g., cultivated compassion, reduced reactivity, meditative attainment). This corresponds to the ITC dimension of the theoretical framework. Internal cultivation evolves slowly, driven by intrinsic benefit and private cost:
+\[
+x_i(t+1) = \text{clip}(x_i(t) + \gamma(\eta_x - \varepsilon + \text{social\_encouragement}) + \text{noise},\; 0,\; 1)
+\]
+where $\eta_x$ is the intrinsic return on cultivation, $\varepsilon$ is the per-step cost, and social encouragement is weak when internal states are opaque to observers (the typical case when $a_{\text{obs}}$ is low).
+
+\textbf{External compliance} ($s_i$): a binary variable (0 or 1) representing whether the agent performs the externally observable compliance markers of the code (dress compliance, ritual attendance, dietary observance, verbal orthodoxy). This corresponds to the EPC dimension. Compliance is chosen under local social pressure:
+\[
+P(s_i = 1) = \text{sigmoid}(\beta(\text{status\_gain} - c_S))
+\]
+where status\_gain depends on the local norm enforcement intensity (higher when neighbors punish noncompliance) and $c_S$ is the per-step cost of compliance.
+
+\textbf{Belief position} ($y_i$): a continuous variable representing the agent's doctrinal position. Agents drift toward the system's current orthodoxy target $\bar{y}$ at a rate of 0.02 per step:
+\[
+y_i(t+1) = y_i(t) + 0.02(\bar{y} - y_i(t))
+\]
+
+\textbf{Enforcement propensity} ($r_i$): a continuous variable representing willingness to punish perceived deviants. Updated through reinforcement learning: successful punishment with positive net payoff increases $r_i$; costly punishment decreases it.
+
+\textbf{Rigidity} ($b_i$): a continuous variable representing doctrinal inflexibility. The product $F_i = r_i \times b_i$ constitutes the agent's fundamentalism index, used in orthodoxy drift calculations.
+
+\textbf{Literalism} ($L_i$): a fixed trait representing the agent's orientation toward strict textual interpretation. Drawn from a uniform distribution at initialization and does not change. Literalism enters only through cadre selection (\S6.6), where it is weighted at 30\% of the suitability score.
+
+\textbf{Enforcement capital} ($\text{cap}_i$): a cumulative stock variable initialized at zero. Enforcement capital increases when an agent serves in the enforcement cadre and participates in sanctioning. It compounds over time through patronage allocation (the institutional equivalent of budget growth, seniority, and procedural authority). Capital does not decay.
+
+\subsection{Moral perception}
+
+The central mechanism linking code geometry to enforcement viability is the moral perception function. When agent $i$ evaluates agent $j$, the perceived moral score is:
+\[
+m_j = (1 - \sigma) \times x_{\text{obs}} + \sigma \times s_{\text{obs}}
+\]
+where $\sigma$ is the substitution weight (the paper's key code-geometry parameter), $x_{\text{obs}}$ is the observer's estimate of $j$'s internal cultivation, and $s_{\text{obs}}$ is the observer's estimate of $j$'s external compliance. The observation process introduces noise: external compliance $s_j$ is observed with probability $v_{\text{obs}}$ (default 0.90; external markers are visible), while internal cultivation $x_j$ is observed with probability $a_{\text{obs}}$ (default 0.05; internal states are opaque). When observation fails, the observer substitutes a random draw from a uniform distribution.
+
+At high $\sigma$, moral evaluation depends primarily on the external compliance signal, which is reliably observed. At low $\sigma$, moral evaluation depends primarily on internal cultivation, which is almost never accurately observed. This asymmetry is what makes enforcement structurally viable at high $\sigma$ (enforcers can cheaply identify noncompliance) and structurally futile at low $\sigma$ (enforcers cannot distinguish genuine deviants from noise).
+
+\subsection{Enforcement and punishment}
+
+Each time step includes a policing phase in which agents evaluate their network neighbors for deviation. Agent $i$ punishes neighbor $j$ with probability:
+\[
+P(\text{punish}\; j \mid i) = r_i \times \text{sigmoid}(\beta_p(\theta - \hat{m}_j))
+\]
+where $\theta$ is the heresy threshold (the moral score below which an agent is classified as deviant), $\hat{m}_j$ is $i$'s perceived moral score for $j$, and $\beta_p$ is the punishment sensitivity. When $\hat{m}_j$ falls below $\theta$, the sigmoid activates and punishment probability increases with the gap.
+
+Successful punishment produces three payoffs. The enforcer receives a status reward $\pi$ (the enforcement payoff parameter) minus a cost $\kappa$ (risk of backlash, effort). The target receives a penalty of magnitude $\lambda$ (punishment severity). Backlash occurs with probability approximately 0.14, in which case the enforcer bears a net loss. The expected payoff per punishment act is positive (approximately $+0.088$ under default parameters), making enforcement a reliably profitable activity. This profit margin is a modeling choice: it represents the institutional reward structure that makes enforcement self-sustaining.
+
+Literalism modifies the heresy threshold. High-$L$ agents apply a stricter threshold (lower tolerance for deviation) through the parameters $\theta_{L,\text{gain}}$ and $d_{0,L,\text{gain}}$, making them more likely to identify and punish perceived deviants.
+
+\subsection{Institutional delegation and cadre selection}
+
+Institutional delegation is the mechanism that concentrates enforcement in a minority. At fixed intervals, the model selects an enforcement cadre of size $q = \lfloor \text{enforcer\_quota\_frac} \times N_{\text{active}} \rfloor$, where $\text{enforcer\_quota\_frac} = 0.12$ (12\% of the active population). Agents are ranked by a suitability score:
+\[
+\text{suitability}_i = 0.6 \times \text{cap}_i + 0.3 \times L_i + 0.1 \times (r_i \times b_i)
+\]
+
+The top-$q$ agents are selected into the enforcement cadre for the subsequent period. When the monopoly-on-enforcement flag is set (the default in all reported specifications), non-cadre agents are blocked from punishing once enforcement activity exceeds a threshold ($A \geq 0.35$). This implements the institutional monopoly: punishment authority is concentrated in the endogenously selected cadre, not distributed across the population.
+
+The suitability score weights enforcement capital at 60\%, literalism at 30\%, and fundamentalism index at 10\%. Early in the simulation, when no agent has accumulated capital, selection is driven primarily by literalism (a fixed trait). As capital accumulates, the selection shifts toward institutional incumbency: agents who have served as enforcers accumulate capital that secures their continued selection. This produces the compounding dynamic described in the theoretical framework (\S3): early enforcement service generates capital that generates continued selection that generates more capital.
+
+A design note: when fewer agents meet the capital eligibility threshold ($\text{cap} \geq 0.25$) than the quota requires, the model falls back to ranking all active agents by the full suitability score. This fallback is active in early time steps and produces a startup transient in which literalism dominance is stronger than it would be under strict capital eligibility. The transient is short (approximately 50 to 100 steps) and does not affect the steady-state concentration results, which are driven by capital compounding (confirmed by the $\bar{y}$ ablation in \S8.3).
+
+Enforcers receive patronage payments proportional to their enforcement activity, drawn from a shared institutional budget. This budget grows with total enforcement output, implementing the positive feedback between enforcement volume and institutional resource accumulation.
+
+\subsection{Exit}
+
+Agents evaluate exit at each time step. The exit probability is computed from the perceived outside opportunity:
+\[
+p_{\text{opp,raw}} = \text{sigmoid}(\text{base\_opp} - \text{deg\_coeff} \times \text{degree}_i - \text{threat\_coeff} \times \text{threat})
+\]
+\[
+p_{\text{opp}} = \text{floor} + (1 - \text{floor}) \times (p_{\text{opp,raw}})^{\text{block\_exponent}}
+\]
+where base\_opp is the baseline outside opportunity (a sweep parameter), $\text{degree}_i$ is the agent's network degree (more embedded agents face higher exit costs), threat is the perceived external threat level, floor is a minimum exit probability (ensuring that exit is never completely impossible), and block\_exponent (default 2.5) produces a nonlinear suppression of exit opportunity under high embeddedness.
+
+The alternative degradation parameter $\delta$ modifies this calculation by discounting the perceived outside option. At $\delta = 0$, agents perceive external opportunity at its base value. At $\delta = 1$, the outside option is perceived as worthless. The effective opportunity is $\text{base\_opp} \times (1 - \delta)$. Agents compare the discounted outside opportunity against their current utility from staying (which includes social standing, membership benefits $\mu$, and any sanctified-suffering revaluation $\alpha$). An agent exits when the discounted outside opportunity exceeds the staying utility by enough to cross the exit threshold (a sweep parameter).
+
+Exited agents are removed from the active population. Their network positions remain but they no longer participate in enforcement, compliance, or moral evaluation. Metrics reported in \S8 are computed over active agents only.
+
+\subsection{Orthodoxy drift}
+
+The system maintains a target orthodoxy $\bar{y}$ that evolves in response to the beliefs of active fundamentalist agents. At each time step:
+\[
+\bar{y}(t+1) = 0.95 \times \bar{y}(t) + 0.05 \times y_{\text{target}}
+\]
+where $y_{\text{target}}$ is the mean belief position of agents whose fundamentalism index $F_i = r_i \times b_i$ exceeds a threshold $F^*$. This creates a feedback loop: enforcers who successfully accumulate high $r$ and $b$ values shift the orthodoxy target toward their own positions, which in turn shifts the population's belief distribution (through the individual drift rule in \S6.3). The $\bar{y}$ ablation (\S8.3) demonstrates that this feedback is not the mechanism driving enforcement concentration; concentration arises from delegation and capital compounding, not from belief convergence.
+
+\subsection{Endogenous alternative degradation}
+
+The alternative degradation parameter $\delta$, which was held exogenous in the baseline and retention sweeps, becomes endogenous in the gated drift specification through a drift mechanism that links enforcement concentration to narrative degradation of the outside world:
+\[
+\delta(t+1) = \delta(t) + \eta \times (\delta_{\text{target}} - \delta(t))
+\]
+\[
+\delta_{\text{target}} = \min(1.0,\; \delta_0 + \text{enforcer\_share})
+\]
+\[
+\text{enforcer\_share} = \frac{\text{total punishment by enforcers}}{\text{total punishment}}
+\]
+
+The parameter $\eta$ controls drift speed. When $\eta = 0$, $\delta$ is fixed at its initial value (recovering baseline behavior). When $\eta > 0$ and the enforcement cadre dominates punishment ($\text{enforcer\_share} > 0.97$, the typical value in active cells), $\delta_{\text{target}}$ approaches $\delta_0 + 1.0$, pushing $\delta$ toward saturation.
+
+An intensity gate prevents spurious drift in quiet cells. The drift equation fires only when the maximum per-capita punishment in the population exceeds a floor of 0.08. This floor was calibrated to the quiet-to-active boundary observed in the baseline sweep (quiet cells: median max\_punish = 0.051; active cells: max\_punish $\geq$ 0.091). The gate implements a theoretical constraint: narrative drift requires an enforcement apparatus with institutional salience. A single functionary issuing occasional sanctions does not reshape community cosmology; a vigorous enforcement apparatus that visibly punishes deviants and controls institutional discourse does.
+
+\subsection{Regime classification}
+
+To summarize system-level outcomes, each simulation run is assigned an operational regime label derived from terminal-state metrics computed over active agents. These labels are intended as compact descriptors of recurrent dynamical patterns, not as claims that the underlying state space is intrinsically discrete. The primary evidentiary objects remain the continuous outcome variables themselves: exit rate, punishment intensity, enforcement concentration, and fundamentalist prevalence. Regime labels are used to compress these variables for visualization and comparison across large parameter sweeps.
+
+A run is classified as COLLAPSE when exit rate is at least 0.90, meaning that fewer than 10\% of the initial population remain active. A run is classified as CAPTURE when two conditions hold jointly: fundamentalist prevalence is at least 0.90 and exit rate is at most 0.20. This operational definition is intentionally strict. It reserves the capture label for cases in which enforcement dominance is accompanied by durable retention rather than by transient tightening or partial depopulation. A run is classified as MIXED when enforcement is active, as indicated by maximum per-capita punishment of at least 0.10, but neither collapse nor strict capture criteria are met. QUIET is the residual category: punishment remains below the active-enforcement threshold and the population does not undergo mass exit.
+
+These thresholds are researcher-specified summary rules rather than estimated natural boundaries. For that reason, all regime maps reported below should be read together with the underlying continuous metrics. Sensitivity checks show that the broad four-region structure is preserved under threshold perturbations of plus or minus five percentage points. At the same time, the thresholds are not treated as sacrosanct. In particular, some runs exhibit capture-like behavior on continuous indicators such as near-zero exit, highly concentrated punishment, and maximal alternative degradation while remaining below the strict prevalence cutoff. Such cases are analytically important because they show that the regime structure is real even when a categorical boundary is conservative. We therefore use the discrete labels for summary presentation, while retaining the continuous metrics as the substantive basis of interpretation.
+
+The COLLAPSE label, as defined here, denotes specifically enforcement-induced depopulation. Slow attrition under loose enforcement, exemplified by mainline Protestant decline, late-modern Catholicism, and the demographic transition to religious non-affiliation, is observationally distinct from this mechanism and is currently flattened to MIXED or QUIET within our scheme.
+
+Classification is applied at the level of individual seed runs. Parameter-cell classification is then assigned by majority vote across seeds. This two-level procedure avoids treating single stochastic realizations as definitive while preserving within-cell heterogeneity. Where seed disagreement is substantial, that disagreement is itself informative and is reported as boundary instability rather than suppressed by averaging alone.
+
+\subsection{Simulation protocol}
+
+Each simulation is run for 500 time steps. This horizon is sufficient for the system to approach steady behavior under all tested specifications: punishment concentration, exit rate, and enforcement-share trajectories stabilize by approximately step 200 in the tested configurations, with the remaining horizon serving as a buffer against premature classification. At each step, the model proceeds in five phases. First, agents update internal cultivation and external compliance. Second, agents evaluate neighbors and execute punishment. Third, the institutional controller updates the enforcement cadre, orthodoxy target, and patronage budget. Fourth, agents evaluate exit. Fifth, system metrics are recorded. Agent ordering is randomized within each phase at every step to eliminate order-dependent artifacts.
+
+The baseline parameter sweep covers 108 cells spanning the joint space of legibility, enforcement reward, outside-option quality, and exit threshold. To separate exploration from confirmation, this sweep is conducted in two stages: an exploratory pass over the full grid with two seeds per cell, followed by a confirmatory pass on the retained cells with five seeds per cell. All headline regime maps and regime counts in the Results section are taken from the confirmatory stage; exploratory runs are used only to identify candidate boundary structure. The endogenous-drift sweep covers 135 cells spanning legibility, enforcement reward, drift speed, and initial outside-world degradation, with ten seeds per cell. Targeted retention sweeps for sanctified suffering and membership reward add a further 1,320 runs. Across all five sweeps, the total simulation count is 3,246 runs. The model is implemented in Python using Mesa for scheduling, a custom execution loop for enforcement and exit phases, and NetworkX for network generation; all stochastic processes use NumPy's PCG64 generator under fixed seeds for reproducibility.
+
+\subsection{Model variants}
+
+We analyze a nested sequence of model specifications that progressively add institutional mechanisms while preserving the same agent-based core. The purpose of this sequence is not version proliferation for its own sake, but causal isolation: each extension adds one theoretically motivated mechanism whose incremental contribution can be evaluated against the shared baseline.
+
+The \textit{baseline enforcement specification} contains the core code-geometry mechanism. In this version, agents perceive neighbors through the moral-perception function, punish when enforcement is profitable, and exit when outside opportunities exceed staying utility. Alternative degradation is held fixed exogenously. This specification is used to establish the basic regime structure generated by the joint configuration of legibility, enforcement reward, outside-option quality, and exit threshold.
+
+The \textit{delegated-enforcement specification} adds institutional delegation. Enforcement becomes asymmetric through suitability-weighted cadre selection, monopoly-on-enforcement logic, and patronage-funded capital compounding. This extension is critical because it tests whether enforcement concentration is merely the diffuse outcome of many like-minded agents or the result of specialization and institutional reinforcement. All main baseline results reported in the Results section use this delegated version.
+
+The \textit{retention specification} adds two doctrinal retention channels without altering punishment production itself. Sanctified suffering converts received punishment into commitment reinforcement, while membership reward supplies a per-period utility bonus for remaining within the community. These channels modify the staying-versus-exit calculus rather than the mechanics of sanctioning. Their purpose is to test whether retention can be sustained by doctrinal or communal benefits alone, independent of endogenous degradation of the outside option.
+
+The \textit{drift specification} adds endogenous alternative degradation. In this version, the outside option deteriorates as a function of enforcement concentration once punishment exceeds an institutional-salience floor. This mechanism is theoretically distinct from both baseline enforcement and doctrinal retention: it tests whether an active enforcement apparatus can make exit progressively less thinkable by reshaping perceived alternatives rather than merely by raising immediate punishment costs. The drift extension therefore provides the key test of whether enforcement concentration can be converted into durable capture through a self-reinforcing narrative channel.
+
+
+% ============================================================
+% 7. SCOPE AND LIMITATIONS
+% ============================================================
+
+\section{Scope and Limitations}
+
+This framework deliberately excludes several variables that other literatures treat as primary. Psychological predispositions toward authoritarianism, cognitive rigidity, and fundamentalist orientation are not modeled as drivers. They enter the framework, if at all, as initial distributions of agent-level traits that may influence enforcement recruitment but do not generate enforcement equilibria without the structural preconditions specified by code geometry. Socio-political shocks (modernization crises, state failure, geopolitical humiliation) are similarly excluded from the core mechanism. They function as parameter perturbations: events that shift enforcement reward, exit cost, or threat salience, thereby moving the system across regime boundaries. The framework does not deny the relevance of these factors. It relocates them from primary causes to exogenous controls acting on a structural substrate.
+
+The framework also does not address the content of belief. Two systems with identical code geometry scores but radically different theological commitments are predicted to exhibit similar enforcement dynamics. This is a feature of the theory, not a limitation: it permits cross-traditional comparison on structural grounds. Whether the claim generalizes empirically is a testable question, not an assumption.
+
+
+% ============================================================
+% 8. RESULTS
+% ============================================================
+
+\section{Results}
+
+\subsection{Code geometry produces distinct enforcement regimes}
+
+The confirmatory baseline sweep, spanning 72 parameter cells across $\sigma$, $\pi$, base opportunity, and exit threshold with five seeds per cell, produces four recurrent outcome classes under the operational regime classifier: quiet, mixed enforcement, collapse, and capture. These outcomes occupy distinct regions of parameter space rather than forming a single linear continuum. What varies across the space is not merely the amount of punishment, but the qualitative relation among enforcement viability, exit, and retention.
+
+Quiet cells are characterized by low punishment and low exit. Median maximum per-capita punishment is 0.066 (range 0.036 to 0.091), and median exit rate is 0.096. These cells occupy the low-legibility, low-enforcement-reward region of the sweep. At $\sigma = 0.25$ and $\pi = 0.05$, all cells remain quiet regardless of exit cost. Under these conditions, visible compliance is too weak a proxy for moral standing, and enforcement remains too weakly rewarded, for sanctioning to stabilize as a social role.
+
+Mixed-enforcement cells exhibit active punishment together with substantial but incomplete exit. Median maximum per-capita punishment rises to 0.116, while median exit rate rises to 0.359. These are not failed capture states in the trivial sense. They are a distinct regime in which enforcement is viable, punishment becomes concentrated, and visible compliance rises, but the system cannot fully close the exit channel. The result is a hardened residual community rather than total institutional dominance.
+
+Collapse cells are defined by near-total depopulation. Median exit rate is 0.993, and all collapse outcomes in the baseline occur at $\sigma = 0.25$ under easy-exit conditions. Here the system crosses the activation threshold for social friction but not the retention threshold for enforcement stabilization. Tightening therefore destroys the community rather than consolidating it. This distinction matters because it shows that punishment alone is not enough to generate durable fundamentalist equilibrium. Exit structure remains decisive.
+
+The baseline capture regime appears only in a single extreme cell, at $\sigma = 0.95$, $\pi = 0.50$, base opportunity $= 0.30$, and exit threshold $= -1.00$. This result should not be oversold. In the exogenous baseline specification, capture is possible but occupies only a narrow corner of the parameter space. High legibility and high enforcement reward are necessary but not by themselves sufficient for broad capture. What they reliably generate is enforcement viability. Whether that viability becomes durable domination depends on the retention problem analyzed below.
+
+The baseline sweep therefore supports a conditional rather than absolute claim about $\sigma$. Legibility is not a solitary switch that determines enforcement by itself. The quiet-to-active transition is a joint $\sigma \times \pi$ boundary. At $\sigma = 0.25$, cells with $\pi = 0.05$ remain quiet, whereas cells with $\pi \geq 0.25$ become mixed. More generally, enforcement activates when externally monitorable compliance and profitable sanctioning coincide. Low $\sigma$ suppresses monitoring even when punishment is available; low $\pi$ suppresses punishment even when compliance is visible. Only their conjunction opens a stable enforcement niche.
+
+This interpretation does not weaken the theory. It strengthens it. The relevant structural object is not legibility in isolation, but the joint enforcement affordance of the code: the extent to which the system both renders compliance auditable and makes sanctioning adaptive. In substantive terms, $\sigma$ defines whether a codified system can be policed efficiently, while $\pi$ determines whether anyone has reason to specialize in doing so. Exit cost then determines whether activation produces fragmentation, persistence, or capture.
+
+\subsection{Enforcement concentrates in a minority across all active regimes}
+
+Within mixed-enforcement cells, punishment is not distributed across the population. The top 5 agents (out of 350) issue a median 85.6\% of all punishment. The top 10 agents issue a median 97.1\%. Agents endogenously selected into the enforcement cadre through institutional delegation (\S6.6) deliver a median 91.9\% of total punishment (Fig~\ref{fig:3}). This concentration is comparable across different $\sigma$ and $\pi$ values within the active region; enforcement monopoly is not a high-$\sigma$ phenomenon but a generic consequence of institutional delegation combined with compounding enforcement capital.
+
+The literalism enrichment effect is large. Enforcers exhibit a median Cohen's $d$ of 2.17 on the literalism trait relative to the general population within mixed-regime runs (1.96 pooled across all runs), confirming that cadre selection, which weights literalism at 30\% of the composite score, produces consistent ideological sorting (Fig~\ref{fig:5}). Agents with strict-text interpretive orientations are disproportionately recruited into the enforcement apparatus, not because of ideological conspiracy but because the selection criterion rewards the traits that correlate with enforcement willingness.
+
+\subsection{Concentration arises from enforcement economics, not belief convergence}
+
+The model includes an orthodoxy drift mechanism in which the system's target orthodoxy ($\bar{y}$) tracks the beliefs of active fundamentalist agents. This creates a potential tautology: enforcers define orthodoxy, orthodoxy shifts toward enforcer beliefs, agents drift toward the new target, and concentration appears self-reinforcing through belief convergence rather than structural incentives. To test whether this feedback loop drives the concentration result, we repeated the baseline simulation (30 seeds) with $\bar{y}$ held constant at its initial value, disabling the drift entirely.
+
+Concentration metrics were unchanged. Top-5 punishment share: 0.798 (baseline) versus 0.801 (fixed $\bar{y}$). Top-10 share: 0.977 in both conditions. Enforcer punishment share: 0.759 versus 0.756. Literalism enrichment $d$: 2.280 versus 2.326. Regime classification: 30/30 mixed in both conditions.
+
+Minority capture arises from enforcement economics (the $\sigma$/$\pi$/delegation/capital structure), not from belief convergence. The orthodoxy drift is a realistic institutional feature (real enforcement apparatuses do shift doctrinal standards), but it is not the mechanism producing the headline result.
+
+\subsection{The retention problem}
+
+The baseline results establish two points clearly. First, enforcement concentration is a robust structural outcome of the model once enforcement becomes viable. Second, concentration alone does not produce durable capture. In the baseline parameter region most relevant to moderate-exit-cost real-world systems, the model stabilizes not in capture but in a mixed regime: punishment is active and concentrated, yet the community continues to lose members at substantial rates. Median exit in mixed cells remains on the order of 30 to 40 percent. The enforcement apparatus is therefore not fragile, but neither is it retentive. It can dominate punishment without preventing departure.
+
+This gap between concentration and capture defines the core theoretical problem of the present section. If a structurally stable enforcement minority is not sufficient to hold the population in place, what additional mechanism closes the exit channel? We tested three candidates. The first treats punishment itself as spiritually or morally revaluable, so that suffering under discipline becomes a source of renewed commitment. The second treats continued membership as intrinsically beneficial, so that communal goods offset the burdens imposed by enforcement. The third does not increase the attractiveness of staying directly, but instead degrades the perceived quality of the outside option. These three mechanisms correspond, respectively, to sanctified suffering, club-goods retention, and alternative degradation.
+
+\subsection{Sanctified suffering does not produce retention}
+
+The sanctified-suffering mechanism performs poorly across the full tested range. In this specification, the parameter $\alpha$ converts a fraction of punishment received into reinforcement of commitment. The doctrinal intuition is straightforward and historically familiar: correction is reinterpreted as love, suffering as purification, and discipline as proof of inclusion. Yet the model shows that this logic does not materially alter the exit dynamics. Across the $\alpha$ sweep, the overwhelming majority of cells remain in the mixed regime, and capture is essentially absent. Even under the strongest high-$\sigma$, high-$\pi$ conditions, the maximum exit reduction attributable to $\alpha$ is only 0.026, a change indistinguishable from stochastic fluctuation at the level of regime outcome.
+
+The reason is structural rather than accidental. Sanctified suffering modifies the interior meaning of punishment, but it does not significantly alter the comparative logic of exit. Agents at the margin are already evaluating whether remaining inside the system is preferable to leaving it. Adding a small positive increment to the utility of staying changes that comparison only weakly. The mechanism can redescribe pain; it cannot, by itself, trap agents in a system when viable alternatives remain available. In formal terms, $\alpha$ perturbs the numerator of the staying utility only slightly, and therefore fails to move the exit sigmoid enough to generate a regime shift.
+
+\subsection{Membership reward does not produce retention}
+
+The membership-reward mechanism fails for the same reason. In this variant, $\mu$ provides a fixed per-period utility bonus for remaining in the community, implementing the familiar club-goods intuition that membership brings benefits such as solidarity, mutual aid, status, or identity reinforcement. Again, the sociological phenomenon is real. Communities do provide these goods. But within the model, those goods do not solve the retention problem. Across the $\mu$ sweep, all cells remain mixed by majority vote, and even under the most favorable high-$\sigma$, high-$\pi$ conditions, the largest exit reduction attributable to $\mu$ is only 0.006. That is not merely small. It is inert at the level that matters for system transition.
+
+This null result is theoretically important because it cuts directly against a common explanatory habit. One standard intuition is that strict systems retain members because the benefits of belonging compensate for the costs of control. The model does not support that conclusion under enforcement pressure. Membership rewards can make staying somewhat more pleasant, but they do not change the deeper geometry of the comparison when the outside option remains viable. Like $\alpha$, $\mu$ acts on the inside of the staying calculus. It sweetens the interior without materially altering the exit channel itself.
+
+% -- Table 6: Retention mechanism summary --
+
+\begin{table}[ht]
+\centering
+\caption{Retention mechanism comparison. Maximum exit-rate reduction attributable to each mechanism, measured at the most favorable parameter point ($\sigma = 0.95$, $\pi = 0.50$) across the tested range. Only endogenous $\delta$ drift produces regime transition.}
+\label{tab:retention}
+\begin{tabular}{llccc}
+\toprule
+Mechanism & Parameter & Range tested & Max $\Delta$exit & Regime shift? \\
+\midrule
+Sanctified suffering & $\alpha$ & 0.0--0.5 & $-0.026$ & No \\
+Membership reward & $\mu$ & 0.0--0.3 & $-0.006$ & No \\
+Exogenous degradation & $\delta$ (fixed) & 0.0--1.0 & $-0.39$ (at $\delta \geq 0.8$) & Partial \\
+Endogenous drift & $\eta$ & 0.0--0.30 & $-0.39$ (from $\delta_0 = 0.1$) & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Alternative degradation produces retention through outside-option collapse}
+
+The third mechanism, alternative degradation, behaves differently because it acts on a different part of the decision structure. Instead of increasing the appeal of staying, it makes leaving progressively less thinkable. In the exogenous form of this mechanism, high $\delta$ values can already force retention, but only at extreme levels. In the endogenous drift specification, this dynamic becomes much stronger. Once enforcement reaches institutional salience, punishment concentration drives $\delta$ upward through feedback, and in active cells with drift enabled the outside option is driven all the way to its maximum degradation value. Under these conditions, exit collapses. In the runs formally classified as capture in the drift-enabled sweep, final $\delta$ reaches 1.0, median exit falls to 0.006, and the enforcer share of punishment rises to 0.981. Even more importantly, capture emerges broadly from low initial $\delta$ values, showing that the system does not require a catastrophically bad outside world at the start; it can construct one endogenously.
+
+Because many drift-on runs exhibit near-zero exit, saturated $\delta$, and maximal enforcer domination while remaining below the prevalence cutoff for formal CAPTURE classification, the continuous behavioral metrics are more informative here than the categorical label alone.
+
+The contrast among the three mechanisms reveals the real asymmetry in the model. Sanctified suffering and membership reward both operate by making staying somewhat better. Alternative degradation operates by making leaving dramatically worse. These are not symmetric interventions. Adding a small constant to the utility of staying produces little movement when outside opportunity remains credible. By contrast, collapsing the outside option changes the ratio governing exit decisively. That is why $\alpha$ and $\mu$ remain behaviorally secondary while $\delta$ transforms the regime. The model therefore supports a strong claim: durable capture is not primarily a product of meaning-making or membership benefit under enforcement pressure; it is primarily a product of outside-option collapse.
+
+This result has an immediate empirical implication. Communities that sacralize suffering or provide substantial membership goods should not, on those features alone, exhibit markedly lower exit rates once enforcement intensity is held constant. By contrast, communities with degraded outside options should. The relevant empirical covariates are therefore not only internal theology or communal warmth, but the social and institutional conditions that make departure costly or psychologically implausible: legal penalties for apostasy, closed kinship networks, non-transferable human capital, geographic isolation, and narrative darkening of the external world. If the model is correct, these outward-facing constraint variables should outperform inward-facing meaning variables as predictors of durable retention under enforcement.
+
+This section therefore resolves the retention problem in a way that sharpens the broader theory. Code geometry can produce enforcement concentration from within. But concentration becomes durable capture only when the system acquires a mechanism for collapsing the perceived viability of life outside itself. The path to capture is thus two-stage. First, inward-facing code geometry activates and concentrates enforcement. Second, outward-facing degradation of alternatives closes exit and converts a bleeding mixed regime into a trapped one.
+
+\subsection{Endogenous narrative drift closes the feedback loop}
+
+The results in \S8.7 establish that $\delta \geq 0.8$ produces capture, but this finding carries a theoretical weakness: $\delta$ was set exogenously. The modeler imposes catastrophic outside-world perception; the system does not generate it. If the paper's central claim is that fundamentalism is an endogenous equilibrium rather than an exogenous pathology, then the mechanism producing capture must itself emerge from the model's dynamics.
+
+In real fundamentalist systems, alternative degradation is not a fixed parameter. It is a variable driven by the enforcement apparatus. Enforcement specialists, controlling institutional communication channels (sermons, curricula, media), systematically darken the portrayal of the outside world. As the enforcement apparatus consolidates, its control over community narrative increases. The congregation hears not ``the outside is different'' but ``the outside is satanic.'' The $\delta$ parameter should therefore be endogenous to enforcement concentration.
+
+We implemented this as a drift mechanism. Delta becomes a dynamic variable that tracks enforcement dominance:
+\[
+\delta(t+1) = \delta(t) + \eta \times (\delta_{\text{target}} - \delta(t))
+\]
+\[
+\delta_{\text{target}} = \min(1.0,\; \delta_0 + \text{enforcer\_share})
+\]
+\[
+\text{enforcer\_share} = \frac{\text{total punishment by enforcers}}{\text{total punishment}}
+\]
+
+The parameter $\eta$ (eta) controls drift speed. When $\eta = 0$, delta is fixed (recovering baseline behavior). When $\eta > 0$ and enforcers dominate punishment, $\delta$ is pushed toward $\delta_0 + \text{enforcer\_share}$, which in active-enforcement cells approaches 1.0 because enforcer\_share consistently exceeds 0.97.
+
+An initial implementation produced an artifact: $\delta$ drifted to 1.0 even at $\sigma = 0.25$, $\pi = 0.05$ (quiet cells), because enforcer\_share was mechanically high despite negligible total punishment. A single agent issuing token punishments produces enforcer\_share $= 0.75$ when no one else punishes either. The formula responded to enforcement concentration, not enforcement intensity.
+
+This was corrected by gating the drift on enforcement intensity (\S6.9). The drift fires only when max\_punish exceeds 0.08, the quiet-to-active boundary from the baseline sweep.
+
+\subsection{Emergence confirmed}
+
+The gated endogenous drift sweep (135 cells: $\sigma \in \{0.25, 0.75, 0.95\} \times \pi \in \{0.05, 0.25, 0.50\} \times \eta \in \{0.0, 0.05, 0.10, 0.20, 0.30\} \times \delta_0 \in \{0.1, 0.2, 0.3\}$; 10 seeds per cell; 1,350 total runs) produces the full regime structure.
+
+At $\eta = 0$ (no drift, 270 runs): 30 quiet, 240 mixed, 0 capture. This recovers the baseline and confirms that initial $\delta$ values of 0.1 to 0.3 are insufficient for capture without drift. Exit rates at $\eta = 0$ range from 0.069 (quiet, $\sigma = 0.25$, $\pi = 0.05$) to 0.400 (mixed, $\sigma = 0.25$, $\pi = 0.25$), consistent with the baseline results.
+
+At $\eta > 0$ (drift enabled, 1080 runs): 120 quiet, 494 mixed, 466 capture. Capture emerges broadly. In all 466 capture runs, final $\delta = 1.0$ (the maximum), median exit rate $= 0.006$, and median enforcer punishment share $= 0.981$. The enforcement apparatus drove $\delta$ from initial values of 0.1 to 0.3 all the way to 1.0 endogenously.
+
+The critical test: 32 cells meet the strict low-initial-delta capture criterion ($\delta_0 \in \{0.1, 0.2\}$, $\eta > 0$, $\sigma \geq 0.75$, $\geq 70\%$ of seeds classifying as capture). These cells were initialized with mild outside-world degradation (the outside is ``somewhat worse,'' not ``catastrophic'') and the enforcement apparatus drove them to maximum degradation through the feedback loop. At the strongest capture cells ($\sigma = 0.95$, $\pi = 0.25$, $\eta = 0.30$), 10 of 10 seeds capture with median exit rate 0.003.
+
+The quiet regime is preserved by the intensity gate. At $\sigma = 0.25$, $\pi = 0.05$ (the quiet region), all 150 runs across all $\eta$ values classify as quiet. Final $\delta$ stays at the initial value (0.1 to 0.3). Punishment (median 0.051) is below the drift floor. The enforcement apparatus never achieves institutional salience, and narrative drift does not engage. The gate correctly distinguishes ``enforcement apparatus exists but is inert'' from ``enforcement apparatus is active and reshaping community perception.''
+
+At $\sigma = 0.25$, $\pi = 0.50$, 66 of 120 runs with $\eta > 0$ classify as capture. This is not an artifact. The baseline confirms that $\sigma = 0.25$, $\pi = 0.50$ is already in the mixed (active) regime with median max\_punish $= 0.161$, well above the drift floor. The system generates enough enforcement to trigger narrative drift even when legibility is low, because the enforcement reward is high enough to sustain active policing despite noisy monitoring. This maps to empirical cases such as Stalinist denunciation networks, where legibility of genuine political loyalty was low but enforcement was vigorous because the rewards for informing (career advancement, apartment allocation, immunity from denunciation) were large.
+
+At $\sigma = 0.25$, $\pi = 0.25$, all 120 runs with $\eta > 0$ remain mixed despite $\delta$ drifting to 1.0. Enforcement is active (max\_punish $= 0.166$) and $\delta$ saturates, but fundamentalist prevalence stays below the capture classification threshold. The dynamics are capture-like (near-zero exit, concentrated enforcement, maximum $\delta$) but the community composition metric does not cross 0.10. This is a classification-boundary effect rather than a substantive regime difference.
+
+\subsection{The complete causal chain}
+
+The results establish a five-link causal chain from code geometry to emergent capture:
+
+First, code geometry activates enforcement. The joint $\sigma \times \pi$ configuration determines whether enforcement is viable. Low $\sigma$ and low $\pi$ produce the quiet regime; sufficient $\sigma$ or $\pi$ (or both) activates enforcement. This holds across all 1,350 runs in the drift sweep and 360 runs in the confirmatory baseline.
+
+Second, institutional delegation concentrates enforcement. Once active, punishment is monopolized by the endogenously selected enforcement cadre. Top-5 agents issue 67 to 92 percent of all punishment depending on the sweep; cadre members issue 92 to 98 percent. This concentration is invariant to $\sigma$, $\pi$, $\delta$, $\eta$, $\alpha$, and $\mu$ across all tested parameter values. It is a structural consequence of delegation and capital compounding, confirmed by the $\bar{y}$ ablation (\S8.3).
+
+Third, enforcement concentration drives endogenous narrative drift. When the enforcement apparatus is institutionally salient (max\_punish $\geq 0.08$), its dominance of punishment drives $\delta$ toward 1.0 through the drift mechanism. In all active cells with $\eta > 0$, $\delta$ converges to maximum. The drift is blocked in quiet cells where enforcement lacks institutional presence.
+
+Fourth, elevated $\delta$ collapses exit. At $\delta = 1.0$, the perceived outside option is worthless. Exit rate drops from 30 to 40 percent ($\eta = 0$) to 0 to 2 percent ($\eta > 0$, active cells). The population is retained.
+
+Fifth, retained population sustains the enforcement apparatus. With near-zero exit, the enforcement base is preserved. Enforcers retain their targets, their institutional resources, and their compounding capital. The loop closes.
+
+Two mechanisms predicted by theory to contribute to retention (sanctified suffering and membership reward) are empirically inert. The null results are informative: they demonstrate that the inward-facing dimensions of code geometry (which modify the payoff of staying) cannot produce capture. Only the outward-facing dimension (which collapses the alternative) achieves the retention necessary for the feedback loop.
+
+The emergence result can be stated precisely: a system initialized with mild outside-world degradation ($\delta_0 = 0.1$ or 0.2), moderate enforcement reward ($\pi \geq 0.25$), and sufficient legibility ($\sigma \geq 0.75$) will, through the endogenous operation of its enforcement apparatus, drive alternative degradation to maximum, collapse its exit channel, and stabilize in a capture equilibrium. No exogenous shock is required. The fundamentalism is structural.
+
+\subsection{Enforcement concentration is genuinely endogenous}
+
+The model's institutional delegation mechanism selects a cadre of size $q = \lfloor 0.12 \times N_{\text{active}} \rfloor$ and, under the monopoly-on-enforcement flag, blocks non-cadre agents from punishing when enforcement activity exceeds a threshold ($A \geq 0.35$). A reviewer could ask whether the concentration result is mechanically assisted by this restriction.
+
+To test this, we repeated the baseline simulation at three parameter points ($\sigma = 0.75$, $\pi = 0.25$; $\sigma = 0.95$, $\pi = 0.50$; $\sigma = 0.25$, $\pi = 0.50$) with monopoly-on-enforcement disabled, 30 seeds per condition (180 runs total). Concentration metrics were unchanged. At $\sigma = 0.75$, $\pi = 0.25$: top-5 share $= 0.810$ (monopoly off) versus 0.811 (monopoly on). At $\sigma = 0.95$, $\pi = 0.50$: top-5 share $= 0.862$ versus 0.866. Regime classifications were identical across all matched pairs (Table S3).
+
+The monopoly restriction is not the source of concentration. When all agents are free to punish, punishment still concentrates in the same minority, because the enforcement niche is structurally rewarding and the agents who enter it earliest accumulate capital that secures their continued dominance. Minority enforcement concentration is a property of the code geometry, not of the modeler's architectural choices.
+
+\subsection{Dose-response: legibility and enforcement reward jointly govern regime}
+
+To test whether the relationship between code legibility and enforcement dynamics is monotonic, we conducted a fine-grained dose-response sweep across ten $\sigma$ values (0.10 to 0.95) at two enforcement reward levels ($\pi = 0.25$ and $\pi = 0.50$), with and without endogenous narrative drift ($\eta = 0.10$ versus $\eta = 0$), 30 seeds per combination (1,200 runs total).
+
+The relationship is monotonic and threshold-gated (Fig~\ref{fig:1}). Three regions are sharply delineated.
+
+Below $\sigma = 0.2$, enforcement does not activate. At $\sigma = 0.10$, $\pi = 0.25$, only 3.3\% of runs classify as active. Enforcer share is 0.15. Narrative drift does not engage: final $\delta$ remains at 0.19. The code is too opaque for monitoring to succeed.
+
+Between $\sigma = 0.2$ and $\sigma = 0.4$, a transition occurs whose sharpness depends on enforcement reward. At $\pi = 0.25$, the shift from 3\% active to 100\% spans $\sigma = 0.2$ to $\sigma = 0.4$. At $\pi = 0.50$, the system is already 100\% active at $\sigma = 0.20$. The activation boundary is a joint $\sigma \times \pi$ surface.
+
+Above the activation boundary with drift enabled, enforcement-dominant dynamics are universal. All 30 of 30 seeds are active at every $\sigma$ value from 0.4 to 0.95. Enforcer share stabilizes at 0.98, exit rate at 0.08, and $\delta$ at 1.0. Without drift, the same systems produce active enforcement with high concentration (enforcer share 0.31--0.77) but substantial exit (rate 0.44--0.77), confirming that drift converts concentration to capture.
+
+The elevated enforcer share under drift (0.98 versus 0.31--0.77 without drift) reflects population retention rather than increased concentration per se: when few members exit, the cadre's punishment base is preserved. The concentration mechanism is delegation and capital compounding; the retention mechanism is narrative drift. Both are required.
+
+All drift-on runs at $\sigma \geq 0.4$ exhibit capture-like dynamics (near-zero exit, maximum $\delta$, enforcer share 0.98) but classify as MIXED under the hierarchical regime scheme because fundamentalist prevalence (median 0.10) does not cross the capture threshold (0.90). This reflects a measurement limitation of the prevalence metric. By every behavioral metric except the prevalence count, these systems are in capture.
+
+% -- placeholder for Figure 1 --
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../figures/submission/fig1_dose_response.pdf}
+\caption{Dose-response: code legibility ($\sigma$) and enforcement reward ($\pi$) jointly govern enforcement regime. 1,200 ABM runs (10 $\sigma$ values $\times$ 2 $\pi$ levels $\times$ 2 drift conditions $\times$ 30 seeds). Panel~A: enforcement activation. Panel~B: enforcement concentration (enforcer punishment share). Panel~C: population retention (exit rate). Panel~D: narrative drift (final $\delta$). Solid lines: drift enabled ($\eta = 0.10$). Dashed lines: drift disabled ($\eta = 0$). Sand/sienna: $\pi = 0.25$. Wine/charcoal: $\pi = 0.50$.}
+\label{fig:1}
+\end{figure}
+
+
+% ============================================================
+% 9. DISCUSSION
+% ============================================================
+
+\section{Discussion}
+
+\subsection{Fundamentalism as structural equilibrium}
+
+The results support the paper's central claim: enforcement-dominant dynamics arise endogenously from the structural properties of codified moral systems, without requiring abnormal psychological distributions, charismatic capture, or exogenous political shocks. The causal chain runs from code geometry (legibility $\times$ enforcement reward) through institutional delegation (which concentrates enforcement in a minority) through endogenous narrative drift (which collapses exit) to stable capture. Each link was isolated and confirmed: the $\bar{y}$ ablation (\S8.3) rules out belief convergence as the mechanism; the $\alpha$ and $\mu$ null results (\S8.5, \S8.6) rule out internal retention mechanisms; the $\eta = 0$ control (\S8.9) rules out initial $\delta$ values as the driver. What remains is enforcement economics operating on code structure.
+
+This reframes the standard explanatory sequence. The conventional account treats fundamentalism as a deviation: something goes wrong (extremists infiltrate, a crisis radicalizes, a charismatic leader emerges) and the system is pushed off its natural trajectory. The model indicates that fundamentalism is not a deviation but an available equilibrium state, one that the system will occupy when its structural parameters fall in the appropriate region of parameter space. Removing the ``extremists'' does not remove the equilibrium. If the code geometry that generated the enforcement niche persists, the niche will be re-occupied.
+
+The practical implication is that interventions targeting individuals (deradicalization programs, leadership decapitation, banning specific organizations) address symptoms rather than structure. The model predicts that such interventions will produce transient disruption followed by reconvergence, because the enforcement niche is a property of the code's geometry, not of the individuals who currently fill it. Structural interventions (reducing legibility, increasing exit feasibility, decentralizing adjudication) act on the parameters that determine which regime the system occupies.
+
+\subsection{The two faces of code geometry}
+
+A consistent finding across all model versions is the decoupling of enforcement production from population retention. The inward-facing dimensions of code geometry ($\sigma$, $\pi$, delegation, capital compounding) reliably produce enforcement concentration. In every active cell across every sweep, the top 5 agents issue 67 to 92 percent of all punishment and endogenously selected cadre members deliver 92 to 98 percent. This concentration is invariant to retention parameters ($\alpha$, $\mu$, $\delta$), to drift parameters ($\eta$), and to initial conditions. It is a structural consequence of delegation and compounding, not a contingent outcome.
+
+But concentration alone does not produce capture. In the absence of retention mechanisms, the system stabilizes as a mixed regime: enforcement is vigorous and concentrated, but 30 to 40 percent of the population exits. The enforcement apparatus is structurally intact; it simply operates in a community that is hemorrhaging members. This is the regime occupied by most real-world systems with moderate exit costs: active enforcement coexists with substantial attrition.
+
+The transition from mixed to capture requires collapsing the outside option. Of the three candidate mechanisms tested, only alternative degradation achieves this, and only at extreme values ($\delta \geq 0.8$ for exogenous $\delta$; endogenous drift to $\delta = 1.0$ via the feedback loop). The distinction between inward-facing and outward-facing code geometry reflects a genuine structural asymmetry in how codified systems produce and sustain enforcement.
+
+\subsection{What the null results demonstrate}
+
+The failure of sanctified suffering ($\alpha$) and membership reward ($\mu$) carries theoretical weight beyond the negative finding itself. Both mechanisms are widely invoked in the sociology of religion and the study of high-control groups. The $\alpha$ mechanism corresponds to a large theological literature on the redemptive value of suffering (from the Christian theology of the cross through the Shia veneration of Husayn's martyrdom to the Hasidic doctrine of descent for the sake of ascent). The $\mu$ mechanism corresponds to Iannaccone's entire club-goods framework: membership confers benefits that offset the costs of strictness.
+
+Both are real phenomena. Religious communities do reframe discipline as purification, and membership does confer genuine benefits. But neither mechanism produces retention under enforcement pressure when viable alternatives exist. The explanation is structural: both $\alpha$ and $\mu$ modify the interior of the payoff comparison (making staying slightly more attractive), while the exit decision is governed by the ratio of inside utility to outside opportunity. Adding a small constant to a large numerator produces negligible change in the ratio. Subtracting from a small denominator produces proportionally large change.
+
+This result has a direct empirical prediction. Communities that employ sanctified-suffering framing or that provide generous membership benefits will not, on the basis of those features alone, achieve lower exit rates than comparable communities without them, once enforcement intensity is controlled for. Retention should correlate with outside-option degradation (geographic isolation, non-transferable human capital, legal apostasy penalties, kinship network closure), not with internal meaning-making or club-goods provision. The club-goods literature predicts that higher membership benefits produce higher retention; the model predicts that membership benefits are inert with respect to retention under enforcement. These predictions are distinguishable in cross-sectional data.
+
+The null results also illuminate why theological content is not a useful predictor of enforcement dynamics. A tradition may possess an elaborate theology of sanctified suffering; it may offer rich communal benefits; it may articulate a sophisticated internal logic for why discipline serves the disciple's interest. None of this matters for retention if the outside option remains viable. The features that matter are prosaic and structural: how hard it is to leave, how degraded the outside appears, how concentrated the enforcement apparatus is. The theological superstructure rides on a structural chassis, and it is the chassis that determines the regime.
+
+\subsection{Empirical consistency}
+
+The computational framework generates empirical predictions, but the observational exercises reported here should be read as preliminary consistency checks rather than as causal tests. Their purpose is limited: to examine whether readily available comparative data move in the direction predicted by the model, and to identify which parts of the theory remain empirically underdetermined. The samples are small, the proxies are imperfect, and no causal identification strategy is claimed. Accordingly, these analyses are used to test directional plausibility, not to certify the model.
+
+\noindent\textbf{Cross-national analysis.}
+For an initial cross-national check, we merged Religion and State Round 3 religious-legislation scores with World Values Survey importance-of-God measures and World Bank GDP per capita for 36 countries with complete data. In the combined model, both log GDP and religious legislation independently predict religious retention, with model fit at $R^2 = 0.73$. GDP enters negatively and religious legislation positively. A bootstrap comparison of model contributions yields a median $R^2$ ratio of 1.18 with a 95\% confidence interval of [0.64, 2.18], which includes 1.0. The sample is therefore too underpowered to rank the relative importance of outside-option quality and enforcement legislation. The most that can be said from this exercise is limited but still useful: both structural development conditions and enforcement-related legal structure appear relevant, and neither can be dismissed.
+
+This result is consistent with the model's logic in a weak sense only. It does not validate the internal mechanism of code geometry, delegation, or enforcement concentration. What it shows is that national environments combining weaker outside options with stronger religion-related legislation tend to exhibit higher retention, which is directionally compatible with a framework in which exit structure and enforcement environment both matter. It does not show that the code-geometry mechanism is the only explanation, nor that the two predictors can yet be cleanly decomposed.
+
+\noindent\textbf{Within-US analysis.}
+The within-US comparison of 15 religious groups is more theoretically informative, even though it is also observational and limited. Club-goods provision correlates strongly with retention, but ethno-cultural identity correlates even more strongly and substantially confounds the association. In a four-variable model, ethno-cultural identity dominates, while outside-option degradation does not reach conventional significance. Taken at face value, this would appear to weaken the model. But the more revealing comparison is structural rather than regression-based. Jehovah's Witnesses and Scientology score highest on enforcement intensity and outside-option degradation narratives, yet retain relatively few members. The Amish, with comparable narrative scores, retain far more. The crucial difference is not simply that the Amish speak more strongly against exit. It is that Amish life materially degrades the outside option through geographic isolation, non-transferable skills, and low formal educational portability. Jehovah's Witnesses and Scientology impose heavy emotional and social costs, but they do not eliminate the practical outside option to the same degree.
+
+This contrast matters because it sharpens the theoretical claim. The model's $\delta$ parameter is not reducible to rhetoric about outsiders or verbal denunciation of departure. It refers to effective degradation of the outside world as a viable alternative. On that interpretation, the within-US comparison is more supportive than the raw $p$-values alone suggest. It indicates that narrative hostility is insufficient when structural exit remains available, whereas retention rises when barriers to outside life are materially thickened. That is closer to the model's mechanism than a simple ``high-control groups retain more'' claim.
+
+\noindent\textbf{What these observational checks can and cannot support.}
+Taken together, the cross-national and within-US analyses support only a restrained conclusion. They are consistent with a structural view in which retention under enforcement depends more on the viability of exit than on internal meaning-making or communal reward alone. They do not establish the full causal chain proposed by the ABM. In particular, they do not directly test legibility, substitutability, enforcement concentration, or delegation at the level required to adjudicate among rival mechanisms. Their role in the present paper is therefore modest: they show that the model points toward the right empirical terrain, not that it has already won the empirical contest.
+
+What would count as stronger evidence is already clear. A better empirical program would combine the model's scoring rubric with historically bounded regimes, direct measures of enforcement legislation and sanction structure, time-varying indicators of exit opportunity, and datasets capable of distinguishing narrative degradation from actual structural closure. That is the level at which the model becomes decisively testable. Until then, the observational evidence should be treated as suggestive external alignment, not confirmation.
+
+\subsection{Relationship to existing frameworks}
+
+The results bear on four established theoretical frameworks.
+
+Iannaccone's club-goods model treats strictness as a screening mechanism that selects for committed members and raises the value of club goods. The present model reproduces the screening effect (high $\sigma$ and $\pi$ produce communities with elevated compliance), but it identifies a regime transition that the club framework does not formalize: the shift from screening (ex ante selection) to policing (ex post enforcement by a specialized minority). The $\mu$ null result (\S8.6) is a direct empirical challenge to the club-goods prediction. If membership benefits are the mechanism sustaining strict groups, then increasing $\mu$ should increase retention. It does not. The model suggests that the club-goods mechanism operates in the recruitment phase (who joins and who stays initially) but is irrelevant to the retention-under-enforcement dynamic that characterizes high-control groups.
+
+Kuran's preference falsification produces two regimes (stable falsification and revolutionary cascade). The present model produces four: quiet, mixed, collapse, and capture. The critical addition is that the capture regime is stabilized by institutional delegation and compounding capital in a way that prevents cascade even when private dissent is near-universal. Kuran's framework predicts that all falsification equilibria are vulnerable to cascade when a sufficient number of individuals simultaneously reveal their true preferences. The model predicts that cascade requires not merely preference revelation but the dismantling of the enforcement apparatus's institutional infrastructure, its compounding capital, its delegated authority, its control over narrative. This is a harder condition to satisfy than preference revelation alone, and it accounts for the persistence of capture regimes across decades or centuries despite endemic private dissent. The Inquisition operated for over 150 years despite widespread private skepticism; the Soviet system persisted for 70 years despite endemic preference falsification. Cascade, when it came, required not preference revelation but institutional collapse.
+
+Taleb's \cite{taleb2018} intolerant-minority mechanism holds that a small, intransigent minority can impose its preferences on a flexible majority through asymmetric stubbornness. The model's literalism enrichment result (Cohen's $d \approx 2.2$ for literalism in enforcers versus the general population) confirms that ideological asymmetry does concentrate in the enforcement apparatus. But the $\bar{y}$ ablation (\S8.3) demonstrates that this concentration arises from enforcement economics (delegation $+$ capital), not from preference asymmetry per se. Literalism heterogeneity without delegation does not produce concentration; delegation without literalism heterogeneity does. The intolerant minority is a consequence of institutional selection, not a cause of enforcement dynamics. Taleb's mechanism may operate in consumer-goods contexts (where kosher certification dynamics have the structure he describes) but does not explain enforcement capture in codified moral systems, where the enforcement apparatus is institutionally constructed rather than emerging from preference rigidity alone.
+
+Scott's legibility concept provides the theoretical foundation for the $\sigma$ parameter, but the model extends it in a direction Scott did not pursue. Scott analyzed legibility as a property of state-society relations: states simplify and standardize populations to render them administratively governable. The model applies the same logic to intra-community moral governance: codified systems simplify and standardize moral quality to render members doctrinally governable. The extension is not trivial because it operates at a different institutional scale (community rather than state) and addresses a different form of legibility (moral rather than administrative). But the structural logic is identical: legibility enables monitoring, monitoring enables enforcement, enforcement enables control.
+
+\subsection{Limitations}
+
+The model omits several features of real codified systems that could alter the dynamics in ways not captured here.
+
+Network structure is treated as a static small-world graph. In real systems, enforcement produces network reconfiguration: enforcers accumulate preferential connections, dissidents are isolated, and boundary-crossing ties (friendships with outsiders, mixed marriages, secular education) are actively severed by the enforcement apparatus. Code-prescribed social boundary rules (endogamy requirements, residential segregation, prohibitions on external media) constitute a distinct mechanism of exit-cost manipulation that operates through network topology rather than through payoff modification. This mechanism requires agent-level network dynamics and is reserved for a companion paper.
+
+Membership benefit is homogeneous across agents. In reality, membership value varies with economic dependence, kinship density, social position, and accumulated community-specific capital. Agents with high community embeddedness face qualitatively different exit calculations than peripheral members. This heterogeneity could produce differential exit (peripheral members leave first, embedded members remain) and compositional effects (the retained population is disproportionately embedded, which increases mean exit cost endogenously). The model's homogeneous $\mu$ likely underestimates retention in the intermediate $\delta$ range.
+
+The model does not include exogenous shocks (political crises, external threats, modernization pressures) that figure prominently in empirical accounts of fundamentalist mobilization \cite{almond2003}. The framework treats such shocks as parameter perturbations (a crisis increases $\pi$ or reduces base\_opp) rather than as independent causal mechanisms: it identifies the structural substrate on which shocks operate, not the shocks themselves. But it means that the model cannot account for the timing of fundamentalist episodes, only for the structural conditions that make them possible.
+
+The intensity gate on $\delta$ drift introduces a researcher-specified threshold (punish\_floor $= 0.08$). The calibration is empirically grounded (it tracks the quiet-to-active boundary observed in the baseline sweep), but the specific value is a modeling choice. Sensitivity analysis (not reported here) indicates that the qualitative results are preserved for floor values between 0.06 and 0.12; outside this range, the gate is either too permissive (drift in quiet cells) or too restrictive (blocking drift in clearly active cells).
+
+\subsection{Testable implications}
+
+The framework generates predictions at several levels. The most direct concerns the relationship between code geometry and enforcement dynamics. Two traditions with comparable doctrinal severity but different legibility scores should exhibit different enforcement outcomes. The Therav\=ada vinaya and the Salafi behavioral code both impose demanding requirements, but the vinaya emphasizes internal mental training (low $\sigma$) while the Salafi code emphasizes externally observable practice (high $\sigma$). The model predicts stronger enforcement concentration in the latter. Comparative measurement of enforcement intensity in matched-strictness, different-legibility traditions would test this prediction.
+
+A second prediction concerns retention. The model's null results for $\alpha$ and $\mu$ (\S8.5, \S8.6) predict that communities employing sanctified-suffering framing or generous club-goods provision should not, on those features alone, exhibit lower exit rates than comparable communities without them, once enforcement intensity is controlled. Retention should track structural exit barriers (geographic isolation, non-transferable human capital, legal apostasy penalties, kinship network closure) rather than internal meaning-making. The cross-national and within-US evidence reported in \S9.4 is directionally consistent with this prediction, though the samples are too limited for causal adjudication.
+
+Third, the model predicts that enforcement capture requires institutional delegation. Systems that punish through distributed peer pressure alone, without formal enforcement roles, should not produce the top-5 concentration levels ($\geq 67\%$ of punishment) observed in the model. This distinguishes the present framework from Centola et al.'s cascade model, which produces norm enforcement through decentralized peer pressure without delegation. Measurement of punishment concentration in communities with and without formal enforcement offices would test the distinction.
+
+Fourth, the endogenous feedback loop predicts a temporal sequence: enforcement concentration should precede the intensification of outside-world degradation narratives. In communities undergoing fundamentalist transition, doctrinal darkening of the outside world should be traceable to the consolidation of the enforcement apparatus, not to exogenous ideological shifts. Longitudinal content analysis of community publications during periods of enforcement consolidation would test this.
+
+Fifth, the model predicts reconvergence after leadership removal when code geometry persists. The Saudi curtailment of CPVPV powers after 2016 provides a candidate natural experiment. If the underlying code geometry remains high-legibility and high-enforcement-affordance, the model predicts that new enforcement mechanisms will emerge to fill the vacated niche. If the reforms are accompanied by reductions in legibility and exit cost (relaxation of dress-code enforcement, expanded mobility, economic diversification), the model predicts regime transition toward the mixed or quiet state. The observable test is whether enforcement reconcentrates under the same code geometry or dissipates under altered geometry.
+
+These predictions are falsifiable in both directions. A false positive for the framework would occur if high-scoring regimes repeatedly fail to generate enforcement concentration. A false negative would occur if low-legibility, low-substitutability systems repeatedly produce stable enforcement capture comparable to high-scoring cases. Either pattern would require revision of the framework, not reinterpretation of the cases.
+
+\subsection{Authority architecture and the legibility gradient}
+
+The dose-response curve identifies a structural boundary separating the quiet region from enforcement-dominant dynamics. This boundary has a theoretical interpretation connecting the computational result to how codified systems structure the relationship between truth and persons.
+
+In transpersonal authority systems, truth is located outside any person's biography. The Vedic tradition's doctrine of \textit{apaurusheya} (authorlessness) is the most fully articulated instance: the Vedas are \textit{nitya} (eternal), no person authored them, and the rishis are seers, not makers. When truth has no author, moral evaluation cannot terminate at external behavior because the tradition denies that external performance constitutes the relevant epistemic achievement. $\sigma$ is structurally low. The enforcement niche cannot form. (For a detailed philosophical analysis of transpersonal authority and its institutional consequences across six comparison cases, see Boggavarapu, forthcoming.)
+
+In person-dependent authority systems, truth arrives through a specific individual's biography. Compliance becomes adherence to the messenger's codified prescriptions, which are necessarily external, behavioral, and legible. $\sigma$ is structurally high. The model predicts active dynamics at $\sigma \geq 0.4$, and every tested configuration above this threshold produces enforcement concentration.
+
+The intermediate zone ($\sigma = 0.2$--0.3) maps to traditions with hybrid authority architectures. Buddhist practice is person-independent in stated intent but tethered to a specific biography. The model reproduces this variability: at $\sigma = 0.3$, $\pi = 0.25$, 80\% of seeds activate but 20\% remain quiet.
+
+The connection is structural, not analogical. Person-dependent authority produces legible compliance as a logical consequence: if truth comes through a person, adherence to that person's rules is the criterion of standing, and rules are observable. Transpersonal authority produces opaque compliance: if truth belongs to no person, realization rather than performance is the criterion, and realization is unobservable.
+
+This analysis does not claim that named traditions are fixed at specific $\sigma$ values. A single tradition traverses different regions of parameter space as institutional conditions change. Ottoman Sufi tariqas and Taliban Afghanistan are both ``Islamic'' but occupy different code geometries. The scoring unit is the regime, not the tradition.
+
+\subsection{What the model claims and what it does not}
+
+The model claims that fundamentalism, understood as enforcement-dominant dynamics in codified moral systems, is a structural equilibrium rather than an exogenous pathology. It claims that the transition to this equilibrium depends on code geometry (legibility, enforcement reward, delegation, capital compounding) and on the endogenous degradation of the outside option by the enforcement apparatus. It claims that internal retention mechanisms (sanctified suffering, membership rewards) are insufficient for capture in the presence of viable alternatives. And it claims that the feedback loop from enforcement concentration to narrative drift to retention is the mechanism that stabilizes the capture regime.
+
+The model does not claim that all religious enforcement is pathological. The quiet and mixed regimes are structurally normal features of codified systems. Enforcement exists in every community that maintains behavioral standards; concentration exists wherever institutional delegation occurs. The model identifies the specific conditions under which these generic features become self-reinforcing to the point of capture, and those conditions require an additional mechanism (endogenous outside-option degradation) that most systems do not activate.
+
+The model does not claim that theology is irrelevant. Theological content determines many features of lived religious experience that the model does not address: meaning, identity, community formation, ethical development, aesthetic practice. The claim is narrower: theological content does not determine enforcement regime type. Two traditions with identical code geometry but different theological commitments are predicted to exhibit similar enforcement dynamics. Whether this prediction holds empirically is a testable question, and falsification would require revision of the framework's central assumption.
+
+The model does not claim that fundamentalism is inevitable for all codified systems. It predicts that systems whose code geometry falls in the active region of parameter space (sufficient legibility, sufficient enforcement reward, institutional delegation, compounding capital) will generate enforcement-dominant dynamics through the endogenous feedback loop. The prediction is conditional on parameter values, not on contingent historical events. Whether a specific real-world system occupies the capture region depends on measurable structural features of its code and institutions; the model's contribution is to identify which features determine the outcome. The uncertainty is in parameter measurement, not in the dynamics.
+
+
+% ============================================================
+% 10. CONCLUSION
+% ============================================================
+
+\section{Conclusion}
+
+This paper has argued that enforcement-dominant dynamics in codified moral systems are better understood as structural equilibria than as exogenous deviations. The central claim is not that belief content is irrelevant in every respect, nor that historical contingency disappears, but that certain recurrent forms of tightening can be generated from the internal geometry of the code itself. When compliance is externally legible, when visible performance can stand in for inner transformation, when sanctioning yields reward, and when punishment authority is institutionally delegated, an enforcement niche becomes available. Under those conditions, the emergence of a policing minority does not require unusual psychology, exceptional leaders, or a prior extremist faction. It can arise endogenously from ordinary agents responding to the incentives built into the system.
+
+The computational results support a specific causal sequence. First, the joint configuration of $\sigma$ and $\pi$ determines whether enforcement becomes viable at all: low $\sigma$ and low $\pi$ produce quiet regimes, while higher values on either axis activate sanctioning. Second, institutional delegation and capital compounding concentrate punishment in a small minority. Once active, the top five agents issue the large majority of punishments, and cadre members dominate sanctioning output across parameter settings. Third, this concentrated apparatus can drive degradation of the perceived outside option through endogenous drift, but only when enforcement reaches institutional salience. Fourth, once the outside option is sufficiently degraded, exit collapses. Fifth, with members retained, the enforcement apparatus preserves its own target population, institutional resources, and accumulated capital. The result is not merely active enforcement but durable capture.
+
+Equally important are the null results. Two candidate retention mechanisms that are theoretically plausible and sociologically familiar, sanctified suffering and membership reward, fail to generate capture across their tested ranges. Their failure is not incidental. Both improve the payoff of staying from the inside, but neither closes the exit channel. Only degradation of the outside option produces the regime shift from mixed enforcement to durable retention. This distinction reveals a structural asymmetry at the heart of the model: inward-facing reinforcement is insufficient; outward-facing closure is decisive.
+
+The paper therefore sharpens the standard debate in two ways. First, it separates enforcement production from retention. A system may reliably generate concentrated punishment without yet becoming a stable capture regime. Second, it clarifies the minority question. Minority dominance does not emerge simply because a vocal or rigid minority exists. It requires institutional delegation, reward asymmetry, and cumulative enforcement capital. This distinguishes the present account from explanations that attribute fundamentalist tightening primarily to personality distributions or committed-minority dynamics.
+
+The practical implication follows directly. Interventions aimed only at individuals, leadership decapitation, suppression of particular organizations, deradicalization of visible extremists, address symptoms more readily than structure. If the code geometry that makes enforcement profitable and auditable remains in place, the enforcement niche remains available for reoccupation. Structural interventions operate at a different level: reducing substitutability, lowering the payoff to sanctioning, decentralizing adjudication, widening exit feasibility, and weakening the institutional concentration of punishment. The model does not claim that such reforms are easy. It claims that they target the causal substrate more directly than actor substitution does.
+
+The empirical exercises reported here should be read in that same restrained spirit. They do not validate the full framework. They are preliminary consistency checks showing that structural exit conditions and enforcement-related institutional features move in the direction predicted by the model, while remaining too limited for strong causal adjudication. The empirical program required by the theory is clearer than the current evidence base: historically bounded regime scoring, stronger measures of enforcement structure and exit viability, and datasets capable of distinguishing narrative degradation from materially blocked alternatives.
+
+What the present paper does establish is narrower but still consequential. It provides a formal mechanism by which codified systems can endogenously generate concentrated enforcement, demonstrates that this concentration is structurally robust, identifies the conditions under which activation occurs, and shows why some intuitively plausible retention mechanisms fail while outside-option collapse succeeds. In that sense, the paper's strongest conclusion is also its simplest: enforcement-dominant fundamentalism is not best modeled as a pathological intrusion into an otherwise stable system. Under identifiable structural conditions, it is an available equilibrium of the system itself.
+
+
+% ============================================================
+% FIGURE PLACEHOLDERS
+% ============================================================
+
+% -- placeholder for Figure 2 --
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../figures/submission/fig2_phase_map.pdf}
+\caption{Regime map of the baseline parameter sweep.}
+\label{fig:2}
+\end{figure}
+
+% -- placeholder for Figure 3 --
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../figures/submission/fig3_concentration.pdf}
+\caption{Enforcement concentration across active-regime cells.}
+\label{fig:3}
+\end{figure}
+
+% -- placeholder for Figure 4 --
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../figures/submission/fig4_trajectories.pdf}
+\caption{Endogenous drift sweep results.}
+\label{fig:4}
+\end{figure}
+
+% -- placeholder for Figure 5 --
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../figures/submission/fig5_retention.pdf}
+\caption{Literalism enrichment in the enforcement cadre.}
+\label{fig:5}
+\end{figure}
+
+
+% ============================================================
+% ACKNOWLEDGMENTS
+% ============================================================
+
+\section*{Acknowledgments}
+
+The author thanks two anonymous reviewers for detailed comments that substantially improved the manuscript.
+
+% ============================================================
+% REFERENCES
+% ============================================================
+
+\begin{thebibliography}{46}
+
+\bibitem{almond2003}
+Almond GA, Appleby RS, Sivan E.
+\textit{Strong Religion: The Rise of Fundamentalisms around the World}.
+University of Chicago Press; 2003.
+
+\bibitem{axelrod1986}
+Axelrod R.
+An evolutionary approach to norms.
+\textit{American Political Science Review}. 1986;80(4):1095--1111.
+
+\bibitem{berman2000}
+Berman E.
+Sect, subsidy, and sacrifice: An economist's view of ultra-Orthodox Jews.
+\textit{Quarterly Journal of Economics}. 2000;115(3):905--953.
+
+\bibitem{berman2008}
+Berman E, Laitin DD.
+Religion, terrorism and public goods: Testing the club model.
+\textit{Journal of Public Economics}. 2008;92(10--11):1942--1967.
+
+\bibitem{boyd2003}
+Boyd R, Gintis H, Bowles S, Richerson PJ.
+The evolution of altruistic punishment.
+\textit{Proceedings of the National Academy of Sciences}. 2003;100(6):3531--3535.
+
+\bibitem{bromley1998}
+Bromley DG.
+\textit{The Politics of Religious Apostasy: The Role of Apostates in the Transformation of Religious Movements}.
+Praeger; 1998.
+
+\bibitem{carvalho2013}
+Carvalho JP.
+Veiling.
+\textit{Quarterly Journal of Economics}. 2013;128(1):337--370.
+
+\bibitem{centola2005}
+Centola D, Willer R, Latan\'{e} B.
+The emperor's dilemma: A computational model of self-enforcing norms.
+\textit{American Journal of Sociology}. 2005;110(4):1009--1040.
+
+\bibitem{cohen2001}
+Cohen AB, Rozin P.
+Religion and the morality of mentality.
+\textit{Journal of Personality and Social Psychology}. 2001;81(4):697--710.
+
+\bibitem{cook2000}
+Cook M.
+\textit{Commanding Right and Forbidding Wrong in Islamic Thought}.
+Cambridge University Press; 2000.
+
+\bibitem{cragun2011}
+Cragun RT, Hammer JH.
+One person's apostate is another person's convert: What terminology tells us about pro-religious hegemony in the sociology of religion.
+\textit{Humanity \& Society}. 2011;35(1--2):149--175.
+
+\bibitem{fehr2000}
+Fehr E, G\"{a}chter S.
+Cooperation and punishment in public goods experiments.
+\textit{American Economic Review}. 2000;90(4):980--994.
+
+\bibitem{fehr2002}
+Fehr E, G\"{a}chter S.
+Altruistic punishment in humans.
+\textit{Nature}. 2002;415(6868):137--140.
+
+\bibitem{fitzpatrick2005}
+Fitzpatrick S.
+\textit{Tear Off the Masks! Identity and Imposture in Twentieth-Century Russia}.
+Princeton University Press; 2005.
+
+\bibitem{fox2019}
+Fox J.
+The Religion and State Project, Round 3.
+Association of Religion Data Archives; 2019.
+
+\bibitem{gelfand2011}
+Gelfand MJ, et~al.
+Differences between tight and loose cultures: A 33-nation study.
+\textit{Science}. 2011;332(6033):1100--1104.
+
+\bibitem{given1997}
+Given JB.
+\textit{Inquisition and Medieval Society: Power, Discipline, and Resistance in Languedoc}.
+Cornell University Press; 1997.
+
+\bibitem{greif2006}
+Greif A.
+\textit{Institutions and the Path to the Modern Economy: Lessons from Medieval Trade}.
+Cambridge University Press; 2006.
+
+\bibitem{greif2016}
+Greif A, Mokyr J.
+Cognitive rules, institutions, and economic growth: Douglass North and beyond.
+\textit{Journal of Institutional Economics}. 2016;13(1):25--52.
+
+\bibitem{hilbe2014}
+Hilbe C, Traulsen A, R\"{o}hl T, Milinski M.
+Democratic decisions establish stable authorities that overcome the paradox of second-order punishment.
+\textit{Proceedings of the National Academy of Sciences}. 2014;111(2):752--756.
+
+\bibitem{hirschman1970}
+Hirschman AO.
+\textit{Exit, Voice, and Loyalty: Responses to Decline in Firms, Organizations, and States}.
+Harvard University Press; 1970.
+
+\bibitem{hagberg2008}
+Hagberg AA, Schult DA, Swart PJ.
+Exploring network structure, dynamics, and function using NetworkX.
+In: \textit{Proceedings of the 7th Python in Science Conference}; 2008. p.~11--15.
+
+\bibitem{iannaccone1992}
+Iannaccone LR.
+Sacrifice and stigma: Reducing free-riding in cults, communes, and other collectives.
+\textit{Journal of Political Economy}. 1992;100(2):271--291.
+
+\bibitem{iannaccone1994}
+Iannaccone LR.
+Why strict churches are strong.
+\textit{American Journal of Sociology}. 1994;99(5):1180--1211.
+
+\bibitem{kelly1989}
+Kelly HA.
+Inquisition and the prosecution of heresy: Misconceptions and abuses.
+\textit{Church History}. 1989;58(4):439--451.
+
+\bibitem{kazil2020}
+Kazil J, Masad D, Crooks A.
+Utilizing Python for agent-based modeling: The Mesa framework.
+In: \textit{Social, Cultural, and Behavioral Modeling}. Springer; 2020. p.~308--317.
+
+\bibitem{kotkin1995}
+Kotkin S.
+\textit{Magnetic Mountain: Stalinism as a Civilization}.
+University of California Press; 1995.
+
+\bibitem{kuran1995}
+Kuran T.
+\textit{Private Truths, Public Lies: The Social Consequences of Preference Falsification}.
+Harvard University Press; 1995.
+
+\bibitem{mann1986}
+Mann M.
+\textit{The Sources of Social Power, Vol.~1}.
+Cambridge University Press; 1986.
+
+\bibitem{norenzayan2013}
+Norenzayan A, Gervais WM.
+The origins of religious disbelief.
+\textit{Trends in Cognitive Sciences}. 2013;17(1):20--25.
+
+\bibitem{north1990}
+North DC.
+\textit{Institutions, Institutional Change and Economic Performance}.
+Cambridge University Press; 1990.
+
+\bibitem{pierson2000}
+Pierson P.
+Increasing returns, path dependence, and the study of politics.
+\textit{American Political Science Review}. 2000;94(2):251--267.
+
+\bibitem{qutb1964}
+Qutb S.
+\textit{Milestones [Ma'alim fi al-Tariq]}.
+Various editions; 1964.
+
+\bibitem{reinhard1983}
+Reinhard W.
+Zwang zur Konfessionalisierung? Prolegomena zu einer Theorie des konfessionellen Zeitalters.
+\textit{Zeitschrift f\"{u}r historische Forschung}. 1983;10(3):257--277.
+
+\bibitem{rubin2017}
+Rubin J.
+\textit{Rulers, Religion, and Riches: Why the West Got Rich and the Middle East Did Not}.
+Cambridge University Press; 2017.
+
+\bibitem{schilling1988}
+Schilling H.
+Die Konfessionalisierung im Reich: Religi\"{o}ser und gesellschaftlicher Wandel in Deutschland zwischen 1555 und 1620.
+\textit{Historische Zeitschrift}. 1988;246(1):1--45.
+
+\bibitem{scott1998}
+Scott JC.
+\textit{Seeing Like a State: How Certain Schemes to Improve the Human Condition Have Failed}.
+Yale University Press; 1998.
+
+\bibitem{sigmund2010}
+Sigmund K, De~Silva H, Traulsen A, Hauert C.
+Social learning promotes institutions for governing the commons.
+\textit{Nature}. 2010;466(7308):861--863.
+
+\bibitem{streib2009}
+Streib H, Hood RW, Keller B, Cs\"{o}ff RM, Silver CF.
+\textit{Deconversion: Qualitative and Quantitative Results from Cross-Cultural Research in Germany and the United States of America}.
+Vandenhoeck \& Ruprecht; 2009.
+
+\bibitem{taleb2018}
+Taleb NN.
+\textit{Skin in the Game: Hidden Asymmetries in Daily Life}.
+Random House; 2018.
+
+\bibitem{tilly1985}
+Tilly C.
+War making and state making as organized crime.
+In: Evans P, Rueschemeyer D, Skocpol T, editors.
+\textit{Bringing the State Back In}.
+Cambridge University Press; 1985. p.~169--191.
+
+\bibitem{ulmer2008}
+Ulmer JT, Bader C, Gault M.
+Do moral communities play a role in criminal sentencing? Evidence from Pennsylvania.
+\textit{Sociological Quarterly}. 2008;49(4):737--768.
+
+\bibitem{wedeen1999}
+Wedeen L.
+\textit{Ambiguities of Domination: Politics, Rhetoric, and Symbols in Contemporary Syria}.
+Cambridge University Press; 1999.
+
+\bibitem{watts1998}
+Watts DJ, Strogatz SH.
+Collective dynamics of `small-world' networks.
+\textit{Nature}. 1998;393(6684):440--442.
+
+\bibitem{weber1946}
+Weber M.
+Politics as a Vocation.
+In: Gerth HH, Mills CW, editors.
+\textit{From Max Weber: Essays in Sociology}.
+Oxford University Press; 1946. p.~77--128.
+(Original work published 1919.)
+
+\bibitem{yurchak2005}
+Yurchak A.
+\textit{Everything Was Forever, Until It Was No More: The Last Soviet Generation}.
+Princeton University Press; 2005.
+
+\end{thebibliography}
+
+\section*{Data and Code Availability}
+
+All simulation code, data, and analysis scripts are publicly available at:
+\texttt{https://github.com/khatvangi/code-geometry-abm}
+
+The cross-national regression dataset is provided at \texttt{data/cross\_national\_data.csv}
+in the repository.
+
+\section*{Supporting Information}
+
+\noindent\textbf{S1 Text.} Scoring rubric anchors (0--4 scale definitions for all five code-geometry dimensions), complete parameter tables, illustrative regime scores with source citations, regime classification threshold sensitivity ($\pm$5 pp), monopoly ablation results (180 runs), cadre quota sensitivity (180 runs), intensity gate sensitivity (180 runs), bootstrap regression analysis (10,000 resamples), and drift mechanism technical details.
+
+\end{document}
