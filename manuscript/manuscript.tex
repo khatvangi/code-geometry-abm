@@ -461,7 +461,7 @@ An intensity gate prevents spurious drift in quiet cells. The drift equation fir
 
 To summarize system-level outcomes, each simulation run is assigned an operational regime label derived from terminal-state metrics computed over active agents. These labels are intended as compact descriptors of recurrent dynamical patterns, not as claims that the underlying state space is intrinsically discrete. The primary evidentiary objects remain the continuous outcome variables themselves: exit rate, punishment intensity, enforcement concentration, and fundamentalist prevalence. Regime labels are used to compress these variables for visualization and comparison across large parameter sweeps.
 
-A run is classified as COLLAPSE when exit rate is at least 0.90, meaning that fewer than 10\% of the initial population remain active. A run is classified as CAPTURE when two conditions hold jointly: fundamentalist prevalence is at least 0.90 and exit rate is at most 0.20. This operational definition is intentionally strict. It reserves the capture label for cases in which enforcement dominance is accompanied by durable retention rather than by transient tightening or partial depopulation. A run is classified as MIXED when enforcement is active, as indicated by maximum per-capita punishment of at least 0.10, but neither collapse nor strict capture criteria are met. QUIET is the residual category: punishment remains below the active-enforcement threshold and the population does not undergo mass exit.
+We classify each run under two complementary schemas. The legacy four-regime schema requires fundamentalist prevalence at least 0.90 jointly with exit rate at most 0.20 for the CAPTURE label, with COLLAPSE assigned at exit rate at least 0.90, MIXED whenever active punishment is at least 0.10 without collapse or capture, and QUIET as the residual. The hierarchical schema, used for the phase analysis below, drops the prevalence requirement and instead conditions CAPTURE on three concentration criteria: exit rate at most 0.20 (matching the legacy gate), maximum active punishment rate at least 0.10, and enforcer share of punishments at least 0.70. The hierarchical schema isolates the structural-concentration signature without requiring near-uniform population fundamentalism. Both schemas use \emph{active} punishment rate, defined as punishments divided by the surviving (non-exited) population at each timestep, rather than the raw rate which dilutes by exit fraction.
 
 These thresholds are researcher-specified summary rules rather than estimated natural boundaries. For that reason, all regime maps reported below should be read together with the underlying continuous metrics. Sensitivity checks show that the broad four-region structure is preserved under threshold perturbations of plus or minus five percentage points. At the same time, the thresholds are not treated as sacrosanct. In particular, some runs exhibit capture-like behavior on continuous indicators such as near-zero exit, highly concentrated punishment, and maximal alternative degradation while remaining below the strict prevalence cutoff. Such cases are analytically important because they show that the regime structure is real even when a categorical boundary is conservative. We therefore use the discrete labels for summary presentation, while retaining the continuous metrics as the substantive basis of interpretation.
 
@@ -498,6 +498,8 @@ This framework deliberately excludes several variables that other literatures tr
 
 The framework also does not address the content of belief. Two systems with identical code geometry scores but radically different theological commitments are predicted to exhibit similar enforcement dynamics. This is a feature of the theory, not a limitation: it permits cross-traditional comparison on structural grounds. Whether the claim generalizes empirically is a testable question, not an assumption.
 
+An empirical application of this framework to a curated corpus of Christian regimes --- with case-by-case scoring, attached evidence trails, and explicit reporting of substantive matches, boring nulls, and mechanism-mismatch failures --- is forthcoming as a companion paper~\cite{boggavarapuChristianApplicationInPrep}.
+
 
 % ============================================================
 % 8. RESULTS
@@ -507,15 +509,19 @@ The framework also does not address the content of belief. Two systems with iden
 
 \subsection{Code geometry produces distinct enforcement regimes}
 
-The confirmatory baseline sweep, spanning 72 parameter cells across $\sigma$, $\pi$, base opportunity, and exit threshold with five seeds per cell, produces four recurrent outcome classes under the operational regime classifier: quiet, mixed enforcement, collapse, and capture. These outcomes occupy distinct regions of parameter space rather than forming a single linear continuum. What varies across the space is not merely the amount of punishment, but the qualitative relation among enforcement viability, exit, and retention.
+The confirmatory baseline sweep, spanning 72 parameter cells across $\sigma$, $\pi$, base opportunity, and exit threshold with five seeds per cell, produces three of the four operational regime classes within the grid: quiet, mixed enforcement, and collapse. The capture regime, whose definition is met by neither schema in this grid, becomes reachable in the dose-response analysis (\S\ref{subsec:dose}) under endogenous narrative drift. The three observed regimes occupy distinct regions of parameter space rather than forming a single linear continuum. What varies across the space is not merely the amount of punishment, but the qualitative relation among enforcement viability, exit, and retention.
 
-Quiet cells are characterized by low punishment and low exit. Median maximum per-capita punishment is 0.066 (range 0.036 to 0.091), and median exit rate is 0.096. These cells occupy the low-legibility, low-enforcement-reward region of the sweep. At $\sigma = 0.25$ and $\pi = 0.05$, all cells remain quiet regardless of exit cost. Under these conditions, visible compliance is too weak a proxy for moral standing, and enforcement remains too weakly rewarded, for sanctioning to stabilize as a social role.
+Quiet cells are characterized by sub-threshold active punishment. Median maximum active punishment rate is 0.071 (range 0.040 to 0.100), with median exit rate 0.503. The 8 canonical QUIET cells split into two clusters with distinct phenomenology. Five cells occupy the low-legibility low-enforcement-reward region ($\sigma = 0.25$, $\pi = 0.05$) where enforcement never activates because no agent has reason to specialize in it. Three cells, in contrast, sit at $\sigma = 0.95$ with high base opportunity and easy exit (exit threshold 1.5): legibility is high, but the combination of weak enforcement reward and easy exit drains the population faster than the enforcement cadre can stabilize. Both clusters fail to cross the active-enforcement threshold, but for structurally distinct reasons. The first reflects an inactive enforcement niche; the second reflects an active but non-retentive one whose niche collapses before consolidation. Under conditions of low $\pi$, visible compliance can be auditable without sanctioning stabilizing as a social role: monitoring without reward, or monitoring with reward that is outpaced by exit, both leave the system quiet.
 
-Mixed-enforcement cells exhibit active punishment together with substantial but incomplete exit. Median maximum per-capita punishment rises to 0.116, while median exit rate rises to 0.359. These are not failed capture states in the trivial sense. They are a distinct regime in which enforcement is viable, punishment becomes concentrated, and visible compliance rises, but the system cannot fully close the exit channel. The result is a hardened residual community rather than total institutional dominance.
+Mixed-enforcement cells exhibit active punishment together with substantial but incomplete exit. Median maximum active punishment rate rises to 0.131, while median exit rate is 0.444. These are not failed capture states in the trivial sense. They are a distinct regime in which enforcement is viable, punishment becomes concentrated, and visible compliance rises, but the system cannot fully close the exit channel. The result is a hardened residual community rather than total institutional dominance.
 
-Collapse cells are defined by near-total depopulation. Median exit rate is 0.993, and all collapse outcomes in the baseline occur at $\sigma = 0.25$ under easy-exit conditions. Here the system crosses the activation threshold for social friction but not the retention threshold for enforcement stabilization. Tightening therefore destroys the community rather than consolidating it. This distinction matters because it shows that punishment alone is not enough to generate durable fundamentalist equilibrium. Exit structure remains decisive.
+Collapse cells are defined by near-total depopulation. Median exit rate is 0.991, and all collapse outcomes in the baseline occur at $\sigma = 0.25$ under easy-exit conditions. Here the system crosses the activation threshold for social friction but not the retention threshold for enforcement stabilization. Tightening therefore destroys the community rather than consolidating it. This distinction matters because it shows that punishment alone is not enough to generate durable fundamentalist equilibrium. Exit structure remains decisive.
 
-The baseline capture regime appears only in a single extreme cell, at $\sigma = 0.95$, $\pi = 0.50$, base opportunity $= 0.30$, and exit threshold $= -1.00$. This result should not be oversold. In the exogenous baseline specification, capture is possible but occupies only a narrow corner of the parameter space. High legibility and high enforcement reward are necessary but not by themselves sufficient for broad capture. What they reliably generate is enforcement viability. Whether that viability becomes durable domination depends on the retention problem analyzed below.
+The capture regime is not occupied in the confirmatory grid under either schema. Its reachability in principle is established by the dose-response analysis (\S\ref{subsec:dose}), which shows that under endogenous narrative drift, runs at $\sigma \geq 0.4$ exhibit near-zero exit, maximum $\delta$, and enforcer share at $\approx 0.98$ --- capture-like behavior on every continuous metric. The formal CAPTURE label requires both the strict criteria and the drift mechanism. What the confirmatory grid demonstrates is that under the non-drift baseline specification, the dominant active equilibrium is mixed enforcement: viable, concentrated, and retentive only in part. Capture is structurally available to the model, but its realization requires the additional retention mechanism analyzed in the drift sweep below.
+
+Table~\ref{tab:6} summarizes the canonical regime metrics: per-regime medians of maximum active punishment rate, exit rate, fundamentalist prevalence, and within-cell enforcement concentration measures. Figure~\ref{fig:6} shows the regime-count distribution.
+
+\input{../figures/submission/table6_regime_metrics}
 
 The baseline sweep therefore supports a conditional rather than absolute claim about $\sigma$. Legibility is not a solitary switch that determines enforcement by itself. The quiet-to-active transition is a joint $\sigma \times \pi$ boundary. At $\sigma = 0.25$, cells with $\pi = 0.05$ remain quiet, whereas cells with $\pi \geq 0.25$ become mixed. More generally, enforcement activates when externally monitorable compliance and profitable sanctioning coincide. Low $\sigma$ suppresses monitoring even when punishment is available; low $\pi$ suppresses punishment even when compliance is visible. Only their conjunction opens a stable enforcement niche.
 
@@ -523,9 +529,9 @@ This interpretation does not weaken the theory. It strengthens it. The relevant 
 
 \subsection{Enforcement concentrates in a minority across all active regimes}
 
-Within mixed-enforcement cells, punishment is not distributed across the population. The top 5 agents (out of 350) issue a median 85.6\% of all punishment. The top 10 agents issue a median 97.1\%. Agents endogenously selected into the enforcement cadre through institutional delegation (\S6.6) deliver a median 91.9\% of total punishment (Fig~\ref{fig:3}). This concentration is comparable across different $\sigma$ and $\pi$ values within the active region; enforcement monopoly is not a high-$\sigma$ phenomenon but a generic consequence of institutional delegation combined with compounding enforcement capital.
+Within mixed-enforcement cells, punishment is not distributed across the population. The top 5 agents (out of 350) issue a median 84.8\% of all punishment. The top 10 agents issue a median 97.1\%. Agents endogenously selected into the enforcement cadre through institutional delegation (\S6.6) deliver a median 93.2\% of total punishment (Fig~\ref{fig:3}). This concentration is comparable across different $\sigma$ and $\pi$ values within the active region; enforcement monopoly is not a high-$\sigma$ phenomenon but a generic consequence of institutional delegation combined with compounding enforcement capital.
 
-The literalism enrichment effect is large. Enforcers exhibit a median Cohen's $d$ of 2.17 on the literalism trait relative to the general population within mixed-regime runs (1.96 pooled across all runs), confirming that cadre selection, which weights literalism at 30\% of the composite score, produces consistent ideological sorting (Fig~\ref{fig:5}). Agents with strict-text interpretive orientations are disproportionately recruited into the enforcement apparatus, not because of ideological conspiracy but because the selection criterion rewards the traits that correlate with enforcement willingness.
+The literalism enrichment effect is large. Enforcers exhibit a Cohen's $d$ of 2.08 on the literalism trait relative to the general population pooled across mixed-regime runs, confirming that cadre selection, which weights literalism at 30\% of the composite score, produces consistent ideological sorting (Fig~\ref{fig:5}). Agents with strict-text interpretive orientations are disproportionately recruited into the enforcement apparatus, not because of ideological conspiracy but because the selection criterion rewards the traits that correlate with enforcement willingness.
 
 \subsection{Concentration arises from enforcement economics, not belief convergence}
 
@@ -649,6 +655,7 @@ To test this, we repeated the baseline simulation at three parameter points ($\s
 The monopoly restriction is not the source of concentration. When all agents are free to punish, punishment still concentrates in the same minority, because the enforcement niche is structurally rewarding and the agents who enter it earliest accumulate capital that secures their continued dominance. Minority enforcement concentration is a property of the code geometry, not of the modeler's architectural choices.
 
 \subsection{Dose-response: legibility and enforcement reward jointly govern regime}
+\label{subsec:dose}
 
 To test whether the relationship between code legibility and enforcement dynamics is monotonic, we conducted a fine-grained dose-response sweep across ten $\sigma$ values (0.10 to 0.95) at two enforcement reward levels ($\pi = 0.25$ and $\pi = 0.50$), with and without endogenous narrative drift ($\eta = 0.10$ versus $\eta = 0$), 30 seeds per combination (1,200 runs total).
 
@@ -816,7 +823,7 @@ What the present paper does establish is narrower but still consequential. It pr
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{../figures/submission/fig2_phase_map.pdf}
-\caption{Regime map of the baseline parameter sweep.}
+\caption{Regime map of the baseline parameter sweep under the canonical hierarchical schema. Six panels facet $\pi \times$ exit threshold; within each panel, $\sigma$ (rows) $\times$ base opportunity (columns) shows cell-majority regime as color (Q = quiet, M = mixed, X = collapse, CH = capture). Counts: 8 quiet, 55 mixed, 9 collapse, 0 capture across 72 cells (5 seeds each).}
 \label{fig:2}
 \end{figure}
 
@@ -824,7 +831,7 @@ What the present paper does establish is narrower but still consequential. It pr
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{../figures/submission/fig3_concentration.pdf}
-\caption{Enforcement concentration across active-regime cells.}
+\caption{Distribution of within-cell enforcement concentration (top-5\% punishment share) by regime under the canonical hierarchical schema. Box-plots span all seeds in each regime category ($n=49$ QUIET, $n=266$ MIXED, $n=45$ COLLAPSE). The 80\% reference line marks the within-cell concentration threshold; the median MIXED-cell top-5 share (0.848) exceeds it.}
 \label{fig:3}
 \end{figure}
 
@@ -842,6 +849,14 @@ What the present paper does establish is narrower but still consequential. It pr
 \includegraphics[width=\textwidth]{../figures/submission/fig5_retention.pdf}
 \caption{Literalism enrichment in the enforcement cadre.}
 \label{fig:5}
+\end{figure}
+
+% -- Figure 6 (NEW): regime counts under canonical hierarchical schema --
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../figures/submission/fig6_regime_counts.pdf}
+\caption{Regime distribution under the canonical hierarchical schema (capture-exit-cap = 0.20, active-rate corrected). Cell-level majority counts (left, $n=72$ cells): 8 QUIET, 55 MIXED, 9 COLLAPSE, 0 CAPTURE. Seed-level counts (right, $n=360$ seed runs): 49, 266, 45, 0 respectively. The CAPTURE label is unoccupied in the confirmatory grid; its reachability is established by the dose-response analysis (Fig~\ref{fig:1}).}
+\label{fig:6}
 \end{figure}
 
 
@@ -878,6 +893,11 @@ Sect, subsidy, and sacrifice: An economist's view of ultra-Orthodox Jews.
 Berman E, Laitin DD.
 Religion, terrorism and public goods: Testing the club model.
 \textit{Journal of Public Economics}. 2008;92(10--11):1942--1967.
+
+\bibitem{boggavarapuChristianApplicationInPrep}
+Boggavarapu K.
+Christian regimes on the code geometry rubric: an empirical application of the unified scoring framework.
+Manuscript in preparation, 2026.
 
 \bibitem{boyd2003}
 Boyd R, Gintis H, Bowles S, Richerson PJ.
