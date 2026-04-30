@@ -15,6 +15,10 @@ results/**
 !results/v2.5_corrected_sweep_regime_search_fast/**
 !results/v2.5_corrected_three_regime_confirm/
 !results/v2.5_corrected_three_regime_confirm/**
+!results/v2.5_corrected_three_regime_confirm_active_rate/
+!results/v2.5_corrected_three_regime_confirm_active_rate/**
+!results/v2.5_methodology_paper_canonical/
+!results/v2.5_methodology_paper_canonical/**
 !results/v2.6_validation/
 !results/v2.6_validation/**
 !results/v2.6_retention_sweep/

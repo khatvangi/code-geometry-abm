@@ -97,17 +97,28 @@ that was produced from it.
 
 `runs/` and most of `results/` are gitignored. The repo whitelists specific
 curated result directories via `!`-rules in `.gitignore` — those are the
-final manuscript-grade outputs. The canonical one for figures is:
+final manuscript-grade outputs.
+
+**Canonical methodology-paper directory** (the source for `manuscript/manuscript.tex`'s
+figures, tables, and headline numbers):
 
 ```
-results/v2.5_corrected_three_regime_confirm/
-├── sweep_seed_results.csv          # one row per (cell, seed)
+results/v2.5_methodology_paper_canonical/
+├── sweep_seed_results.csv          # one row per (cell, seed) under cap=0.20 + active-rate
 ├── sweep_summary.csv               # cell-level aggregates
 ├── phase_bundle/                   # phase table + regime counts → fig 1, 2
-├── timeseries_regime_*_*.csv       # per-regime mean trajectories → fig 4
-├── sigma_*/pi_*/base_opp_*/seed_*/ # individual run dirs (metrics + agents)
-└── figures_publication/            # final PNG/PDF + captions
+├── timeseries_regime_hier_*.csv    # per-seed-per-step rows tagged with regime → fig 4
+└── sigma_*/pi_*/base_opp_*/seed_*/ # relative symlinks to the legacy frozen run dirs
 ```
+
+This directory is built deterministically by
+`scripts/build_methodology_paper_canonical.py` (no CLI flags) from the
+immutable v2.5 confirmatory sweep run dirs at
+`results/v2.5_corrected_three_regime_confirm/`. The legacy directory is
+preserved as a frozen reproducibility artifact but is no longer the figure
+source. The 2026-04-29 cap-divergence diagnosis (see
+`synthesis/SYNTHESIS_WORKING_DOC.md` §15.3) explains why a canonical
+rebuild was needed.
 
 When adding a new sweep that should be committed, also add a matching
 `!results/<your_dir>/**` line in `.gitignore`.
@@ -123,25 +134,45 @@ sweep run is committed, regenerate this CSV with the new absolute paths
 intact — downstream figure scripts (e.g. `build_v2_5_publication_figures.py`)
 read per-seed `agent_summary.csv` files using `run_dir` as the base.
 
-### Regime classification — the active-rate gotcha
+### Regime classification — the active-rate gotcha and cap divergence
 
 Regimes are labelled `COLLAPSE`, `CAPTURE_HIERARCHICAL`, `MIXED`, `QUIET`.
-The classifier compares against `max(punish_rate)` over the run, but the raw
-`punish_rate` in `metrics.csv` is `punished / N_total`, including exited
-agents (who always have `punished=0`). With exit rates of 0.6–0.7 that
-under-counts intensity by the same fraction.
+Two corrections must be applied jointly:
 
-`scripts/reclassify_regimes.py` recomputes
-`active_punish_rate = punish_rate / (1 - exit_rate)` and rewrites regime
-labels. **New analyses should use the reclassified labels** (or compute
-active-only rates from the start). The codex-mod hotfix exists for the same
-reason on the v2.7 branch.
+1. **Active-rate.** The raw `punish_rate` in `metrics.csv` is
+   `punished / N_total` and includes exited agents (always `punished = 0`).
+   Use `active_punish_rate = punish_rate / max(1 - exit_rate, ε)` —
+   this is the canonical statistic. `scripts/reclassify_regimes.py`
+   computes it from existing metrics.csv files.
+2. **`capture_exit_cap = 0.20`.** The hierarchical CAPTURE gate uses
+   `exit_rate ≤ 0.20`, matching `manuscript/manuscript.tex` §6.10. The
+   frozen v2.5 confirmatory sweep was launched with `--capture-exit-cap 0.30`
+   (see `results/v2.5_corrected_three_regime_confirm/sweep_report.txt`),
+   which loosened the gate and produced 1 spurious CAPTURE cell. Under
+   the canonical 0.20 + active-rate the cell-majority counts are
+   **0 CAPTURE / 55 MIXED / 8 QUIET / 9 COLLAPSE** (vs the manuscript-headline
+   1 CAPTURE / 36 MIXED / 26 QUIET / 9 COLLAPSE under the legacy
+   uncorrected counts).
+
+The canonical pipeline `scripts/build_methodology_paper_canonical.py`
+hard-codes both corrections so they cannot drift; downstream figures and
+tables read from `results/v2.5_methodology_paper_canonical/`. The codex-mod
+hotfix exists for the same reason on the v2.7 branch.
 
 ## Working conventions
 
 - **Never run with synthetic data.** All committed CSVs come from real ABM
   runs with fixed seeds. Don't substitute placeholder numbers into figure
   scripts to "show what it would look like."
+- **Sweep parameters that affect classification** (`capture_exit_cap`,
+  active-rate corrections, regime thresholds) must be passed as explicit
+  arguments to the aggregator, never set as function attributes or read
+  from `getattr` defaults. Sweep-time parameter values must be recorded in
+  `sweep_report.txt` at sweep launch, and downstream pipelines must hard-code
+  the canonical values rather than read flags. The 2026-04-29 cap-divergence
+  diagnosis showed how a non-default `--capture-exit-cap 0.30` flag silently
+  produced a spurious "1 CAPTURE cell" headline that the manuscript text did
+  not match.
 - Append a Q&A entry to `HISTORY.md` (`## YYYY-MM-DD` then `**Q:**`/`**A:**`)
   per session per the global convention. `JOURNAL.md` is the longer-form
   development journal — read it for chronological context across model

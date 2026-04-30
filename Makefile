@@ -1,24 +1,31 @@
-.PHONY: setup figures validate reproduce clean
+.PHONY: setup build-canonical figures validate reproduce clean
 
 VENV := .venv
 PYTHON := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
-CONFIRM := results/v2.5_corrected_three_regime_confirm
-FIGURES := $(CONFIRM)/figures_publication
+CANONICAL := results/v2.5_methodology_paper_canonical
+FIGURES := figures
 
 setup:
 	python3 -m venv $(VENV)
 	$(PIP) install -q -r requirements.txt
 
-figures: setup
-	$(PYTHON) scripts/build_v2_5_publication_figures.py \
-		--root $(CONFIRM) --outdir $(FIGURES)
+build-canonical: setup
+	$(PYTHON) scripts/build_methodology_paper_canonical.py
+
+figures: build-canonical
+	$(PYTHON) scripts/build_methodology_paper_figures.py
 
 validate:
-	$(PYTHON) scripts/validate_figures_from_csv.py
+	$(PYTHON) scripts/validate_methodology_figures.py
 
 reproduce: figures validate
 	@echo "=== reproduction complete ==="
 
 clean:
-	rm -f $(FIGURES)/fig*.png $(FIGURES)/fig*.pdf $(FIGURES)/FIGURE_CAPTIONS.md
+	rm -rf $(CANONICAL)
+	rm -f $(FIGURES)/figure4_trajectories.pdf
+	rm -f $(FIGURES)/submission/fig2_phase_map.pdf
+	rm -f $(FIGURES)/submission/fig3_concentration.pdf
+	rm -f $(FIGURES)/submission/fig6_regime_counts.pdf
+	rm -f $(FIGURES)/submission/table6_regime_metrics.tex

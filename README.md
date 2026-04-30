@@ -7,14 +7,16 @@ Agents on a scale-free network cultivate internal belief (ITC) and visible ritua
 ## Repository layout
 
 ```
-src/                    model code (12 versions, v0 through v2.7)
-scripts/                run scripts, sweep drivers, aggregation, validation
-results/                committed result sets (CSV data + publication figures)
-  v2.5_*/               confirmatory sweep, ablation, baseline (5 dirs)
-  v2.6_*/               doctrinal retention module + ablations (5 dirs)
-  v2.6b_*/              membership module + ablations (5 dirs)
-  figures_publication/   publication-ready PNG + PDF figures
-AUDIT_REPORT.md         independent code audit
+src/                                model code (12 versions, v0 through v2.7)
+scripts/                            run scripts, sweep drivers, aggregation, validation
+results/                            committed result sets (CSV data)
+  v2.5_methodology_paper_canonical/ canonical methodology-paper artifacts (built deterministically)
+  v2.5_corrected_three_regime_confirm/ legacy frozen reproducibility artifact (preserved unchanged)
+  v2.5_*/                           ablation, baseline (other v2.5 dirs)
+  v2.6_*/                           doctrinal retention module + ablations
+  v2.6b_*/                          membership module + ablations
+figures/                            publication-ready PDF figures + LaTeX tables
+AUDIT_REPORT.md                     independent code audit
 ```
 
 ### What is NOT in this repo
@@ -42,20 +44,19 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-python scripts/build_v2_5_publication_figures.py \
-  --root results/v2.5_corrected_three_regime_confirm \
-  --outdir results/v2.5_corrected_three_regime_confirm/figures_publication
-
-python scripts/validate_figures_from_csv.py
+python scripts/build_methodology_paper_canonical.py
+python scripts/build_methodology_paper_figures.py
+python scripts/validate_methodology_figures.py
 ```
 
 ### Path portability note
 
-Some CSVs store absolute paths from the original run environment (the
-`run_dir` column in `sweep_seed_results.csv`). `reproduce.sh` rewrites
-these path prefixes to the local clone path on first run; this affects
-paths only, not numeric data. A backup is saved as `.csv.bak` before
-any rewrite.
+The legacy `results/v2.5_corrected_three_regime_confirm/sweep_seed_results.csv`
+stores absolute paths from the original run environment in its `run_dir`
+column. `reproduce.sh` rewrites these prefixes to the local clone path on
+first run; this affects paths only, not numeric data. The canonical
+methodology-paper directory uses repo-relative paths from the start, so this
+rewrite is needed only for the legacy directory.
 
 ## Full rerun (expensive -- not required for review)
 
@@ -82,17 +83,23 @@ for the pinned dependency versions.
 
 | Paper section | Result directory | Key file |
 |---------------|-----------------|----------|
-| Phase map (Fig 1) | `v2.5_corrected_three_regime_confirm/` | `phase_bundle/phase_table.csv` |
-| Regime counts (Fig 2) | `v2.5_corrected_three_regime_confirm/` | `phase_bundle/regime_counts.csv` |
-| Punishment concentration (Fig 3) | `v2.5_corrected_three_regime_confirm/` | `sweep_seed_results.csv` |
-| Regime trajectories (Fig 4) | `v2.5_corrected_three_regime_confirm/` | `timeseries_regime_hier_*.csv` |
-| Literalism enrichment (Fig 5) | `v2.5_corrected_three_regime_confirm/` | per-seed `agent_summary.csv` |
+| Phase map (Fig 1) | `v2.5_methodology_paper_canonical/` | `phase_bundle/phase_table.csv` |
+| Regime counts (Fig 2) | `v2.5_methodology_paper_canonical/` | `phase_bundle/regime_counts.csv` |
+| Punishment concentration (Fig 3) | `v2.5_methodology_paper_canonical/` | `sweep_seed_results.csv` |
+| Regime trajectories (Fig 4) | `v2.5_methodology_paper_canonical/` | `timeseries_regime_hier_*.csv` |
+| Regime metrics (Table 5) | `v2.5_methodology_paper_canonical/` | `sweep_seed_results.csv` (Cohen's d via per-seed `agent_summary.csv`) |
 | Baseline (30 seeds) | `v2.5_corrected_baseline/` | `regime_by_seed.csv` |
 | Fixed-y0 ablation | `v2.5_ablation_fixed_y0/` | `ablation_comparison.csv` |
 | Retention module | `v2.6_validation/` | validation outputs |
 | Membership module | `v2.6b_validation/` | validation outputs |
 
-Publication figures: `results/v2.5_corrected_three_regime_confirm/figures_publication/`
+Methodology paper headline counts (canonical hierarchical schema, cap=0.20,
+active-rate corrected): **0 CAPTURE / 55 MIXED / 8 QUIET / 9 COLLAPSE** across
+72 cells. The MIXED regime is characterized by within-cell concentration:
+the top 5% of agents execute >80% of punishments, with literalism-enrichment
+Cohen's $d \approx 2.1$ for enforcers vs non-enforcers.
+
+Publication figures: `figures/figure{1..4}*.pdf`, `figures/table5_regime_metrics.tex`.
 
 ## Model versions
 

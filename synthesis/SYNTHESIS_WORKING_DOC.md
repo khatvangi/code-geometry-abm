@@ -422,10 +422,48 @@ The ABM's COLLAPSE label requires `exit_rate ≥ 0.90` (enforcement-induced depo
 
 Two cases (LR001 First Crusade 1095–1099, LR002 Albigensian Crusade 1209–1229) are mobilization episodes shorter than the ABM's 500-step steady-state assumption suggests. They were scored by treating the regime unit as the underlying papal authorization apparatus during the crusade window. Phase S5 manuscript-revision item: add a brief note in §5 (Scoring Rubric) clarifying that the regime unit must be long enough for steady-state enforcement to be a defined notion. Episodes shorter than ~50 simulation timesteps' equivalent should either be reframed to the underlying enduring apparatus or scored with explicit confidence flags.
 
-### 15.3 Active-rate gotcha — manuscript figure rebuild
+### 15.3 Active-rate correction + cap-divergence diagnosis (Phase S5)
 
-Quantitatively confirmed in Phase S1: 18 of 72 v2.5 confirmatory cells flip QUIET → MIXED under corrected classification (8 quiet / 54 mixed / 9 collapse / 1 capture, vs. manuscript-reported 26 / 36 / 9 / 1). Phase S5 must regenerate §8.1, Table 5, Figure 1, Figure 2, and per-regime concentration metrics from `reclassified_seed_results.csv` and place them in a new whitelisted result directory (suggested: `results/v2.5_corrected_three_regime_confirm_active_rate/`). The original `results/v2.5_corrected_three_regime_confirm/` directory must not be overwritten — per CLAUDE.md it is a frozen reproducibility artifact.
+#### 15.3.1 The two corrections
+
+Two independent corrections affect v2.5 regime classification:
+
+- **Active-rate correction.** The raw `punish_rate` in `metrics.csv` divides by full population (including exited agents who always have `punished=0`). With observed exit rates of 0.30–0.99, raw rates dilute punishment intensity by the same fraction. The corrected `active_punish_rate = punish_rate / max(1 − exit_rate, ε)` is the canonical statistic.
+- **`capture_exit_cap` divergence.** The frozen v2.5 confirmatory sweep was run with `--capture-exit-cap 0.30` (recorded in `results/v2.5_corrected_three_regime_confirm/sweep_report.txt`), not the canonical `0.20` stated in `manuscript/manuscript.tex` §6.10. The 0.30 value was a regime-search exploratory parameter that got carried into the confirmatory directory unintentionally.
+
+#### 15.3.2 Verified four-row regime-count table (cell-majority, hierarchical schema)
+
+Recomputed against the frozen `reclassified_seed_results.csv` on 2026-04-29:
+
+| Rule | CAPTURE | MIXED | QUIET | COLLAPSE |
+|---|---:|---:|---:|---:|
+| Hier cap=0.20, raw max (canonical-no-actrate) | 0 | 37 | 26 | 9 |
+| Hier cap=0.30, raw max (frozen sweep, manuscript headline) | 1 | 36 | 26 | 9 |
+| Hier cap=0.20, active-rate ★ **canonical** ★ | **0** | **55** | **8** | **9** |
+| Hier cap=0.30, active-rate | 1 | 54 | 8 | 9 |
+
+The legacy four-regime classifier (`prevalence ≥ 0.90 AND exit_rate ≤ 0.20`) produces 0 CAPTURE under all corrections because no seed has `final_fund_prevalence ≥ 0.90`.
+
+#### 15.3.3 Adjudication (Option α, 2026-04-29)
+
+Adopted: **canonical hierarchical (cap=0.20) + active-rate correction.** Cell-majority counts are **0 CAPTURE / 55 MIXED / 8 QUIET / 9 COLLAPSE**. The methodology paper retreats from the "1 CAPTURE cell" headline, which was an artifact of the run-time cap divergence rather than a substantive finding.
+
+Rationale: the manuscript text §6.10 states the strict CAPTURE rule (`exit_rate ≤ 0.20`); recovering "1 CAPTURE cell" under cap=0.30 would require accepting that the manuscript's stated rule is a typo. Reproducibility requires the operational rule to match the documented one. Whether real Christian regimes occupy CAPTURE belongs to Paper 2 (Christian application) — the methodology paper's job is to define the four regimes and characterize the parameter geometry that produces each, which the new counts do cleanly.
+
+#### 15.3.4 Implementation
+
+Phase S5 figure rebuild produced:
+
+- `results/v2.5_methodology_paper_canonical/` — new whitelisted reproducibility artifact directory, built deterministically from the immutable v2.5 confirmatory run dirs. Symlinks (relative) point back to the frozen seed dirs.
+- `scripts/build_methodology_paper_canonical.py` — single-entry-point builder with `capture_exit_cap = 0.20` and active-rate correction hard-coded (no CLI flags so they cannot drift).
+- `scripts/build_methodology_paper_figures.py` — produces figures/figure{1..4}*.pdf and figures/table5_regime_metrics.tex from the canonical directory.
+- `scripts/validate_methodology_figures.py` — reproducibility validator.
+- `reproduce.sh` and `Makefile` updated to use the new pipeline; legacy `results/v2.5_corrected_three_regime_confirm/` directory and `scripts/build_v2_5_publication_figures.py` are preserved unchanged as frozen artifacts.
+
+#### 15.3.5 Empirical scope move
+
+The 16 illustrative Christian regime scorings (currently in manuscript §9) are moved to a follow-up Christian-application paper. The methodology paper does not make empirical claims about which real regimes occupy which classification.
 
 ---
 
-*End of synthesis working document. Last update: 2026-04-28, post-Phase-S2 (Q-S2 adjudicated).*
+*End of synthesis working document. Last update: 2026-04-29, post-Phase-S5 figure rebuild.*
