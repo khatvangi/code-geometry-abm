@@ -1304,6 +1304,86 @@ def _apply_deep_dive_override(cases: list[dict], selection: set[str]) -> list[di
 
 
 # ─────────────────────────────────────────────────────────────────────
+# runtime override: verification_status, evidence_quality, source_ids
+# from upstream case_export.jsonl (Stage 4 of the S1 reproducibility refactor)
+# ─────────────────────────────────────────────────────────────────────
+UPSTREAM_CASE_EXPORT = (OUTDIR / "../inputs/from_nitrogen/case_export.jsonl").resolve()
+
+UPSTREAM_PROVENANCE_FIELDS = ("verification_status", "evidence_quality", "source_ids")
+
+
+def _load_upstream_provenance(case_export_path: Path) -> dict[str, dict]:
+    """Load verification_status, evidence_quality, source_ids per case from upstream.
+
+    Returns a dict mapping case_id -> {verification_status, evidence_quality,
+    source_ids}. These three fields are authoritative in upstream
+    case_export.jsonl; the hand-curated dict literals in this script's per-case
+    definitions are defaults that the upstream values override, eliminating
+    drift between the two copies.
+    """
+    if not case_export_path.exists():
+        raise FileNotFoundError(
+            f"Upstream case_export.jsonl not found at {case_export_path}. "
+            "Run violence-abrahamic/data/exports/synthesis_phase_s1/build_export.py "
+            "to regenerate, then sync via the Stage 2 protocol."
+        )
+    out: dict[str, dict] = {}
+    with case_export_path.open(encoding="utf-8") as f:
+        for line in f:
+            d = json.loads(line)
+            cid = d["case_id"]
+            # upstream may have these at top level or nested under
+            # nitrogen_provenance — accept either, prefer nested if both present
+            prov = d.get("nitrogen_provenance", {})
+            out[cid] = {
+                field: prov.get(field, d.get(field))
+                for field in UPSTREAM_PROVENANCE_FIELDS
+            }
+    return out
+
+
+def _apply_upstream_provenance(cases: list[dict], upstream: dict[str, dict]) -> list[dict]:
+    """Override verification_status, evidence_quality, source_ids from upstream.
+
+    The hand-curated values in each case's nitrogen_provenance dict become
+    defaults; upstream values are authoritative. Logs each override that
+    actually changes a value.
+    """
+    overrides: list[tuple[str, str, object, object]] = []
+    for case in cases:
+        cid = case["case_id"]
+        if cid not in upstream:
+            print(
+                f"WARNING: {cid} not in upstream case_export.jsonl; "
+                "preserving hand-curated provenance"
+            )
+            continue
+        prov = case.setdefault("nitrogen_provenance", {})
+        for field in UPSTREAM_PROVENANCE_FIELDS:
+            old = prov.get(field)
+            new = upstream[cid][field]
+            if old != new:
+                overrides.append((cid, field, old, new))
+                prov[field] = new
+    if overrides:
+        cases_changed = len({c for c, _, _, _ in overrides})
+        print(
+            f"upstream provenance override summary: "
+            f"{len(overrides)} field(s) changed across {cases_changed} case(s)"
+        )
+        for cid, field, old, new in overrides:
+            old_str = str(old)[:80]
+            new_str = str(new)[:80]
+            print(f"  OVERRIDE: {cid}.{field}: {old_str} -> {new_str}")
+    else:
+        print(
+            "upstream provenance override summary: 0 fields changed "
+            "(hand-curated values agree with upstream)"
+        )
+    return cases
+
+
+# ─────────────────────────────────────────────────────────────────────
 # emit deliverables
 # ─────────────────────────────────────────────────────────────────────
 def main() -> None:
@@ -1312,9 +1392,15 @@ def main() -> None:
     assert case_ids == {f"LR{i:03d}" for i in range(1, 17)}, "case_id set incomplete"
 
     # apply runtime override of deep_dive_present from the authoritative
-    # selection file before any deliverable emission
+    # selection file (Stage 3) before any deliverable emission
     deep_dive_selection = _load_deep_dive_selection()
     _apply_deep_dive_override(CASES, deep_dive_selection)
+
+    # apply runtime override of verification_status, evidence_quality,
+    # source_ids from upstream case_export.jsonl (Stage 4); runs after
+    # Stage 3 because the two overrides target disjoint fields
+    upstream_provenance = _load_upstream_provenance(UPSTREAM_CASE_EXPORT)
+    _apply_upstream_provenance(CASES, upstream_provenance)
 
     # 1. unified_cases.jsonl — canonical
     jsonl_path = OUTDIR / "unified_cases.jsonl"
