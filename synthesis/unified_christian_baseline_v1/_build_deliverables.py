@@ -16,6 +16,8 @@ from __future__ import annotations
 
 import csv
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 OUTDIR = Path(__file__).resolve().parent
@@ -1384,12 +1386,54 @@ def _apply_upstream_provenance(cases: list[dict], upstream: dict[str, dict]) -> 
 
 
 # ─────────────────────────────────────────────────────────────────────
+# soft pre-flight: verify synthesis/inputs/from_nitrogen/ matches upstream
+# (Stage 5 of the S1 reproducibility refactor)
+# ─────────────────────────────────────────────────────────────────────
+def _verify_inputs_sync_soft() -> None:
+    """Soft pre-flight: warn if synthesis/inputs/from_nitrogen/ has drifted from upstream.
+
+    Does not raise. The build proceeds even on drift, because:
+    - Standalone clones legitimately lack the sibling repo.
+    - The snapshot is the build's authoritative input by design.
+    Drift is surfaced as a warning so the operator knows to re-sync if intended.
+    """
+    script = OUTDIR.parent.parent / "scripts" / "verify_synthesis_inputs_sync.py"
+    if not script.exists():
+        return  # graceful no-op if the verification script isn't present
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script), "--quiet"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except Exception as exc:  # pragma: no cover — defensive only
+        print(f"sync verification skipped (could not invoke verifier: {exc})")
+        return
+    if result.returncode == 0:
+        print("sync verification: snapshot matches upstream")
+    elif result.returncode == 2:
+        print("sync verification: skipped (sibling repo absent — standalone clone)")
+    else:
+        print("sync verification: DRIFT DETECTED — see below")
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr, file=sys.stderr)
+        print("WARNING: build is proceeding with the snapshot. Run the Stage-2 sync to update.")
+
+
+# ─────────────────────────────────────────────────────────────────────
 # emit deliverables
 # ─────────────────────────────────────────────────────────────────────
 def main() -> None:
     assert len(CASES) == 16, f"expected 16 cases, got {len(CASES)}"
     case_ids = {c["case_id"] for c in CASES}
     assert case_ids == {f"LR{i:03d}" for i in range(1, 17)}, "case_id set incomplete"
+
+    # soft pre-flight: warn if the snapshot at synthesis/inputs/from_nitrogen/
+    # has drifted from the sibling repo's upstream (Stage 5)
+    _verify_inputs_sync_soft()
 
     # apply runtime override of deep_dive_present from the authoritative
     # selection file (Stage 3) before any deliverable emission
