@@ -4,8 +4,8 @@ synthesis_phase_s1 exporter
 reads:
   data/lived_religion/control_axis/lived_religion_control_axis_table.csv
   data/lived_religion/historical_use/christian_case_source_evidence.csv
-  data/lived_religion/deep_dive/LR015_documentation_evidence.csv
-  data/lived_religion/deep_dive/LR006_documentation_evidence.csv
+  data/frozen/christian_documented_layer_v1/deep_dive_case_selection.csv
+  data/lived_religion/deep_dive/{case_id}_documentation_evidence.csv (one per case in selection)
   data/processed/argument_templates/argument_template_seed.csv
   data/frozen/christian_baseline_v1/MANIFEST.csv
   data/frozen/christian_baseline_v1/lived_religion_control_axis_table.csv
@@ -25,12 +25,16 @@ contract:
   - semicolon-delimited list fields parsed into JSON arrays, empty/none -> []
   - drift / inconsistency findings collected in DRIFT and emitted to a
     sidecar export_diagnostics.json so EXPORT_NOTES.md can summarise them
+  - deep_dive_evidence is attached to each case listed in
+    deep_dive_case_selection.csv (frozen documented layer); a missing
+    per-case evidence CSV emits a warning rather than aborting the export
 """
 from __future__ import annotations
 
 import csv
 import hashlib
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -39,8 +43,8 @@ EXPORT_DIR = Path(__file__).resolve().parent
 
 MASTER = REPO / "data/lived_religion/control_axis/lived_religion_control_axis_table.csv"
 SRC_EVID = REPO / "data/lived_religion/historical_use/christian_case_source_evidence.csv"
-DD_LR015 = REPO / "data/lived_religion/deep_dive/LR015_documentation_evidence.csv"
-DD_LR006 = REPO / "data/lived_religion/deep_dive/LR006_documentation_evidence.csv"
+DD_SELECTION = REPO / "data/frozen/christian_documented_layer_v1/deep_dive_case_selection.csv"
+DD_DIR = REPO / "data/lived_religion/deep_dive"
 ARG_TPL = REPO / "data/processed/argument_templates/argument_template_seed.csv"
 FROZEN_MANIFEST = REPO / "data/frozen/christian_baseline_v1/MANIFEST.csv"
 FROZEN_TABLE = REPO / "data/frozen/christian_baseline_v1/lived_religion_control_axis_table.csv"
@@ -85,7 +89,34 @@ def file_sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def build_case_export(cases: list[dict], dd15: list[dict], dd06: list[dict]) -> list[dict]:
+def read_deep_dive_evidence(selection_path: Path, dd_dir: Path) -> dict[str, list[dict]]:
+    """Read deep-dive selection file and load each case's evidence CSV.
+
+    Returns a dict mapping case_id -> list of evidence row dicts. A missing
+    per-case evidence CSV emits a warning to stderr and is skipped (the
+    case_id is omitted from the returned dict). The selection file itself
+    must exist; otherwise this raises.
+    """
+    out: dict[str, list[dict]] = {}
+    if not selection_path.exists():
+        raise FileNotFoundError(f"deep-dive selection file not found: {selection_path}")
+    selection = read_csv(selection_path)
+    for row in selection:
+        cid = row.get("case_id", "").strip()
+        if not cid:
+            continue
+        evidence_path = dd_dir / f"{cid}_documentation_evidence.csv"
+        if not evidence_path.exists():
+            print(
+                f"WARNING: deep-dive evidence file missing for {cid}: {evidence_path}",
+                file=sys.stderr,
+            )
+            continue
+        out[cid] = read_csv(evidence_path)
+    return out
+
+
+def build_case_export(cases: list[dict], dd_by_case: dict[str, list[dict]]) -> list[dict]:
     out: list[dict] = []
     for c in cases:
         scores = {
@@ -153,10 +184,8 @@ def build_case_export(cases: list[dict], dd15: list[dict], dd06: list[dict]) -> 
             "evidence_requirement_errors": c["evidence_requirement_errors"],
         }
 
-        if c["case_id"] == "LR015":
-            record["deep_dive_evidence"] = [dict(r) for r in dd15]
-        elif c["case_id"] == "LR006":
-            record["deep_dive_evidence"] = [dict(r) for r in dd06]
+        if c["case_id"] in dd_by_case:
+            record["deep_dive_evidence"] = [dict(r) for r in dd_by_case[c["case_id"]]]
 
         out.append(record)
     return out
@@ -244,12 +273,11 @@ def detect_drift(live: list[dict], frozen: list[dict]) -> dict:
 def main() -> None:
     cases = read_csv(MASTER)
     evidence = read_csv(SRC_EVID)
-    dd15 = read_csv(DD_LR015)
-    dd06 = read_csv(DD_LR006)
+    dd_by_case = read_deep_dive_evidence(DD_SELECTION, DD_DIR)
     arg_templates = read_csv(ARG_TPL)
     frozen_cases = read_csv(FROZEN_TABLE)
 
-    case_records = build_case_export(cases, dd15, dd06)
+    case_records = build_case_export(cases, dd_by_case)
     registry = build_source_registry(cases, evidence)
     drift_report = detect_drift(cases, frozen_cases)
 
@@ -271,13 +299,14 @@ def main() -> None:
         "exported_at_utc": datetime.now(timezone.utc).isoformat(),
         "live_case_count": len(cases),
         "live_evidence_row_count": len(evidence),
-        "deep_dive_packets": {"LR015": len(dd15), "LR006": len(dd06)},
+        "deep_dive_packets": {cid: len(rows) for cid, rows in dd_by_case.items()},
         "argument_template_count": len(arg_templates),
         "source_registry_size": len(registry),
         "frozen_baseline_label": "christian_baseline_v1",
         "drift_vs_frozen_baseline": drift_report,
-        "case_id_mismatches_with_status_md_promoted_to_documented_in_live": [
-            r["case_id"] for r in cases if r["historical_use_status"] == "documented" and r["case_id"] != "LR015"
+        "case_id_documented_but_not_in_deep_dive_selection": [
+            r["case_id"] for r in cases
+            if r["historical_use_status"] == "documented" and r["case_id"] not in dd_by_case
         ],
         "orphan_source_ids": [r for r in registry if r["source_type"] == "unverified_reference"],
         "row_internal_inconsistencies": [],
@@ -308,6 +337,7 @@ def main() -> None:
 
     print("export written to", EXPORT_DIR)
     print("cases:", len(case_records), "sources:", len(registry), "drift items:", len(drift_report["field_drift"]))
+    print("deep_dive_packets:", diagnostics["deep_dive_packets"])
 
 
 if __name__ == "__main__":

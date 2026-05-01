@@ -1,10 +1,13 @@
 {
-  "exported_at_utc": "2026-04-28T03:40:31.633965+00:00",
+  "exported_at_utc": "2026-05-01T14:02:42.508452+00:00",
   "live_case_count": 16,
   "live_evidence_row_count": 66,
   "deep_dive_packets": {
     "LR015": 9,
-    "LR006": 7
+    "LR006": 7,
+    "LR011": 6,
+    "LR001": 5,
+    "LR005": 6
   },
   "argument_template_count": 8,
   "source_registry_size": 66,
@@ -46,12 +49,7 @@
       }
     ]
   },
-  "case_id_mismatches_with_status_md_promoted_to_documented_in_live": [
-    "LR001",
-    "LR005",
-    "LR006",
-    "LR011"
-  ],
+  "case_id_documented_but_not_in_deep_dive_selection": [],
   "orphan_source_ids": [],
   "row_internal_inconsistencies": []
 }
