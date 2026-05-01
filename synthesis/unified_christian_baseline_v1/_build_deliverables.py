@@ -1245,12 +1245,76 @@ CASES = [
 
 
 # ─────────────────────────────────────────────────────────────────────
+# runtime override: deep_dive_present from the authoritative selection file
+# (see Stage 3 of the S1 reproducibility refactor)
+# ─────────────────────────────────────────────────────────────────────
+DEEP_DIVE_SELECTION_PATH = (
+    OUTDIR / "../../../violence-abrahamic/data/frozen/christian_documented_layer_v1/deep_dive_case_selection.csv"
+).resolve()
+
+
+def _load_deep_dive_selection() -> set[str]:
+    """Read authoritative deep-dive selection from the violence-abrahamic sibling repo.
+
+    The selection file lists which cases are formally selected for deep-dive
+    documentation. This function returns the set of case_ids from that file.
+    Raises FileNotFoundError if the file is missing — silent fallback would
+    defeat the purpose of this fix.
+    """
+    if not DEEP_DIVE_SELECTION_PATH.exists():
+        raise FileNotFoundError(
+            f"deep-dive selection file not found at {DEEP_DIVE_SELECTION_PATH}. "
+            "This file is the authoritative source for "
+            "nitrogen_provenance.deep_dive_present; S1 deliverables cannot be "
+            "regenerated without it. See Stage 3 of the S1 reproducibility refactor."
+        )
+    with DEEP_DIVE_SELECTION_PATH.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    return {r["case_id"].strip() for r in rows if r.get("case_id", "").strip()}
+
+
+def _apply_deep_dive_override(cases: list[dict], selection: set[str]) -> list[dict]:
+    """Layer the selection-file's deep_dive_present onto each case in place.
+
+    The hand-curated CASES dict carries deep_dive_present as a default,
+    encoding the build-time author's belief about which cases were
+    deep-dived. This override layers the authoritative selection-file
+    membership on top, logging every flip to stdout for audit.
+    """
+    flipped: list[str] = []
+    unchanged = 0
+    for case in cases:
+        cid = case["case_id"]
+        old = case["nitrogen_provenance"]["deep_dive_present"]
+        new = cid in selection
+        if old != new:
+            print(
+                f"OVERRIDE: {cid} deep_dive_present: {old} -> {new} "
+                "(selection file authoritative)"
+            )
+            case["nitrogen_provenance"]["deep_dive_present"] = new
+            flipped.append(cid)
+        else:
+            unchanged += 1
+    print(
+        f"deep_dive override summary: {len(flipped)} cases flipped "
+        f"({flipped}), {unchanged} cases unchanged."
+    )
+    return cases
+
+
+# ─────────────────────────────────────────────────────────────────────
 # emit deliverables
 # ─────────────────────────────────────────────────────────────────────
 def main() -> None:
     assert len(CASES) == 16, f"expected 16 cases, got {len(CASES)}"
     case_ids = {c["case_id"] for c in CASES}
     assert case_ids == {f"LR{i:03d}" for i in range(1, 17)}, "case_id set incomplete"
+
+    # apply runtime override of deep_dive_present from the authoritative
+    # selection file before any deliverable emission
+    deep_dive_selection = _load_deep_dive_selection()
+    _apply_deep_dive_override(CASES, deep_dive_selection)
 
     # 1. unified_cases.jsonl — canonical
     jsonl_path = OUTDIR / "unified_cases.jsonl"
