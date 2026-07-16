@@ -408,7 +408,7 @@ Literalism modifies the heresy threshold. High-$L$ agents apply a stricter thres
 
 \subsection{Institutional delegation and cadre selection}
 
-Institutional delegation is the mechanism that concentrates enforcement in a minority. At fixed intervals, the model selects an enforcement cadre of size $q = \lfloor \text{enforcer\_quota\_frac} \times N_{\text{active}} \rfloor$, where $\text{enforcer\_quota\_frac} = 0.12$ (12\% of the active population). Agents are ranked by a suitability score:
+Institutional delegation is the mechanism that concentrates enforcement in a minority. At fixed intervals, the model selects an enforcement cadre of size $q = \lfloor \text{enforcer\_quota\_frac} \times N_{\text{active}} \rfloor$, where $\text{enforcer\_quota\_frac} = 0.08$ (8\% of the active population). Agents are ranked by a suitability score:
 \[
 \text{suitability}_i = 0.6 \times \text{cap}_i + 0.3 \times L_i + 0.1 \times (r_i \times b_i)
 \]
@@ -654,7 +654,7 @@ The emergence result can be stated precisely: a system initialized with mild out
 
 \subsection{Enforcement concentration is genuinely endogenous}
 
-The model's institutional delegation mechanism selects a cadre of size $q = \lfloor 0.12 \times N_{\text{active}} \rfloor$ and, under the monopoly-on-enforcement flag, blocks non-cadre agents from punishing when enforcement activity exceeds a threshold ($A \geq 0.35$). A reviewer could ask whether the concentration result is mechanically assisted by this restriction.
+The model's institutional delegation mechanism selects a cadre of size $q = \lfloor 0.08 \times N_{\text{active}} \rfloor$ and, under the monopoly-on-enforcement flag, blocks non-cadre agents from punishing when enforcement activity exceeds a threshold ($A \geq 0.35$). A reviewer could ask whether the concentration result is mechanically assisted by this restriction.
 
 To test this, we repeated the baseline simulation at three parameter points ($\sigma = 0.75$, $\pi = 0.25$; $\sigma = 0.95$, $\pi = 0.50$; $\sigma = 0.25$, $\pi = 0.50$) with monopoly-on-enforcement disabled, 30 seeds per condition (180 runs total). Concentration metrics were unchanged. At $\sigma = 0.75$, $\pi = 0.25$: top-5 share $= 0.810$ (monopoly off) versus 0.811 (monopoly on). At $\sigma = 0.95$, $\pi = 0.50$: top-5 share $= 0.862$ versus 0.866. Regime classifications were identical across all matched pairs (Table S3).
 
