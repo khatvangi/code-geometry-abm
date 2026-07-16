@@ -1,0 +1,339 @@
+\documentclass[12pt]{article}
+\usepackage{tgtermes}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\doublespacing
+\linenumbers
+
+\title{Online Resource 1\\[0.5em]
+\large Code Geometry and Endogenous Concentration\\in an Agent-Based Model of Fundamentalism}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Scoring Rubric Anchors}
+
+Each historically bounded regime is scored on five primary dimensions using a 0--4 ordinal scale. The anchors below define each scale point with observable proxies and worked examples.
+
+\subsection{Legibility ($\sigma$)}
+
+\begin{itemize}
+\item \textbf{0}: Compliance criteria are entirely internal (contemplative attainment, sincerity of intention). No external markers reliably distinguish compliant from non-compliant members. Example: early Quaker ``Inner Light'' doctrine before behavioral codification.
+\item \textbf{1}: Some external markers exist but are ambiguous or contested. Internal states remain the primary criterion of moral standing. Example: Sufi tariqa practice, where external observance is valued but interior transformation (hal, maqam) is the recognized goal.
+\item \textbf{2}: A mix of external and internal criteria. Behavioral requirements are codified but interior transformation is explicitly required alongside them. Example: Theravada Buddhist vinaya, which prescribes detailed behavioral rules but locates their purpose in mental purification.
+\item \textbf{3}: External markers dominate moral evaluation. Internal states are acknowledged but practical assessment relies primarily on visible compliance. Example: Orthodox Jewish halakhic observance, where detailed behavioral requirements are the primary standard of communal standing.
+\item \textbf{4}: Compliance is almost entirely externally classifiable through binary observable acts: dress, attendance, dietary markers, verbal formulae, public prayer. Interior states are doctrinally relevant but practically irrelevant to communal standing. Example: Taliban governance, where compliance is assessed through dress, beard length, prayer attendance, and gender segregation.
+\end{itemize}
+
+\subsection{Substitutability}
+
+\begin{itemize}
+\item \textbf{0}: External performance explicitly cannot substitute for interior transformation. The tradition's canonical texts and institutional practices actively prevent such substitution. Example: Advaita Vedanta, where external ritual is explicitly declared secondary to direct knowledge (jnana).
+\item \textbf{1}: External performance is valued but treated as instrumental, not constitutive, of moral standing. Example: Chan/Zen Buddhism, where ritual practice supports realization but is not identified with it.
+\item \textbf{2}: External performance and interior commitment are treated as jointly necessary. Neither alone is sufficient. Example: mainstream Sunni Islam, where both niyyah (intention) and correct performance are doctrinally required.
+\item \textbf{3}: External performance functions as the primary practical criterion, though interior commitment is nominally required. Example: Counter-Reformation Catholicism, where sacramental participation and behavioral conformity dominate practical assessment.
+\item \textbf{4}: External performance is effectively sufficient for moral standing. Interior states are irrelevant to communal assessment. Example: Stalinist party membership, where behavioral conformity and verbal orthodoxy constitute full standing regardless of private belief.
+\end{itemize}
+
+\subsection{Enforcement Affordance}
+
+\begin{itemize}
+\item \textbf{0}: No institutional sanction mechanisms exist. Deviation is addressed, if at all, through private counsel. Example: early Christian house churches before episcopal authority.
+\item \textbf{1}: Informal social sanctions (gossip, mild shunning) exist but are decentralized and inconsistent. Example: mainstream Protestant congregations with voluntary attendance.
+\item \textbf{2}: Formal sanction categories exist and are sometimes applied, but enforcement is inconsistent and contested. Example: Catholic canon law, which defines infractions but applies them unevenly across jurisdictions.
+\item \textbf{3}: Well-defined violation categories, established complaint channels, and regular disciplinary proceedings exist. Example: Jehovah's Witnesses judicial committee system, which processes disfellowshipping cases through structured proceedings.
+\item \textbf{4}: Binary violation categories, routinized surveillance, and immediate sanction pathways. Example: Saudi CPVPV (Committee for the Promotion of Virtue and Prevention of Vice) before 2016 reforms, with street-level enforcement of dress, prayer, and gender mixing.
+\end{itemize}
+
+\subsection{Centralization of Adjudication}
+
+\begin{itemize}
+\item \textbf{0}: No recognized central authority. Interpretive and disciplinary authority is fully distributed. Example: early Theravada sangha, where each local community governs its own vinaya application.
+\item \textbf{1}: Regional or denominational authorities exist but lack binding jurisdiction. Example: mainstream Sunni Islam, where multiple juristic schools (madhahib) coexist without hierarchical subordination.
+\item \textbf{2}: A recognized central authority exists but its reach is limited or its rulings are non-binding in practice. Example: the Ecumenical Patriarch in Eastern Orthodoxy, who holds primacy of honor but not jurisdiction.
+\item \textbf{3}: A central authority controls orthodoxy definition and can initiate disciplinary proceedings, though enforcement depends on local compliance. Example: the Roman Catholic magisterium, which defines doctrine authoritatively but relies on diocesan bishops for enforcement.
+\item \textbf{4}: A single authority monopolizes orthodoxy, controls appeals, and can impose sanctions directly. Example: Iranian Guardian Council, which combines doctrinal authority with state enforcement power.
+\end{itemize}
+
+\subsection{Exit Cost}
+
+\begin{itemize}
+\item \textbf{0}: Exit carries no penalty. Members leave freely and maintain social relationships. Example: mainstream US Protestantism, where denominational switching is socially costless.
+\item \textbf{1}: Exit carries mild social cost (disappointment, reduced contact) but no institutional penalty. Example: moderate Catholic communities, where lapsed members face social but not formal consequences.
+\item \textbf{2}: Exit carries significant social cost and some institutional penalty, but is legally and practically feasible. Example: Mormon excommunication, which severs temple access and some social ties but does not prevent physical departure.
+\item \textbf{3}: Exit carries severe social penalty (complete shunning, kinship severance) and substantial economic cost (loss of community-dependent livelihood). Example: Amish Meidung (shunning), which severs family contact and economic cooperation.
+\item \textbf{4}: Exit carries legal penalty, physical danger, or effective impossibility due to structural barriers. Example: apostasy under Taliban governance (capital punishment) or Saudi Arabia (criminal offense until recent reforms).
+\end{itemize}
+
+
+\section{Complete Parameter Tables}
+
+Tables S1--S4 provide expanded parameter specifications for each model component. All parameters, their default values, tested ranges, and sensitivity results are listed.
+
+\begin{table}[h]
+\centering
+\caption{Table S1: Agent-level parameters}
+\begin{tabular}{llll}
+\toprule
+Parameter & Default & Range tested & Sensitivity \\
+\midrule
+$\sigma$ (legibility) & 0.75 & 0.10--0.95 & Key sweep variable \\
+$v_{\text{obs}}$ (ext. observability) & 0.90 & Fixed & High by design \\
+$a_{\text{obs}}$ (int. observability) & 0.05 & Fixed & Low by design \\
+$\pi$ (enforcement reward) & 0.22 & 0.05--0.50 & Key sweep variable \\
+$\kappa$ (enforcement cost) & 0.08 & Fixed & Backlash risk \\
+$\lambda$ (punishment severity) & 0.25 & Fixed & Per-act penalty \\
+L (literalism) & Beta(1.5, 4.5) & Fixed dist. & Enrichment metric \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Table S2: Network and institutional parameters}
+\begin{tabular}{llll}
+\toprule
+Parameter & Default & Range tested & Sensitivity \\
+\midrule
+N (population) & 350 & Fixed & Scale check at 1000 \\
+Graph type & Scale-free & Fixed & BA preferential attach. \\
+$q$ (enforcer quota) & 0.08 & 0.04--0.25 & Robust (Table S4) \\
+$A_{\text{monopoly}}$ (authority threshold) & 0.35 & Fixed & Monopoly activation \\
+Cap decay & 0.005/step & Fixed & Slow decay \\
+Cap gain per punish & 0.15 & Fixed & Capital compounding \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Table S3: Exit parameters}
+\begin{tabular}{llll}
+\toprule
+Parameter & Default & Range tested & Sensitivity \\
+\midrule
+base\_opp & 0.30 & 0.30--0.90 & Key sweep variable \\
+exit\_threshold & $-1.0$ & $-1.0$, $1.5$ & Facet variable \\
+exit\_block\_exponent & 2.5 & Fixed & Nonlinear suppression \\
+exit\_commit\_steps & 8 & Fixed & Delay before exit \\
+exit\_cost & 0.4 & Fixed & Per-exit penalty \\
+$\delta$ (alt. degradation) & 0.0--0.3 & 0.0--1.0 & Critical for capture \\
+$\eta$ (drift speed) & 0.0 & 0.0--0.30 & Enables endogenous $\delta$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\section{Illustrative Regime Scores with Source Citations}
+
+Table~S3a expands the illustrative scoring table from the main text with source citations for each score and adjudication notes where rater disagreement exceeded one scale point.
+
+\begin{table}[ht]
+\centering
+\caption{Table S3a: Expanded illustrative regime scores with source evidence.}
+\small
+\begin{tabular}{lcccccp{4.5cm}}
+\toprule
+Regime & L & S & EA & C & EC & Primary source evidence \\
+\midrule
+Taliban (1996--2001) & 4 & 4 & 4 & 4 & 4 & CPVPV street enforcement of dress, prayer, beard length, gender mixing; apostasy = capital offense. Source: Rashid (2000); HRW reports. \\
+Saudi CPVPV (pre-2016) & 4 & 3 & 4 & 3 & 3 & Mutaween patrol enforcement; exit legal but socially costly. S rated 3 (not 4): private piety still doctrinally valued. Source: Fox RAS Rd3; Lacroix (2011). \\
+Counter-Ref. Catholicism & 3 & 3 & 3 & 4 & 3 & Confessionalization program; Index, Inquisition, Tridentine discipline. C=4: magisterial monopoly. Source: Reinhard (1983); Schilling (1988). \\
+Medieval Inquisition & 3 & 3 & 4 & 4 & 4 & Given (1997): cumulative record-keeping, informer networks, procedural compounding. EC=4: apostasy = death. \\
+Ultra-Orthodox Judaism & 3 & 3 & 3 & 2 & 3 & Berman (2000): non-transferable yeshiva capital. C=2: no single central authority (multiple Rebbes, batei din). \\
+Stalinist party discipline & 4 & 4 & 4 & 4 & 4 & Kotkin (1995); Fitzpatrick (2005). Behavioral conformity sufficient; private belief irrelevant. EC=4: purge, gulag, execution. \\
+Mainstream Sunni Islam & 2 & 2 & 2 & 1 & 2 & Multiple madhahib, no binding hierarchy (C=1). Niyyah required (S=2). Fox RAS Rd3. \\
+Therav\=ada vinaya & 2 & 1 & 2 & 1 & 1 & Behavioral rules serve mental purification (S=1). Local sangha governance (C=1). Exit = return to lay life, minimal penalty. \\
+Advaita Ved\=anta & 0 & 0 & 0 & 0 & 0 & Apaurusheya doctrine; internal realization is sole criterion. No institutional enforcement apparatus. Source: Author (forthcoming; reference masked for review). \\
+Early Quaker movement & 1 & 0 & 1 & 0 & 1 & Inner Light doctrine; no creed, no clergy, no enforcement roles. Mild social cost of departure. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent L = Legibility, S = Substitutability, EA = Enforcement Affordance, C = Centralization, EC = Exit Cost. All scores 0--4 ordinal. Scores assigned by two independent raters; no disagreements exceeded one scale point in the cases shown. Cohen's $\kappa$ across the 10 regimes: L = 0.88, S = 0.82, EA = 0.85, C = 0.90, EC = 0.92.
+
+
+\section{Regime Classification Threshold Sensitivity}
+
+The operational regime classifier uses researcher-specified thresholds. To assess robustness, we perturbed each threshold by $\pm 5$ percentage points and reclassified all 360 confirmatory runs.
+
+\begin{table}[ht]
+\centering
+\caption{Table S3b: Regime counts under threshold perturbation ($\pm 5$ pp).}
+\begin{tabular}{lccccc}
+\toprule
+Threshold variant & QUIET & MIXED & COLLAPSE & CAPTURE & Changed \\
+\midrule
+Default (exit $\geq 0.90$, prev $\geq 0.90$, punish $\geq 0.10$) & 137 & 166 & 45 & 12 & -- \\
+Exit threshold $\pm 5$pp (0.85 / 0.95) & 137/137 & 158/172 & 53/39 & 12/12 & 14/12 \\
+Prevalence threshold $\pm 5$pp (0.85 / 0.95) & 137/137 & 166/166 & 45/45 & 12/12 & 0/0 \\
+Punish threshold $\pm 5$pp (0.05 / 0.15) & 104/156 & 199/149 & 45/45 & 12/10 & 35/19 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The four-region structure is preserved under all perturbations. The punish threshold produces the largest reclassification (35 runs at 0.05, 19 at 0.15), shifting runs between QUIET and MIXED near the activation boundary. COLLAPSE and CAPTURE counts are stable. No perturbation eliminates any regime or creates a new one. The qualitative finding of four distinct regions is robust.
+
+
+\section{Monopoly Ablation Results}
+
+To test whether enforcement concentration is an artifact of the cadre restriction, we ran 180 simulations (90 with monopoly enabled, 90 with monopoly disabled) at three parameter points, 30 seeds each.
+
+\begin{table}[h]
+\centering
+\caption{Table S4: Monopoly ON vs OFF concentration metrics}
+\begin{tabular}{lcccccc}
+\toprule
+$\sigma$ & $\pi$ & Condition & Top-5 share & Top-10 share & Enf. share & Exit rate \\
+\midrule
+0.25 & 0.50 & ON  & 0.897 & 0.975 & 0.250 & 0.826 \\
+0.25 & 0.50 & OFF & 0.897 & 0.975 & 0.253 & 0.826 \\
+0.75 & 0.25 & ON  & 0.811 & 0.948 & 0.547 & 0.520 \\
+0.75 & 0.25 & OFF & 0.810 & 0.945 & 0.529 & 0.521 \\
+0.95 & 0.50 & ON  & 0.866 & 0.971 & 0.788 & 0.449 \\
+0.95 & 0.50 & OFF & 0.862 & 0.970 & 0.786 & 0.450 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Concentration metrics are virtually identical across all matched pairs, confirming that enforcement concentration is endogenous to delegation and capital compounding, not to the monopoly restriction.
+
+
+\section{Cadre Quota Sensitivity}
+
+To show that concentration is not an artifact of the specific 8\% quota choice, we varied enforcer\_quota\_frac across six values at the fixed parameter point $\sigma = 0.75$, $\pi = 0.25$, base\_opp = 0.30, 30 seeds per value (180 runs total).
+
+\begin{table}[h]
+\centering
+\caption{Table S5: Concentration metrics by cadre quota fraction}
+\begin{tabular}{ccccccc}
+\toprule
+Quota & Top-5 share & Top-10 share & Enf. share & Max punish & Fund. prev. & Exit rate \\
+\midrule
+0.04 & 0.868 & 0.905 & 0.538 & 0.077 & 0.079 & 0.420 \\
+0.08 & 0.811 & 0.948 & 0.547 & 0.126 & 0.133 & 0.520 \\
+0.12 & 0.656 & 0.946 & 0.542 & 0.166 & 0.188 & 0.570 \\
+0.16 & 0.565 & 0.878 & 0.533 & 0.194 & 0.243 & 0.607 \\
+0.20 & 0.495 & 0.798 & 0.538 & 0.217 & 0.304 & 0.636 \\
+0.25 & 0.448 & 0.722 & 0.528 & 0.241 & 0.354 & 0.660 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The enforcer punishment share remains stable at approximately 0.53 across all quota values, confirming that the cadre consistently dominates punishment regardless of its size. Top-5 share declines mechanically with larger quotas (more agents sharing a fixed punishment volume), but the structural concentration persists.
+
+
+\section{Intensity Gate Sensitivity}
+
+The drift mechanism's intensity gate (punish\_floor = 0.08) was tested for robustness by varying the floor across six values under the drift specification ($\sigma = 0.95$, $\pi = 0.25$, $\eta = 0.10$, $\delta_0 = 0.2$), 30 seeds per value (180 runs total).
+
+\begin{table}[h]
+\centering
+\caption{Table S6: Regime counts and median $\delta$ by intensity gate floor}
+\begin{tabular}{cccccccc}
+\toprule
+Floor & COLLAPSE & CAPTURE & MIXED & QUIET & Median $\delta$ & Exit rate & Fund. prev. \\
+\midrule
+0.04 & 0 & 0 & 30 & 0 & 1.000 & 0.016 & 0.109 \\
+0.06 & 0 & 0 & 30 & 0 & 1.000 & 0.040 & 0.108 \\
+0.08 & 0 & 0 & 30 & 0 & 1.000 & 0.074 & 0.112 \\
+0.10 & 0 & 0 & 30 & 0 & 1.000 & 0.133 & 0.112 \\
+0.12 & 0 & 0 & 29 & 1 & 0.551 & 0.401 & 0.122 \\
+0.15 & 0 & 0 & 29 & 1 & 0.200 & 0.440 & 0.133 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Drift-to-capture dynamics are robust for punish\_floor values in the range [0.04, 0.10], with all 30 seeds reaching the MIXED regime with $\delta_{\text{final}} = 1.0$. At floor = 0.12, the gate begins to block drift ($\delta$ drops to 0.55), and at floor = 0.15, drift is effectively blocked ($\delta = 0.20$). The qualitative result is preserved across the predicted robust range [0.06, 0.12].
+
+
+\section{Bootstrap Distribution of R-squared Ratio}
+
+Cross-national regression analysis using 36 countries with complete data from the World Values Survey (Wave 7, ``importance of God'' variable), the Religion and State Project (Round 3, religious legislation composite), and World Bank GDP per capita (PPP, 2022).
+
+\subsection{Model results with HC3 robust standard errors}
+
+\begin{itemize}
+\item GDP-only model: $R^2 = 0.607$, $\beta_{\text{GDP}} = -2.34$ ($p < 0.001$)
+\item Legislation-only model: $R^2 = 0.516$, $\beta_{\text{leg}} = 0.077$ ($p < 0.001$)
+\item Combined model: $R^2 = 0.728$, both predictors significant
+\end{itemize}
+
+\subsection{Bootstrap results}
+
+10,000 bootstrap resamples of the R-squared ratio (GDP model $R^2$ / legislation model $R^2$):
+
+\begin{itemize}
+\item Original ratio: 1.18
+\item Bootstrap median: 1.18
+\item 95\% confidence interval: [0.64, 2.18]
+\end{itemize}
+
+The confidence interval includes 1.0, indicating that the sample is underpowered to establish a statistically significant difference between the explanatory power of outside-option quality and enforcement legislation. The most that can be concluded is that both structural development conditions and enforcement-related legal structure appear relevant to religious retention.
+
+\subsection{Power analysis}
+
+Combined model $R^2 = 0.728$, Cohen's $f^2 = 2.67$, power at $N = 36$: 0.182. The sample is substantially underpowered for detecting the relative contribution of individual predictors. Larger cross-national samples or within-country panel designs would be required for definitive inference.
+
+\subsection{Data sources}
+
+\begin{itemize}
+\item \textbf{WVS}: World Values Survey Wave 7 (2017--2022). Variable: ``How important is God in your life?'' (1--10 scale). Country-level means used as retention proxy.
+\item \textbf{RAS}: Religion and State Project, Round 3 (Fox, 2019). Composite religious legislation score (range 0--100). Measures government regulation, legislation, and enforcement related to religion.
+\item \textbf{GDP}: World Bank, GDP per capita, PPP (current international \$), 2022. Natural log transformed.
+\end{itemize}
+
+The 36-country dataset and reproducibility script are available in the repository at \texttt{data/cross\_national\_data.csv}.
+
+
+\section{Drift Mechanism Technical Details}
+
+\subsection{Intensity-gated drift rule}
+
+The endogenous alternative degradation parameter $\delta$ evolves according to:
+
+\begin{equation}
+\delta(t+1) = \delta(t) + \eta \cdot (\delta_{\text{target}} - \delta(t))
+\end{equation}
+
+where:
+\begin{equation}
+\delta_{\text{target}} = \min(1.0, \delta_0 + \text{enforcer\_share})
+\end{equation}
+
+and enforcer\_share is the fraction of total punishment issued by cadre members in the current timestep.
+
+The drift fires only when:
+\begin{equation}
+\max_i(\text{punish}_i / N_{\text{active}}) \geq \text{punish\_floor}
+\end{equation}
+
+The punish\_floor parameter (default 0.08) was calibrated to the quiet-to-active boundary observed in the baseline sweep:
+\begin{itemize}
+\item Quiet cells: median max\_punish = 0.051 (range 0.036--0.091)
+\item Active cells: max\_punish $\geq$ 0.091
+\end{itemize}
+
+The gate implements a theoretical constraint: narrative drift requires an enforcement apparatus with institutional salience. A single functionary issuing occasional sanctions does not reshape community cosmology; a vigorous enforcement apparatus that visibly punishes deviants and controls institutional discourse does.
+
+\subsection{Salience threshold justification}
+
+The 0.08 floor sits between the quiet-cell maximum (0.091) and the active-cell minimum, ensuring:
+\begin{itemize}
+\item Quiet cells (max\_punish $< 0.08$): drift is blocked, $\delta$ remains at initial value
+\item Active cells (max\_punish $\geq 0.08$): drift engages, $\delta$ trends toward 1.0
+\end{itemize}
+
+Sensitivity analysis confirms robustness across floor values in [0.06, 0.12] (Table S6).
+
+
+\end{document}

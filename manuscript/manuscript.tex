@@ -2,6 +2,7 @@
 
 % -- fonts (Times Roman via TeX Gyre Termes) --
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{tgtermes}
 
 % -- layout --
@@ -34,18 +35,18 @@
 
 \title{Code Geometry and Endogenous Enforcement Concentration in Codified Moral Systems: An Agent-Based Model}
 
-\author{Boggavarapu Kiran$^{1}$}
+\author{}
 
 \date{}
 
-\newcommand{\affiliation}{$^{1}$Department of Chemistry and Physics, McNeese State University, Lake Charles, LA 70607. Email: kiran@mcneese.edu}
+\newcommand{\affiliation}{}
 
 \date{}
 
 \begin{document}
 
 \maketitle
-\noindent\affiliation
+%\noindent\affiliation
 \vspace{1em}
 
 % ============================================================
@@ -53,8 +54,9 @@
 % ============================================================
 
 \begin{abstract}
-Enforcement-dominant dynamics in codified moral systems are often explained through extremists, charismatic leaders, or exogenous political shocks. This paper develops an alternative account: such dynamics can arise endogenously from the structural geometry of the code itself. We formalize five dimensions of code geometry, namely legibility, substitutability, enforcement affordance, centralization, and exit cost, and test their consequences in an agent-based model with symmetric agents, no pre-assigned enforcement roles, and 3,246 simulations across five sweeps. The model generates four recurrent regimes: quiet, mixed enforcement, collapse, and capture. Results show that enforcement activation is governed not by legibility alone but by a joint boundary between legibility and enforcement reward: low values on both suppress enforcement, while higher values open a stable enforcement niche. Once active, institutional delegation and capital compounding concentrate punishment in an endogenously selected minority. Two plausible retention mechanisms, sanctified suffering and membership reward, fail across their tested ranges to convert mixed enforcement into durable capture. By contrast, endogenous degradation of the perceived outside option sharply reduces exit and broadens the capture region. Ablation shows that punishment concentration does not depend on orthodoxy drift or monopoly artifacts, but on delegation and compounding enforcement capital. The main implication is structural: enforcement concentration and minority capture need not be imported into codified systems from outside. Under identifiable conditions, they are equilibrium outcomes of the system itself.
+Enforcement-dominant dynamics in codified moral systems are often attributed to extremists, charismatic leaders, or external shocks. This paper develops a structural alternative: they can arise endogenously from the geometry of the code itself. We formalize five dimensions (legibility, substitutability, enforcement affordance, centralization, and exit cost) and test them in an agent-based model with symmetric agents and no pre-assigned enforcement roles, across 3,246 simulations. Four regimes recur: quiet, mixed enforcement, collapse, and capture. Enforcement activation is governed by a joint boundary between legibility and enforcement reward. Once active, institutional delegation and compounding enforcement capital concentrate punishment in an endogenously selected minority. Two plausible retention mechanisms, sanctified suffering and membership reward, fail to produce durable capture across their tested ranges; endogenous degradation of the perceived outside option succeeds. Enforcement concentration and minority capture are equilibrium outcomes of the system itself.
 \end{abstract}
+\vspace{1em}\noindent\textbf{Keywords:} agent-based modeling; institutional design; norm enforcement; organizational capture; path dependence; religious organizations
 
 \newpage
 
@@ -64,9 +66,11 @@ Enforcement-dominant dynamics in codified moral systems are often explained thro
 
 \section{Introduction}
 
-When religious fundamentalism is discussed as a social problem, the standard causal story runs through actors. Extremists capture institutions, radicalize communities, and impose orthodoxy on reluctant majorities. The implied prescription follows naturally: remove the extremists, weaken their organizations, and the system will relax. This framing treats enforcement specialists as exogenous to the belief system itself, as though they were a contingent infestation rather than a structurally available role.
+Organizations that codify conduct confront a common governance problem: compliance must be monitored and deviation sanctioned. In practice this work rarely stays distributed across the membership. It concentrates. Inquisitorial tribunals, party disciplinary organs, morality police, and professional ethics boards instantiate the same organizational form: a small, specialized minority holding delegated punishment authority over a much larger population. How such enforcement minorities arise, and why some stabilize into durable control while others fragment the organizations that host them, is the problem this paper addresses.
 
-This paper argues that the framing is incomplete. Enforcement-dominant dynamics, what is commonly labeled fundamentalism, can arise endogenously from the internal structure of codified moral systems. The key explanatory variable is not theological content as such, but what I call code geometry: the configuration of legibility, substitutability, enforcement affordance, centralization of adjudication, and exit cost. The claim is not that all codified systems generate the same outcomes, nor that history and politics do not matter. It is that these outcomes become more or less available depending on how a system makes moral standing visible, enforceable, and difficult to escape.
+The standard causal story runs through actors. In the case most discussed as a social problem, religious fundamentalism, extremists capture institutions, radicalize communities, and impose orthodoxy on reluctant majorities. The implied prescription follows naturally: remove the extremists, weaken their organizations, and the system will relax. This framing treats enforcement specialists as exogenous to the system itself, as though they were a contingent infestation rather than a structurally available role.
+
+This paper argues that the framing is incomplete. Enforcement-dominant dynamics, what is commonly labeled fundamentalism in the religious case, can arise endogenously from the internal structure of codified moral systems. The key explanatory variable is not doctrinal content as such, but what I call code geometry: the configuration of legibility, substitutability, enforcement affordance, centralization of adjudication, and exit cost. The claim is not that all codified systems generate the same outcomes, nor that history and politics do not matter. It is that these outcomes become more or less available depending on how a system makes moral standing visible, enforceable, and difficult to escape.
 
 The model developed here tests that claim in a deliberately minimal way. Agents are symmetric at initialization. No enforcement class is imposed ex ante. No charismatic leader, exogenous shock, or abnormal psychological distribution is needed to produce the core dynamics. Under appropriate parameter combinations, punishment becomes concentrated in a small minority selected endogenously through institutional delegation and capital compounding. The system then moves among four recurrent regimes, quiet, mixed enforcement, collapse, and capture, depending on whether enforcement becomes viable, whether exit remains open, and whether the outside option is progressively degraded.
 
@@ -197,7 +201,7 @@ The mapping proceeds from model parameters to institutional indicators. Legibili
 
 Enforcement affordance refers to the ease with which deviations can be detected, coded as violations, and linked to sanctions. Observable indicators include the presence of binary or low-ambiguity rule structures, explicit violation categories, routinized complaint channels, and established disciplinary procedures. Centralization refers to the concentration of interpretive and punitive authority. It is indexed by the existence of recognized adjudicating bodies, monopoly claims over orthodoxy, restricted appeal channels, and institutional mechanisms that convert local accusations into system-wide disciplinary action. Exit cost refers to the penalties associated with leaving, defecting, or openly dissenting. It is approximated by legal apostasy penalties, kinship endogamy, economic dependence on the community, identity foreclosure, and the social cost of disaffiliation.
 
-The model also includes enforcement reward and delegation variables, which are especially important for distinguishing mere rule density from enforcement specialization. Enforcement reward is operationalized through promotion incentives, prestige for orthodoxy policing, access to institutional resources, or material compensation tied to disciplinary activity. Delegation is operationalized through the existence of specialized offices, enforcement jurisdictions, or recognized actors whose role includes monitoring and sanctioning others. The complete scoring anchors and observable proxies are provided in S1 Text; the purpose of the present section is to make explicit the logic of the mapping rather than duplicate the full rubric.
+The model also includes enforcement reward and delegation variables, which are especially important for distinguishing mere rule density from enforcement specialization. Enforcement reward is operationalized through promotion incentives, prestige for orthodoxy policing, access to institutional resources, or material compensation tied to disciplinary activity. Delegation is operationalized through the existence of specialized offices, enforcement jurisdictions, or recognized actors whose role includes monitoring and sanctioning others. The complete scoring anchors and observable proxies are provided in Online Resource 1; the purpose of the present section is to make explicit the logic of the mapping rather than duplicate the full rubric.
 
 % -- Tables 1-4: Parameter-to-observable mapping --
 
@@ -306,7 +310,7 @@ Disagreements greater than one scale point are resolved through return to source
 
 \begin{table}[ht]
 \centering
-\caption{Illustrative code-geometry scores for historically bounded regimes. Scores are 0--4 ordinal; full anchor definitions in S1 Text.}
+\caption{Illustrative code-geometry scores for historically bounded regimes. Scores are 0--4 ordinal; full anchor definitions in Online Resource 1.}
 \label{tab:scores}
 \begin{tabular}{lccccc}
 \toprule
@@ -330,7 +334,7 @@ Early Quaker movement & 1 & 0 & 1 & 0 & 1 \\
 
 The rubric is designed to be falsifiable in both positive and negative directions. A false positive occurs if regimes that score high across the core dimensions repeatedly fail to exhibit enforcement-dominant dynamics, minority sanction concentration, or institutionalized orthodoxy policing. A false negative occurs if regimes that score low on legibility and substitutability nonetheless repeatedly generate stable enforcement specialization and minority capture comparable to high-scoring cases. Either pattern would require revision of the theory, not cosmetic reinterpretation of the cases.
 
-The illustrative regime scores provided in S1 Text are therefore not offered as final judgments on civilizational traditions. They are demonstrations of application under a protocol whose validity depends on reproducibility, disagreement tracking, and exposure to disconfirming cases. Their purpose is methodological: to show how the rubric operates, what kinds of evidence it uses, and what kinds of comparative claims it can and cannot support at the present stage.
+The illustrative regime scores provided in Online Resource 1 are therefore not offered as final judgments on civilizational traditions. They are demonstrations of application under a protocol whose validity depends on reproducibility, disagreement tracking, and exposure to disconfirming cases. Their purpose is methodological: to show how the rubric operates, what kinds of evidence it uses, and what kinds of comparative claims it can and cannot support at the present stage.
 
 The rubric also yields null predictions, and these are as important as the positive ones. A regime with high legibility but weak sanctioning machinery should produce visible conformity pressures without stable enforcement specialization. A regime with strong punitive capacity but low legibility should generate noisy or error-prone coercion rather than efficient orthodoxy enforcement. A regime with high scores on the core enforcement dimensions but very low exit cost should tend toward fragmentation or collapse rather than durable capture. These are not afterthoughts. They are the empirical choke points of the framework. If they fail systematically, the theory fails systematically.
 
@@ -498,7 +502,7 @@ This framework deliberately excludes several variables that other literatures tr
 
 The framework also does not address the content of belief. Two systems with identical code geometry scores but radically different theological commitments are predicted to exhibit similar enforcement dynamics. This is a feature of the theory, not a limitation: it permits cross-traditional comparison on structural grounds. Whether the claim generalizes empirically is a testable question, not an assumption.
 
-An empirical application of this framework to a curated corpus of Christian regimes --- with case-by-case scoring, attached evidence trails, and explicit reporting of substantive matches, boring nulls, and mechanism-mismatch failures --- is forthcoming as a companion paper~\cite{boggavarapuChristianApplicationInPrep}.
+An empirical application of this framework to a curated corpus of Christian regimes --- with case-by-case scoring, attached evidence trails, and explicit reporting of substantive matches, boring nulls, and mechanism-mismatch failures --- is forthcoming as a companion paper~(Author, in preparation; reference masked for review).
 
 
 % ============================================================
@@ -581,7 +585,7 @@ Endogenous drift & $\eta$ & 0.0--0.30 & $-0.39$ (from $\delta_0 = 0.1$) & Yes \\
 
 The third mechanism, alternative degradation, behaves differently because it acts on a different part of the decision structure. Instead of increasing the appeal of staying, it makes leaving progressively less thinkable. In the exogenous form of this mechanism, high $\delta$ values can already force retention, but only at extreme levels. In the endogenous drift specification, this dynamic becomes much stronger. Once enforcement reaches institutional salience, punishment concentration drives $\delta$ upward through feedback, and in active cells with drift enabled the outside option is driven all the way to its maximum degradation value. Under these conditions, exit collapses. In the runs formally classified as capture in the drift-enabled sweep, final $\delta$ reaches 1.0, median exit falls to 0.006, and the enforcer share of punishment rises to 0.981. Even more importantly, capture emerges broadly from low initial $\delta$ values, showing that the system does not require a catastrophically bad outside world at the start; it can construct one endogenously.
 
-Because many drift-on runs exhibit near-zero exit, saturated $\delta$, and maximal enforcer domination while remaining below the prevalence cutoff for formal CAPTURE classification, the continuous behavioral metrics are more informative here than the categorical label alone.
+Because the captured drift-on runs combine near-zero exit, saturated $\delta$, and maximal enforcer domination, the continuous metrics and the categorical label agree: these are capture regimes under the hierarchical criterion, irrespective of fundamentalist prevalence.
 
 The contrast among the three mechanisms reveals the real asymmetry in the model. Sanctified suffering and membership reward both operate by making staying somewhat better. Alternative degradation operates by making leaving dramatically worse. These are not symmetric interventions. Adding a small constant to the utility of staying produces little movement when outside opportunity remains credible. By contrast, collapsing the outside option changes the ratio governing exit decisively. That is why $\alpha$ and $\mu$ remain behaviorally secondary while $\delta$ transforms the regime. The model therefore supports a strong claim: durable capture is not primarily a product of meaning-making or membership benefit under enforcement pressure; it is primarily a product of outside-option collapse.
 
@@ -618,15 +622,17 @@ The gated endogenous drift sweep (135 cells: $\sigma \in \{0.25, 0.75, 0.95\} \t
 
 At $\eta = 0$ (no drift, 270 runs): 30 quiet, 240 mixed, 0 capture. This recovers the baseline and confirms that initial $\delta$ values of 0.1 to 0.3 are insufficient for capture without drift. Exit rates at $\eta = 0$ range from 0.069 (quiet, $\sigma = 0.25$, $\pi = 0.05$) to 0.400 (mixed, $\sigma = 0.25$, $\pi = 0.25$), consistent with the baseline results.
 
-At $\eta > 0$ (drift enabled, 1080 runs): 120 quiet, 494 mixed, 466 capture. Capture emerges broadly. In all 466 capture runs, final $\delta = 1.0$ (the maximum), median exit rate $= 0.006$, and median enforcer punishment share $= 0.981$. The enforcement apparatus drove $\delta$ from initial values of 0.1 to 0.3 all the way to 1.0 endogenously.
+At $\eta > 0$ (drift enabled, 1080 runs): 120 quiet, 960 capture, 0 mixed. Capture emerges broadly. Across the 960 capture runs, median exit rate $= 0.006$ and median enforcer punishment share $= 0.982$, with $\delta$ driven toward saturation by the enforcement feedback; the apparatus moved $\delta$ from initial values of 0.1 to 0.3 toward 1.0 endogenously. Capture is recorded here by the hierarchical criteria of \S6.8 (suppressed exit, active punishment, and enforcer-share concentration), which impose no fundamentalist-prevalence requirement; this is the schema \S6.8 designates for the phase analysis.
 
-The critical test: 32 cells meet the strict low-initial-delta capture criterion ($\delta_0 \in \{0.1, 0.2\}$, $\eta > 0$, $\sigma \geq 0.75$, $\geq 70\%$ of seeds classifying as capture). These cells were initialized with mild outside-world degradation (the outside is ``somewhat worse,'' not ``catastrophic'') and the enforcement apparatus drove them to maximum degradation through the feedback loop. At the strongest capture cells ($\sigma = 0.95$, $\pi = 0.25$, $\eta = 0.30$), 10 of 10 seeds capture with median exit rate 0.003.
+Applying the legacy prevalence gate to these 960 runs as a discriminant labels 466 of them as capture (fundamentalist prevalence at least 0.10) and the remaining 494 as mixed (prevalence below 0.10); none reach the legacy 0.90 threshold. The captured regimes are therefore low-prevalence: exit closes and punishment concentrates while the fundamentalist position itself stays a minority. That pattern is the model's central prediction, a minority enforcement apparatus governing a largely unconverted population, and it is the reason prevalence is excluded from the capture criterion rather than built into it.
+
+The critical test: all 48 cells meeting the strict low-initial-delta condition ($\delta_0 \in \{0.1, 0.2\}$, $\eta > 0$, $\sigma \geq 0.75$) classify as capture in at least 70\% of seeds; the condition is met without exception across these cells. They were initialized with mild outside-world degradation (the outside is ``somewhat worse,'' not ``catastrophic'') and the enforcement apparatus drove them to maximum degradation through the feedback loop. At the strongest capture cells ($\sigma = 0.95$, $\pi = 0.25$, $\eta = 0.30$), all 30 seeds across the three $\delta_0$ values capture, with median exit rate 0.003.
 
 The quiet regime is preserved by the intensity gate. At $\sigma = 0.25$, $\pi = 0.05$ (the quiet region), all 150 runs across all $\eta$ values classify as quiet. Final $\delta$ stays at the initial value (0.1 to 0.3). Punishment (median 0.051) is below the drift floor. The enforcement apparatus never achieves institutional salience, and narrative drift does not engage. The gate correctly distinguishes ``enforcement apparatus exists but is inert'' from ``enforcement apparatus is active and reshaping community perception.''
 
-At $\sigma = 0.25$, $\pi = 0.50$, 66 of 120 runs with $\eta > 0$ classify as capture. This is not an artifact. The baseline confirms that $\sigma = 0.25$, $\pi = 0.50$ is already in the mixed (active) regime with median max\_punish $= 0.161$, well above the drift floor. The system generates enough enforcement to trigger narrative drift even when legibility is low, because the enforcement reward is high enough to sustain active policing despite noisy monitoring. This maps to empirical cases such as Stalinist denunciation networks, where legibility of genuine political loyalty was low but enforcement was vigorous because the rewards for informing (career advancement, apartment allocation, immunity from denunciation) were large.
+At $\sigma = 0.25$, $\pi = 0.50$, all 120 runs with $\eta > 0$ classify as capture. This is not an artifact. The baseline confirms that $\sigma = 0.25$, $\pi = 0.50$ is already in the mixed (active) regime with median max\_punish $= 0.161$, well above the drift floor. The system generates enough enforcement to trigger narrative drift even when legibility is low, because the enforcement reward is high enough to sustain active policing despite noisy monitoring. This maps to empirical cases such as Stalinist denunciation networks, where legibility of genuine political loyalty was low but enforcement was vigorous because the rewards for informing (career advancement, apartment allocation, immunity from denunciation) were large.
 
-At $\sigma = 0.25$, $\pi = 0.25$, all 120 runs with $\eta > 0$ remain mixed despite $\delta$ drifting to 1.0. Enforcement is active (max\_punish $= 0.166$) and $\delta$ saturates, but fundamentalist prevalence stays below the capture classification threshold. The dynamics are capture-like (near-zero exit, concentrated enforcement, maximum $\delta$) but the community composition metric does not cross 0.10. This is a classification-boundary effect rather than a substantive regime difference.
+At $\sigma = 0.25$, $\pi = 0.25$, all 120 runs with $\eta > 0$ classify as capture: enforcement is active (max\_punish $= 0.166$), $\delta$ saturates, exit closes, and punishment concentrates in the enforcer cadre. Fundamentalist prevalence stays low, below 0.10 in most of these runs, which is exactly the point: capture here is enforcement lock-in over a population that never converts, not majority belief. Under the legacy prevalence gate these runs would read as mixed; the hierarchical criterion records them as captured.
 
 \subsection{The complete causal chain}
 
@@ -669,7 +675,7 @@ Above the activation boundary with drift enabled, enforcement-dominant dynamics 
 
 The elevated enforcer share under drift (0.98 versus 0.31--0.77 without drift) reflects population retention rather than increased concentration per se: when few members exit, the cadre's punishment base is preserved. The concentration mechanism is delegation and capital compounding; the retention mechanism is narrative drift. Both are required.
 
-All drift-on runs at $\sigma \geq 0.4$ exhibit capture-like dynamics (near-zero exit, maximum $\delta$, enforcer share 0.98) but classify as MIXED under the hierarchical regime scheme because fundamentalist prevalence (median 0.10) does not cross the capture threshold (0.90). This reflects a measurement limitation of the prevalence metric. By every behavioral metric except the prevalence count, these systems are in capture.
+All 420 drift-on runs at $\sigma \geq 0.4$ satisfy the hierarchical capture criteria (median exit 0.08, active punishment 0.20, enforcer share 0.98) and are classified as capture. Under the legacy prevalence-gated rule they would instead read as mixed, because median fundamentalist prevalence (0.11) falls well below the legacy 0.90 threshold. This is the same discriminant pattern seen in the emergence sweep: capture is enforcement concentration with closed exit, and it occurs here while the belief itself remains a minority position.
 
 % -- placeholder for Figure 1 --
 \begin{figure}[ht]
@@ -773,7 +779,7 @@ These predictions are falsifiable in both directions. A false positive for the f
 
 The dose-response curve identifies a structural boundary separating the quiet region from enforcement-dominant dynamics. This boundary has a theoretical interpretation connecting the computational result to how codified systems structure the relationship between truth and persons.
 
-In transpersonal authority systems, truth is located outside any person's biography. The Vedic tradition's doctrine of \textit{apaurusheya} (authorlessness) is the most fully articulated instance: the Vedas are \textit{nitya} (eternal), no person authored them, and the rishis are seers, not makers. When truth has no author, moral evaluation cannot terminate at external behavior because the tradition denies that external performance constitutes the relevant epistemic achievement. $\sigma$ is structurally low. The enforcement niche cannot form. (For a detailed philosophical analysis of transpersonal authority and its institutional consequences across six comparison cases, see Boggavarapu, forthcoming.)
+In transpersonal authority systems, truth is located outside any person's biography. The Vedic tradition's doctrine of \textit{apaurusheya} (authorlessness) is the most fully articulated instance: the Vedas are \textit{nitya} (eternal), no person authored them, and the rishis are seers, not makers. When truth has no author, moral evaluation cannot terminate at external behavior because the tradition denies that external performance constitutes the relevant epistemic achievement. $\sigma$ is structurally low. The enforcement niche cannot form. (For a detailed philosophical analysis of transpersonal authority and its institutional consequences across six comparison cases, see Author, forthcoming; reference masked for review.)
 
 In person-dependent authority systems, truth arrives through a specific individual's biography. Compliance becomes adherence to the messenger's codified prescriptions, which are necessarily external, behavioral, and legible. $\sigma$ is structurally high. The model predicts active dynamics at $\sigma \geq 0.4$, and every tested configuration above this threshold produces enforcement concentration.
 
@@ -893,11 +899,6 @@ Sect, subsidy, and sacrifice: An economist's view of ultra-Orthodox Jews.
 Berman E, Laitin DD.
 Religion, terrorism and public goods: Testing the club model.
 \textit{Journal of Public Economics}. 2008;92(10--11):1942--1967.
-
-\bibitem{boggavarapuChristianApplicationInPrep}
-Boggavarapu K.
-Christian regimes on the code geometry rubric: an empirical application of the unified scoring framework.
-Manuscript in preparation, 2026.
 
 \bibitem{boyd2003}
 Boyd R, Gintis H, Bowles S, Richerson PJ.
@@ -1118,14 +1119,13 @@ Princeton University Press; 2005.
 
 \section*{Data and Code Availability}
 
-All simulation code, data, and analysis scripts are publicly available at:
-\texttt{https://github.com/khatvangi/code-geometry-abm}
+All simulation code, data, and analysis scripts are publicly available: an anonymized review copy of the repository is available at [ANONYMOUS-LINK]; the public archive will be linked upon acceptance.
 
 The cross-national regression dataset is provided at \texttt{data/cross\_national\_data.csv}
 in the repository.
 
 \section*{Supporting Information}
 
-\noindent\textbf{S1 Text.} Scoring rubric anchors (0--4 scale definitions for all five code-geometry dimensions), complete parameter tables, illustrative regime scores with source citations, regime classification threshold sensitivity ($\pm$5 pp), monopoly ablation results (180 runs), cadre quota sensitivity (180 runs), intensity gate sensitivity (180 runs), bootstrap regression analysis (10,000 resamples), and drift mechanism technical details.
+\noindent\textbf{Online Resource 1.} Scoring rubric anchors (0--4 scale definitions for all five code-geometry dimensions), complete parameter tables, illustrative regime scores with source citations, regime classification threshold sensitivity ($\pm$5 pp), monopoly ablation results (180 runs), cadre quota sensitivity (180 runs), intensity gate sensitivity (180 runs), bootstrap regression analysis (10,000 resamples), and drift mechanism technical details.
 
 \end{document}
