@@ -343,7 +343,11 @@ class Person(Agent):
             - p.exit_opportunity_threat_coeff * self.model.threat
         )
         p_opp = p.exit_block_floor + (1.0 - p.exit_block_floor) * (p_opp_raw ** p.exit_block_exponent)
-        if delta > 0.0 and getattr(self.model.params, "delta_mode", "legacy") == "legacy":
+        # exogenous mode imposes delta as a closed exit, so it must apply the same
+        # strong exit-closure as legacy (was legacy-only -> imposed delta never closed
+        # the exit and the closed-exit->capture test was untestable). decoupled keeps
+        # its own delta dynamics and is intentionally excluded here.
+        if delta > 0.0 and getattr(self.model.params, "delta_mode", "legacy") in ("legacy", "exogenous"):
             p_opp *= (1.0 - delta)
         self.last_p_opp = float(np.clip(p_opp, 0.0, 1.0))
 
