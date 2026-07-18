@@ -1,0 +1,17 @@
+v3.1 factorial-ablation confirmatory sweep
+git_commit: f2453ade132dcbaa5fe0a1b96799072be5d9c0a0
+model: src/religion_fundamentalism_abm_v3_1.py
+steps: 450  n: 350  graph: scale_free  workers: 48
+total_jobs: 1440  (8 ablation configs x 36 cells x 5 seeds)
+sigmas: [0.25, 0.55, 0.75, 0.95]
+pi_rewards: [0.05, 0.25, 0.5]
+base_opps: [0.15, 0.35, 0.6]
+seeds: [1, 2, 3, 4, 5]
+
+ablation legs (config name P{patronage}S{seal}A{acq}):
+  P1: cap_gain_per_punish=0.15, mu=0.0   | P0: cap_gain_per_punish=0.0, mu=0.10
+  S1: delta_outside_degrade=0.25, eta_delta_drift=0.12 | S0: both 0.0
+  A1: omega_x/delta/e/t=0.02/0.06/0.04/0.02 | A0: all omega=0
+
+classification: read from each run's self-emitted run_summary.csv
+  (regime_classifier hierarchical schema; overt AND acquiescence-aware).
