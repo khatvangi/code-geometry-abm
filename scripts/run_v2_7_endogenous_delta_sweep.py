@@ -12,15 +12,25 @@ import pandas as pd
 
 REGIME_ORDER = ["COLLAPSE", "CAPTURE", "MIXED", "QUIET"]
 
+# canonical single-source classifier (hierarchical schema).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+import regime_classifier as rc
 
-def classify_regime(exit_rate: float, prevalence: float, max_punish: float, capture_exit_cap: float) -> str:
-    if exit_rate >= 0.90:
-        return "COLLAPSE"
-    if prevalence >= 0.90 and exit_rate <= capture_exit_cap:
-        return "CAPTURE"
-    if max_punish >= 0.10:
-        return "MIXED"
-    return "QUIET"
+
+def classify_regime(exit_rate: float, prevalence: float, max_punish: float,
+                    enforcer_share: float, capture_exit_cap: float) -> str:
+    """Canonical HIERARCHICAL classification via regime_classifier (single source
+    of truth): CAPTURE = retained (exit <= 0.20) + active (punish >= 0.10) +
+    concentrated (enforcer_share >= 0.70), with NO belief-prevalence gate.
+
+    Replaces the former inline LEGACY rule (prevalence >= 0.90 for CAPTURE), which
+    produced a false null on the exogenous exit-closure test: captured populations
+    comply without converting, so belief stays ~0.13 and the gate never fired. The
+    canonical cap (0.20) lives in regime_classifier.EXIT_CAPTURE_MAX so it cannot
+    drift; capture_exit_cap and prevalence are retained only for signature/back-
+    compatibility and are no longer part of the CAPTURE decision.
+    """
+    return rc.classify(exit_rate, max_punish, enforcer_share, schema="hierarchical")
 
 
 def parse_floats(csv_text: str) -> list[float]:
@@ -274,7 +284,7 @@ def collect_seed_rows(root: Path, capture_exit_cap: float, alpha_fixed: float, m
             enforcer_share = 0.0
         enforcer_share = float(np.clip(enforcer_share, 0.0, 1.0))
 
-        regime = classify_regime(exit_rate, prevalence, max_punish, capture_exit_cap)
+        regime = classify_regime(exit_rate, prevalence, max_punish, enforcer_share, capture_exit_cap)
         rows.append(
             {
                 "eta_delta_drift": eta,
