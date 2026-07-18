@@ -1,0 +1,14 @@
+n_cells=135
+n_runs=4050
+base_opp=0.3
+punish_floor=0.08
+exit_threshold=-1.0
+capture_exit_cap=0.2
+regime_majority_counts={'MIXED': 120, 'QUIET': 15}
+seed_regime_counts={'MIXED': 3600, 'QUIET': 450}
+exit_rate_median_range=(0.000000,0.418571)
+final_delta_median_range=(0.100000,1.000000)
+anomalies=none
+success_low_delta_capture_cells=0
+violations_sigma025_capture_cells=0
+violations_eta0_lowdelta_capture_cells=0

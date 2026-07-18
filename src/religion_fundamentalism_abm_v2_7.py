@@ -91,6 +91,9 @@ class Params:
     mu_membership_reward: float = 0.0
     eta_delta_drift: float = 0.0
     punish_floor: float = 0.08
+    delta_mode: str = "legacy"
+    delta_cap: float = 0.85
+    delta_kappa: float = 3.0
 
     # Membership value of staying inside the group.
     membership_benefit: float = 0.03
@@ -340,7 +343,7 @@ class Person(Agent):
             - p.exit_opportunity_threat_coeff * self.model.threat
         )
         p_opp = p.exit_block_floor + (1.0 - p.exit_block_floor) * (p_opp_raw ** p.exit_block_exponent)
-        if delta > 0.0:
+        if delta > 0.0 and getattr(self.model.params, "delta_mode", "legacy") == "legacy":
             p_opp *= (1.0 - delta)
         self.last_p_opp = float(np.clip(p_opp, 0.0, 1.0))
 
@@ -552,15 +555,23 @@ class ReligionABM(Model):
                 self.y0 = float(np.clip(0.95 * self.y0 + 0.05 * y_target, 0.0, 1.0))
 
     def _update_delta_drift(self):
+        mode = getattr(self.params, "delta_mode", "legacy")
+        if mode == "exogenous":
+            return  # delta held fixed at its baseline; set exogenously, no drift
         eta = float(np.clip(self.params.eta_delta_drift, 0.0, 0.5))
         if eta <= 0.0:
             return
         if self.punish_intensity_step < float(np.clip(self.params.punish_floor, 0.0, 1.0)):
             return
         eps = 1e-9
-        enforcer_share = float(self.enforcer_punish_events_step / max(self.punish_events_step, eps))
-        enforcer_share = float(np.clip(enforcer_share, 0.0, 1.0))
-        delta_target = float(min(1.0, self.delta_baseline + enforcer_share))
+        if mode == "decoupled":
+            cap = float(np.clip(self.params.delta_cap, 0.0, 1.0))
+            kappa = float(self.params.delta_kappa)
+            delta_target = float(min(cap, self.delta_baseline + kappa * self.punish_intensity_step))
+        else:  # legacy
+            enforcer_share = float(self.enforcer_punish_events_step / max(self.punish_events_step, eps))
+            enforcer_share = float(np.clip(enforcer_share, 0.0, 1.0))
+            delta_target = float(min(1.0, self.delta_baseline + enforcer_share))
         self.current_delta = float(np.clip(self.current_delta + eta * (delta_target - self.current_delta), 0.0, 1.0))
 
     def metrics(self) -> Dict[str, Any]:
@@ -806,6 +817,9 @@ def parse_args():
     ap.add_argument("--mu_membership_reward", type=float, default=0.0)
     ap.add_argument("--eta_delta_drift", type=float, default=0.0)
     ap.add_argument("--punish_floor", type=float, default=0.08)
+    ap.add_argument("--delta_mode", type=str, default="legacy", choices=["legacy", "decoupled", "exogenous"])
+    ap.add_argument("--delta_cap", type=float, default=0.85)
+    ap.add_argument("--delta_kappa", type=float, default=3.0)
     ap.add_argument("--membership_benefit", type=float, default=0.03)
     ap.add_argument("--membership_benefit_sigma", type=float, default=0.08)
     ap.add_argument("--membership_benefit_threat", type=float, default=0.10)
@@ -876,6 +890,9 @@ def main():
         mu_membership_reward=args.mu_membership_reward,
         eta_delta_drift=args.eta_delta_drift,
         punish_floor=args.punish_floor,
+        delta_mode=args.delta_mode,
+        delta_cap=args.delta_cap,
+        delta_kappa=args.delta_kappa,
         membership_benefit=args.membership_benefit,
         membership_benefit_sigma=args.membership_benefit_sigma,
         membership_benefit_threat=args.membership_benefit_threat,

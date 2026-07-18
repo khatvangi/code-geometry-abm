@@ -65,6 +65,10 @@ def run_one(
     base_opp: float,
     exit_threshold: float,
     steps: int,
+    shock_schedule: str,
+    delta_mode: str,
+    delta_cap: float,
+    delta_kappa: float,
 ):
     metrics_path = run_dir / "metrics.csv"
     agent_path = run_dir / "agent_summary.csv"
@@ -104,7 +108,13 @@ def run_one(
         "--exit_threshold",
         f"{exit_threshold:.2f}",
         "--shock_schedule",
-        "100,220,320",
+        shock_schedule,
+        "--delta_mode",
+        delta_mode,
+        "--delta_cap",
+        f"{delta_cap:.4f}",
+        "--delta_kappa",
+        f"{delta_kappa:.4f}",
         "--shock_strength",
         str(best["shock_strength"]),
         "--membership_benefit",
@@ -169,6 +179,10 @@ def run_grid(
     alpha_fixed: float,
     mu_fixed: float,
     steps: int,
+    shock_schedule: str,
+    delta_mode: str,
+    delta_cap: float,
+    delta_kappa: float,
 ):
     tasks = []
     for eta, delta0, sigma, pi in combos:
@@ -203,6 +217,10 @@ def run_grid(
                 base_opp,
                 exit_threshold,
                 steps,
+                shock_schedule,
+                delta_mode,
+                delta_cap,
+                delta_kappa,
             )
             for (run_dir, seed, sigma, pi, delta0, eta) in tasks
         ]
@@ -405,6 +423,10 @@ def main():
     ap.add_argument("--base-opp", type=float, default=0.3)
     ap.add_argument("--exit-threshold", type=float, default=-1.0)
     ap.add_argument("--capture-exit-cap", type=float, default=0.20)
+    ap.add_argument("--shock-schedule", type=str, default="100,220,320")
+    ap.add_argument("--delta-mode", type=str, default="legacy", choices=["legacy", "decoupled", "exogenous"])
+    ap.add_argument("--delta-cap", type=float, default=0.85)
+    ap.add_argument("--delta-kappa", type=float, default=3.0)
     args = ap.parse_args()
 
     out_root = Path(args.out).resolve()
@@ -433,6 +455,10 @@ def main():
         args.alpha_fixed,
         args.mu_fixed,
         args.steps,
+        args.shock_schedule,
+        args.delta_mode,
+        args.delta_cap,
+        args.delta_kappa,
     )
 
     seeds_df = collect_seed_rows(out_root, args.capture_exit_cap, args.alpha_fixed, args.mu_fixed)
