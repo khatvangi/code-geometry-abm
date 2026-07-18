@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 tmp/
 runs/**
+.validate_v3_tmp/
 results/**
 !results/README_FINAL_RESULTS.md
 # v3.1 factorial-ablation sweep: commit only the aggregated summaries, not the

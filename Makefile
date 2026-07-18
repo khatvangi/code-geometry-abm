@@ -1,4 +1,4 @@
-.PHONY: setup build-canonical figures validate reproduce clean
+.PHONY: setup build-canonical figures validate validate-v3 reproduce clean
 
 VENV := .venv
 PYTHON := $(VENV)/bin/python
@@ -18,6 +18,10 @@ figures: build-canonical
 
 validate:
 	$(PYTHON) scripts/validate_methodology_figures.py
+
+# foolproof checks for the v3.x consolidated + episodic models
+validate-v3:
+	$(PYTHON) scripts/validate_v3.py
 
 reproduce: figures validate
 	@echo "=== reproduction complete ==="
