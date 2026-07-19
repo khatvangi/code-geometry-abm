@@ -86,6 +86,33 @@ def buildArms():
 
 ARMS = buildArms()
 
+# historically-motivated NESTED path (papal-inquisition sequence): a specialized
+# body is designated first, then accumulates powers in a consistent order —
+# designation (quota), coercive power (multiplier), exclusivity (monopoly),
+# immunity (backlash protection), material self-funding (cap-gain per punishment),
+# standing budget, cost discount. monopoly follows the multiplier because
+# exclusivity is meaningless until there is a differential worth being exclusive
+# about. each arm turns ON one more privilege, cumulatively.
+NESTED_ORDER = ["quota", "punish_mult", "monopoly", "backlash_protect",
+                "cap_gain", "budget_patronage", "cost_discount"]
+NESTED_LABEL = {1: "n1_quota", 2: "n2_multiplier", 3: "n3_monopoly",
+                4: "n4_immunity", 5: "n5_capgain", 6: "n6_budget"}
+# n0 = floor (nothing on), n7 = ceiling (all on); reuse those rather than re-run.
+
+
+def buildNested():
+    arms = {}
+    for k in range(1, len(NESTED_ORDER)):        # k=1..6 -> n1..n6 (n0=floor, n7=ceiling)
+        o = floorOverrides()
+        for name in NESTED_ORDER[:k]:            # re-enable the first k privileges
+            for key in PRIVILEGE_OFF[name]:
+                o.pop(key, None)
+        arms[NESTED_LABEL[k]] = o
+    return arms
+
+
+ARMS.update(buildNested())
+
 
 def gini(x):
     x = np.sort(np.asarray(x, dtype=float))
@@ -153,7 +180,9 @@ def aggregate(rows):
         total_punish=("total_punish", "median"),
     )
     order = (["floor", "floor_eps0.25", "floor_eps0.50"]
-             + [f"add_{k}" for k in PRIVILEGE_OFF] + ["ceiling"])
+             + [f"add_{k}" for k in PRIVILEGE_OFF]
+             + [NESTED_LABEL[k] for k in range(1, len(NESTED_ORDER))]
+             + ["ceiling"])
     agg = agg.reindex([a for a in order if a in agg.index])
     agg["gini_above_null"] = (agg["gini_active"] - agg["gini_null"]).round(3)
     agg.to_csv(OUTROOT / "ablation_summary.csv")
@@ -176,6 +205,21 @@ def aggregate(rows):
         print("\nequalization sweep (collapse must hold across eps): "
               + ", ".join(f"{a.split('eps')[-1] if 'eps' in a else '1.00'}->top5={agg.loc[a,'top5_active']:.3f}"
                           for a in ["floor_eps0.25", "floor_eps0.50", "floor"] if a in agg.index))
+
+        # nested historical path: cumulative concentration + retention, marginal per step
+        path = ["floor"] + [NESTED_LABEL[k] for k in range(1, len(NESTED_ORDER))] + ["ceiling"]
+        path = [a for a in path if a in agg.index]
+        print("\n=== nested path (historical order): marginal Δ per privilege added ===")
+        print(f"{'step':14s} {'top5':>6s} {'Δtop5':>7s} {'gini':>6s} {'exit':>6s} {'Δexit':>7s}")
+        prev_t = prev_e = None
+        for a in path:
+            t, e, gi = agg.loc[a, "top5_active"], agg.loc[a, "exit_rate"], agg.loc[a, "gini_active"]
+            dt = "" if prev_t is None else f"{t-prev_t:+.3f}"
+            de = "" if prev_e is None else f"{e-prev_e:+.3f}"
+            print(f"{a:14s} {t:6.3f} {dt:>7s} {gi:6.3f} {e:6.3f} {de:>7s}")
+            prev_t, prev_e = t, e
+        print("(large +Δtop5 = the privilege that manufactures concentration; "
+              "large -Δexit at small +Δtop5 = a privilege that retains without concentrating)")
 
 
 def main():
