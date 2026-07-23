@@ -211,6 +211,45 @@ Privilege-manufactured share of top-5% concentration: (0.580 − 0.091)/0.580 =
 emergent property of the floor model (floor Gini 0.240 barely above the 0.028
 random null). Source columns: `arm, top5_active, gini_active, gini_null, exit_rate`.
 
+**Single-privilege add-back [C] [∞]** — same CSV, 120 seeds per arm. Recovery is
+expressed as a fraction of the floor→ceiling top-5% span (0.0907 → 0.5799):
+
+| arm | top5_active | gini_active | recovers |
+|---|---|---|---|
+| floor | 0.0907 | 0.2402 | — |
+| add_quota | 0.0907 | 0.2402 | 0.0% |
+| add_monopoly | 0.0907 | 0.2402 | 0.0% |
+| **add_punish_mult** | **0.2505** | **0.6317** | **32.7%** |
+| add_backlash_protect | 0.0907 | 0.2402 | 0.0% |
+| add_cap_gain | 0.0907 | 0.2402 | 0.0% |
+| add_budget_patronage | 0.0907 | 0.2402 | 0.0% |
+| add_cost_discount | 0.0907 | 0.2402 | 0.0% |
+| ceiling | 0.5799 | 0.9007 | 100% |
+
+**Seven of the eight single privileges are exactly inert** — byte-identical to the
+floor to 4 dp. The exception is the **punishment multiplier**, which alone recovers
+about a third of the span. The correct statement is therefore *not* "no single
+privilege recovers concentration": one does, and the remaining seven are inert
+because they act only on a cadre that the quota-less floor never forms. Concentration
+is conjunctive **except** for the coercive-power multiplier, which is the single
+load-bearing privilege.
+
+**Concentration does not discriminate capture [C] [∞]** —
+`recon/exogenous_delta_fixed`, regimes recomputed (hierarchical), active-agent
+metrics recomputed from each run's `agent_summary.csv`:
+
+| regime | n | top5_active | gini_active | final_exit_rate |
+|---|---|---|---|---|
+| CAPTURE | 320 | 0.678 | 0.918 | **0.105** |
+| MIXED | 1120 | 0.625 | 0.903 | **0.339** |
+| QUIET | 180 | 0.425 | 0.713 | 0.021 |
+
+Among **active** systems (CAPTURE vs MIXED) concentration is near-identical
+(top5 0.678 vs 0.625; Gini 0.918 vs 0.903) while exit differs threefold (0.105 vs
+0.339). **Retention, not concentration, separates the regimes.** QUIET sits lower on
+both concentration measures only because it is barely active — an activation effect,
+not a retention one, which is why non-CAPTURE must not be pooled.
+
 ## (e) Decoupled-δ — zero capture — `recon/decoupled_k1.5|k3.0|k6.0` [C] [T]
 **Provenance: RECOMPUTED** via `regime_classifier.classify_dataframe` (hierarchical).
 _Here the committed `regime` column happened to match the recompute exactly (0%

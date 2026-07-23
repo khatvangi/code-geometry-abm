@@ -541,21 +541,28 @@ def figure5() -> dict:
     ax.grid(axis="y", lw=0.4, alpha=0.3)
 
     files = save(fig, "fig5_circularity_demonstration")
+    # decoupled capture counts, data-derived (not asserted)
+    dec_counts = [int(round(r * n)) for r, n in zip(rates[1:], ns[1:])]
+    dec_ks = ["1.5", "3.0", "6.0"]
+    if len(set(dec_counts)) == 1 and len(set(ns[1:])) == 1:
+        dec_phrase = (f"{dec_counts[0]} of {ns[1]} runs at each of "
+                      f"$k={dec_ks[0]}$, ${dec_ks[1]}$ and ${dec_ks[2]}$")
+    else:
+        dec_phrase = ", ".join(f"{c} of {n} at $k={k}$"
+                               for c, n, k in zip(dec_counts, ns[1:], dec_ks))
     caption = (
-        f"\\textbf{{Capture under the coupled specification is partly definitional.}} "
-        f"Capture rate under the coupled exit-closure specification "
-        f"($n={ns[0]}$ runs) versus three decoupled arms "
-        f"($n={ns[1]}$ runs each), Wilson 95\\% intervals, regimes recomputed with the "
-        f"hierarchical classifier. The coupled specification sets the exit-closure "
-        f"target as a function of enforcer share "
-        f"($\\delta_{{target}} = \\min(1, \\delta_{{baseline}} + $ enforcer share$)$), "
-        f"an enforcement-concentration quantity, which mechanically drives the "
-        f"retention component of the capture criterion; it yields a capture rate of "
-        f"{rates[0]:.3f}. When the closure target is decoupled from enforcer share and "
-        f"driven by punishment intensity instead, the capture rate is "
-        f"{rates[1]:.3f}, {rates[2]:.3f} and {rates[3]:.3f} at $k=1.5$, $3.0$ and $6.0$. "
-        f"The contrast shows that the coupled result is produced by the feedback "
-        f"specification rather than by an independent dynamical mechanism."
+        f"\\textbf{{Specification check for circular closure.}} A specification in "
+        f"which outside-option closure is driven by enforcer share yields capture by "
+        f"construction, because that quantity mechanically drives retention, one of "
+        f"the two capture criteria "
+        f"($\\delta_{{target}} = \\min(1, \\delta_{{baseline}} + $ enforcer share$)$); "
+        f"the coupled arm ($n={ns[0]}$ runs) has a capture rate of {rates[0]:.3f}. "
+        f"Exit capacity is therefore treated as an independent structural input. When "
+        f"closure is decoupled from enforcer share and driven by punishment intensity "
+        f"instead, capture does not occur at any coupling strength: {dec_phrase}. "
+        f"Wilson 95\\% intervals are shown; regimes are computed with the hierarchical "
+        f"classifier, under which capture is retained AND active and enforcer share is "
+        f"not itself a criterion."
     )
     return {
         "figure_id": "fig5", "title": "Circularity demonstration", "files": files,

@@ -22,6 +22,8 @@
 
 % -- figures --
 \usepackage{graphicx}
+% numeric option: bibliography is a manual thebibliography with plain \bibitem
+\usepackage[numbers]{natbib}
 
 % -- hyperlinks (no colored links) --
 \usepackage[colorlinks=false,hidelinks]{hyperref}
@@ -398,7 +400,7 @@ The joint robustness band for the activation threshold is \([0.075,0.15]\). At 0
 
 \subsection{Metrics}
 
-Step-level punishment incidence is computed only among active agents. For run \(r\), \texttt{max\_punish} is the maximum across recorded steps of the fraction of then-active agents receiving at least one punishment in that step. \texttt{final\_exit\_rate} is the terminal fraction of the original population whose exited indicator is true. \texttt{exit\_rate\_last100} is [VERIFY: not implemented or stored in the committed CSVs; specify the intended denominator and terminal-window cohort before publication].
+Step-level punishment incidence is computed only among active agents. For run \(r\), \texttt{max\_punish} is the maximum across recorded steps of the fraction of then-active agents receiving at least one punishment in that step. \texttt{final\_exit\_rate} is the terminal fraction of the original population whose exited indicator is true.
 
 For the privilege ablation, let \(c_i\) be cumulative punishments issued by agent \(i\), restricted to agents active at the end of the run, and let \(n_a\) be their number. Then
 \begin{equation}
@@ -517,21 +519,17 @@ Ceiling & 0.580 & 0.901 & 0.062 & 0.331 \\
 \end{tabular}
 \end{table}
 
-The ablation was conjunctive. Adding any single privilege back to the bare floor recovered no concentration because the privileges operated only on a cadre, while removal of the quota removed the cadre itself. Concentration therefore required the joint operation of the cadre substrate and enforcement asymmetry. [VERIFY: exact single-privilege add-back estimates and the stated count of cadre-dependent privileges are not reported in RESULTS_TABLE.md.]
+The ablation was conjunctive with one exception. Seven of the eight privileges added back individually to the bare floor recovered no concentration at all, reproducing the floor values of 0.091 top-five-percent share and 0.240 Gini to four decimal places: the quota, the enforcement monopoly, backlash immunity, capital gain, budget patronage, and the cost discount all act only on a cadre, and the quota-less floor never forms one. The exception is the punishment multiplier, which alone raised the top-five-percent share to 0.251 and the Gini to 0.632, recovering about 32.7 percent of the floor-to-ceiling span. Concentration therefore required the joint operation of the cadre substrate and enforcement asymmetry for every privilege except coercive power, which is the single load-bearing component.
 
-Concentration also did not discriminate capture among active systems. Top-five-percent concentration and active-agent Gini were near-identical between CAPTURE and MIXED outcomes, whereas exit differed sharply. Retention, rather than concentration, separated the regimes. [VERIFY: add the CAPTURE-versus-MIXED values for top5_active, gini_active, and exit rate to RESULTS_TABLE.md before inserting them here.]
+Concentration also did not discriminate capture among active systems. Top-five-percent concentration and active-agent Gini were near-identical between CAPTURE ($n=320$: 0.678 and 0.918) and MIXED ($n=1120$: 0.625 and 0.903) outcomes, whereas the terminal exit rate differed roughly threefold (0.105 against 0.339). Retention, rather than concentration, separated the regimes. QUIET runs ($n=180$) sit lower on both concentration measures (0.425 and 0.713) only because they are barely active, which is an activation effect rather than a retention one and is why non-CAPTURE outcomes must not be pooled.
 
 \subsection{Specification checks and robustness}
 
-A specification in which outside-option closure is driven by the enforcer share yields capture by construction, since enforcer share is a component of the capture criterion; exit capacity is therefore treated as an independent structural input. When closure is decoupled from enforcer share, capture does not occur at any coupling strength: 0 of 4050 runs at each of $\kappa=1.5$, $3.0$, and $6.0$ (Figure~\ref{fig:circularity}).
+A specification in which outside-option closure is driven by the enforcer share yields capture by construction, because that quantity mechanically drives retention, one of the two capture criteria; exit capacity is therefore treated as an independent structural input. Enforcer share is not itself a criterion under the final classifier, in which capture is retained and active. When closure is decoupled from enforcer share, capture does not occur at any coupling strength: 0 of 4050 runs at each of $\kappa=1.5$, $3.0$, and $6.0$ (Figure~\ref{fig:circularity}).
 
 Capture outcomes are invariant to exogenous threat shocks: the regime distribution is identical with shocks absent and present, with 450 QUIET, 720 MIXED, and 2880 CAPTURE runs in each arm.
 
 The activation-threshold sensitivity analysis identified a robust band of $[0.075,0.15]$, with the canonical threshold of 0.10 in its interior. At 0.05 the necessity cell revived, whereas at 0.20 the dose-response degenerated to approximately zero capture throughout. Removing the enforcer-share criterion changed 0 of 9,570 classifications. Finally, COLLAPSE occurred without activation: 100 percent of collapse runs were below the activation threshold, with maximum punishment incidence no higher than 0.094. COLLAPSE is therefore reported as a descriptive tail of the inactive region rather than as an enforcement outcome.
-
-\paragraph{Verification markers.}
-[VERIFY: exact single-privilege add-back estimates and the stated count of cadre-dependent privileges are not reported in RESULTS_TABLE.md.]
-[VERIFY: add the CAPTURE-versus-MIXED values for top5_active, gini_active, and exit rate to RESULTS_TABLE.md before inserting them here.]
 
 \section{Discussion}
 
@@ -619,7 +617,7 @@ The resulting framework is narrower and more testable. Empirical applications sh
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{../figures/manuscript_v2/fig5_circularity_demonstration.pdf}
-\caption{\textbf{Specification check for circular closure.} A specification in which outside-option closure is driven by enforcer share yields capture by construction, since enforcer share is a component of the capture criterion; the coupled arm ($n=4050$ runs) has a capture rate of 0.711. Exit capacity is therefore treated as an independent structural input. When closure is decoupled from enforcer share, capture does not occur at any coupling strength: 0 of 4050 runs at each of $k=1.5$, $3.0$, and $6.0$. Wilson 95\% intervals are shown, and regimes are computed with the hierarchical classifier.}
+\caption{\textbf{Specification check for circular closure.} A specification in which outside-option closure is driven by enforcer share yields capture by construction, because that quantity mechanically drives retention, one of the two capture criteria ($\delta_{target} = \min(1, \delta_{baseline} + $ enforcer share$)$); the coupled arm ($n=4050$ runs) has a capture rate of 0.711. Exit capacity is therefore treated as an independent structural input. When closure is decoupled from enforcer share and driven by punishment intensity instead, capture does not occur at any coupling strength: 0 of 4050 runs at each of $k=1.5$, $3.0$ and $6.0$. Wilson 95\% intervals are shown; regimes are computed with the hierarchical classifier, under which capture is retained AND active and enforcer share is not itself a criterion.}
 \label{fig:circularity}
 \end{figure}
 
