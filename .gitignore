@@ -61,8 +61,14 @@ results/**
 !results/bootstrap_regression/**
 !results/v3_0_envelope_sweep/
 !results/v3_0_envelope_sweep/**
+# v3.3 endogenous exit-capacity: aggregated CSVs only, no raw per-run dirs.
+# NOTE: the directory itself must be un-ignored too, otherwise git never
+# descends into it and the /** negation is never evaluated.
+!results/v3_3_endogenous_capacity/
+!results/v3_3_endogenous_capacity/**
 !synthesis/
 !synthesis/**
+synthesis/**/__pycache__/
 codex-mod/
 HISTORY.md
 .DS_Store

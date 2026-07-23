@@ -1,0 +1,4 @@
+ec_tenure_crowdout,o_star_pred,closes,mean_ec_final,exit_last100_mean
+0.0005,0.917,False,0.9096,0.0226
+0.002,0.667,False,0.8174,0.0403
+0.008,-0.333,True,0.4899,0.0546

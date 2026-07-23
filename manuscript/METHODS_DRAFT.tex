@@ -1,0 +1,117 @@
+\section{Methods}
+
+\subsection{Model overview}
+
+We reconstructed the computational model in an ODD-style framework, separating its purpose, entities and state variables, process schedule, and experimental design. The model asks when a highly observable behavioral code can support an enforcement institution, and when restrictions on exit convert activated enforcement into durable capture. The entities are individual agents embedded in a social network and a system-level institutional controller. Time is discrete. Each reported run begins with \(N=350\) agents and proceeds for 450 steps. Although an earlier design note described 500-step main sweeps, the committed CSVs contain 450 metric rows per run and the sweep launcher defaults to 450; thus 450 is the code- and data-verified horizon for the shock factorial, delta-decoupling, exogenous dose-response, activation-boundary, and privilege-ablation experiments. Each experimental cell uses 30 independent seeds, numbered 1 through 30.
+
+\subsection{Agents}
+
+At initialization, intrinsic cultivation is \(x_i\sim\operatorname{clip}_{[0,1]}\{\mathcal{N}(0.35,0.12^2)\}\), belief position is \(y_i\sim\operatorname{clip}_{[0,1]}\{\mathcal{N}(0.50,0.12^2)\}\), and literalism is \(L_i\sim\operatorname{Beta}(1.5,4.5)\). Rigidity and enforcement propensity are drawn independently as \(b_i,r_i\sim\operatorname{Beta}(2,4)\). The externally legible compliance marker begins at \(s_i=0\). Utility, institutional capital, and accumulated service begin at zero; agents initially have not exited and are not enforcers. Agents are exchangeable draws from common initial distributions and have no preassigned enforcement role.
+
+During an active agent update, visible compliance is chosen probabilistically from local compliance and enforcement norms, cultivation is updated by a noisy investment decision, and belief drifts weakly toward the current orthodoxy. Capital and service decay every step at rates 0.005 and 0.02, respectively. Exited agents no longer participate in compliance or enforcement, although their capital and service continue to decay and their belief follows a small random walk.
+
+\subsection{Network}
+
+The reported sweeps use a Barab\'asi--Albert scale-free network. Its attachment parameter is
+\begin{equation}
+ m=\max\{2,\operatorname{round}[\log(N+1)]\}=6
+\end{equation}
+for \(N=350\). Network generation uses the run seed. After a successful exit, the model samples and removes \(\operatorname{round}(0.90d_i)\) of the exiting agent's current \(d_i\) incident edges. Thus exit removes 90 percent of an exiting agent's edges up to integer rounding, rather than leaving the initial network fixed.
+
+\subsection{Structural parameters}
+
+The code-geometry parameter \(\sigma\in[0,1]\) weights externally legible compliance relative to intrinsic cultivation in the perceived-morality signal,
+\begin{equation}
+ \widehat m_{ij}=(1-\sigma)\widehat x_{ij}+\sigma\widehat s_{ij}.
+\end{equation}
+Compliance is observed with probability \(v_{\mathrm{obs}}=0.90\), whereas cultivation is observed with probability \(a_{\mathrm{obs}}=0.05\). Failed compliance observation is coded as zero; failed cultivation observation is replaced by a draw from \(\operatorname{clip}_{[0,1]}\{\mathcal{N}(0.35,0.25^2)\}\). The same geometry enters the legibility index
+\begin{equation}
+ \ell(\sigma)=\sigma v_{\mathrm{obs}}+(1-\sigma)a_{\mathrm{obs}}.
+\end{equation}
+The enforcement-reward parameter \(\pi\) is the coefficient on this index in the utility return to a successful punishment. If effective enforcement cost is \(\kappa_{i,t}^{\mathrm{eff}}\), the punisher's immediate net institutional return is
+\begin{equation}
+ \Delta u_{i,t}^{\mathrm{pun}}=\pi_t\ell(\sigma)-\kappa_{i,t}^{\mathrm{eff}}.
+\end{equation}
+The controller may raise \(\pi_t\) above its experimental baseline after a threat shock, as described below.
+
+Exit has distinct desire and opportunity components. The baseline opportunity parameter is \texttt{exit\_opportunity\_base} \(=0.30\) in all reported experiments, and \texttt{exit\_threshold} \(=-1.0\). With degree \(d_{i,t}\), threat \(T_t\), and current outside-option degradation \(\delta_t\), the raw opportunity is
+\begin{align}
+ B_t&=\begin{cases}0.30,&\delta_t=0,\\0.30(1-\delta_t),&\delta_t>0,\end{cases}\\
+ p^{\mathrm{raw}}_{i,t}&=\operatorname{logit}^{-1}(B_t-0.03d_{i,t}-1.5T_t),\\
+ \widetilde p_{i,t}&=0.02+0.98\left(p^{\mathrm{raw}}_{i,t}\right)^{2.5}.
+\end{align}
+In legacy and exogenous modes, \(p^{\mathrm{opp}}_{i,t}=\widetilde p_{i,t}(1-\delta_t)\) when \(\delta_t>0\); in decoupled mode the outer factor is not applied. Exit desire is a logistic function of the threshold minus accumulated utility, punishment received, degree, and membership reward. Desire must accumulate for eight steps, after which a new opportunity draw must succeed. Effective exit cost is \(0.40(1+0.03d_{i,t})+0.25s_i\).
+
+Let \(\delta_0\) denote the imposed baseline and \(\eta\) the drift rate, clipped by the code to \([0,0.5]\). Drift is updated only when the step-level fraction of active agents punished is at least 0.08. Conditional on that gate,
+\begin{equation}
+ \delta_{t+1}=\operatorname{clip}_{[0,1]}\left\{\delta_t+\eta(\delta_t^{*}-\delta_t)\right\}.
+\end{equation}
+In legacy mode,
+\begin{equation}
+ \delta_t^{*}=\min\left\{1,\delta_0+\frac{E_t}{P_t}\right\},
+\end{equation}
+where \(E_t/P_t\) is the enforcer share of punishment events in that step. This mode is retained only as a diagnostic and is circular by construction because an outcome of the enforcement architecture directly determines outside-option degradation. In decoupled mode,
+\begin{equation}
+ \delta_t^{*}=\min\{\delta_{\max},\delta_0+\kappa q_t\},
+\end{equation}
+where \(q_t\) is the active-agent punishment incidence, \(\delta_{\max}=0.85\), and the experiment varies \(\kappa\). In exogenous mode no drift occurs and \(\delta_t=\delta_0\) throughout.
+
+\subsection{Institutional architecture}
+
+The model reselects an enforcer cadre after agent updates in every step. Among active agents the target cadre size is \(Q_t=\operatorname{round}(0.08N_t^{\mathrm{active}})\), with a minimum of one when the quota fraction is positive. Agents with capital at least 0.25 are eligible first. Eligible agents are ranked by
+\begin{equation}
+ z_i=0.6\,\mathrm{cap}_i+0.3L_i+0.1(r_ib_i).
+\end{equation}
+If fewer eligible agents exist than the quota, the remaining positions are filled by the highest-ranked ineligible agents. Status is cleared and reassigned each step.
+
+The full privilege bundle combines exclusivity, differential coercive capacity, reduced costs and risks, and material reinforcement. When controller authority \(A_t\geq0.35\), the punishment monopoly excludes all non-enforcers from policing. When monopoly is on, the enforcer punishment-probability multiplier is 1.5. When monopoly is off, enforcers retain the 1.5 multiplier while non-enforcers receive the operative multiplier \texttt{non\_enforcer\_punish\_eps} \(=0.02\). The separately declared value \texttt{non\_enforcer\_punish\_mult} \(=0.25\) is passed by the sweeps but is not used in this operative branch. After a punishment, capital first reduces the base cost according to
+\begin{equation}
+ \kappa_{i,t}'=0.08\left(1-0.20\,\mathrm{cap}_{i,t}\right),
+\end{equation}
+and an enforcer pays \(0.30\kappa_{i,t}'\), a further 70 percent role discount. Enforcer backlash probability is multiplied by 0.25, giving 75 percent protection relative to an otherwise identical non-enforcer. Every successful punishment adds 0.15 capital, capped at 2.0, and one unit of service. The nonnegative controller budget \(0.15+0.60T_t\) is distributed only among active enforcers: equally if their total service is zero, otherwise in proportion to nonnegative accumulated service. These mechanisms jointly constitute the ceiling arm of the privilege ablation.
+
+\subsection{Step order}
+
+At the start of a step, the institutional controller applies or relaxes threat, updates authority and the patronage budget, changes punishment reward and severity and the heresy threshold, and, unless orthodoxy is fixed, updates the orthodox belief position. Agents are then shuffled and update their states. The model next recomputes mean literalism among active agents, clears and reselects the cadre, resets punishment counters, determines whether monopoly is active, and executes the shuffled punishment phase. It then computes active-agent punishment incidence, distributes patronage, and updates \(\delta_t\). Finally, agents are reshuffled and attempt exit; successful exits remove edges as described above. The clock is incremented after exit. The outer simulation loop records metrics immediately before each call to this ordered step, so the committed files contain rows indexed \(t=0,\ldots,449\).
+
+At scheduled shock times \(t\in\{100,220,320\}\), threat increases by 0.25; otherwise it decays by a factor \(1-0.03\). Authority is \(A_t=1-\exp(-2T_t)\), the budget is \(0.15+0.60T_t\), punishment reward and severity each rise by \(0.20T_t\) from baseline, and the heresy-distance threshold falls by \(0.08T_t\), subject to clipping. The shock-off factorial and all decoupled runs use an empty schedule.
+
+\subsection{Outcome classification}
+
+The finalized classifier treats activation and retention as separate axes. A run is active when \texttt{max\_punish} is at least 0.10 and retained when \texttt{final\_exit\_rate} is at most 0.20. Hence
+\begin{equation}
+ \mathrm{CAPTURE}=\mathbf{1}\{\mathrm{final\_exit\_rate}\leq0.20\}\,\mathbf{1}\{\mathrm{max\_punish}\geq0.10\}.
+\end{equation}
+The four cells are QUIET for inactive and retained runs, QUIET for inactive and not-retained runs, MIXED for active and not-retained runs, and CAPTURE for active and retained runs. COLLAPSE, defined descriptively by exit at least 0.90, is a tail within the inactive region rather than a separate analytical regime. In the committed data, 100 percent of collapse runs have \texttt{max\_punish} below 0.10, so depopulation occurs without activation.
+
+The joint robustness band for the activation threshold is \([0.075,0.15]\). At 0.05 the low-\(\sigma\), low-\(\pi\) necessity cell revives, whereas at 0.20 the exogenous-\(\delta\) dose-response degenerates to approximately zero capture throughout. We therefore report continuous enforcement and exit surfaces as the primary results and use the four-class discretization as a secondary summary. An enforcer-punishment-share criterion was tested and removed because it changed 0 of 9,570 committed classifications.
+
+\subsection{Metrics}
+
+Step-level punishment incidence is computed only among active agents. For run \(r\), \texttt{max\_punish} is the maximum across recorded steps of the fraction of then-active agents receiving at least one punishment in that step. \texttt{final\_exit\_rate} is the terminal fraction of the original population whose exited indicator is true. \texttt{exit\_rate\_last100} is [VERIFY: not implemented or stored in frozen v2.7 or its committed reconstruction CSVs; specify the intended denominator and terminal-window cohort before publication].
+
+For the privilege ablation, let \(c_i\) be cumulative punishments issued by agent \(i\), restricted to agents active at the end of the run, and let \(n_a\) be their number. Then
+\begin{equation}
+ \mathrm{top5pct\_share\_active}=\frac{\sum_{i\in\mathcal{K}}c_i}{\sum_{i=1}^{n_a}c_i},\qquad |\mathcal{K}|=\max\{1,\lceil0.05n_a\rceil\},
+\end{equation}
+where \(\mathcal{K}\) contains the largest counts. With \(c_{(i)}\) sorted in ascending order, the active-agent Gini is
+\begin{equation}
+ \mathrm{gini\_active}=\frac{n_a+1-2\sum_{i=1}^{n_a}\left(\sum_{j=1}^{i}c_{(j)}\right)/\sum_{j=1}^{n_a}c_{(j)}}{n_a},
+\end{equation}
+and is set to zero when the vector is empty or has zero total. The random-allocation null holds the observed active-agent punishment volume and \(n_a\) fixed, allocates events by a multinomial distribution with equal probability \(1/n_a\), repeats this allocation 100 times using the run seed, and records the median simulated Gini. \texttt{enforcer\_punish\_share} is reported descriptively only. It saturates near 0.97 wherever punishment occurs and therefore does not provide a graded or discriminating concentration measure.
+
+\subsection{Experimental design}
+
+The shock factorial is committed at \texttt{recon/factorial\_shock\_off/sweep\_seed\_results.csv} and \texttt{recon/factorial\_shock\_on/sweep\_seed\_results.csv}. Each condition contains 4,050 runs from \(\eta\in\{0,0.05,0.10,0.20,0.30\}\), \(\delta_0\in\{0.10,0.20,0.30\}\), \(\sigma\in\{0.25,0.75,0.95\}\), \(\pi\in\{0.05,0.25,0.50\}\), and 30 seeds. The off condition has no shocks; the on condition uses shocks at steps 100, 220, and 320.
+
+The delta-decoupling experiment is committed at \texttt{recon/decoupled\_k1.5/sweep\_seed\_results.csv}, \texttt{recon/decoupled\_k3.0/sweep\_seed\_results.csv}, and \texttt{recon/decoupled\_k6.0/sweep\_seed\_results.csv}. Each coupling value contains 4,050 runs on the same \(\eta\), \(\delta_0\), \(\sigma\), \(\pi\), and 30-seed grid as the shock factorial, with \(\delta_{\max}=0.85\), \(\kappa\in\{1.5,3.0,6.0\}\), and no shocks.
+
+The exogenous-\(\delta\) dose-response is committed at \texttt{recon/exogenous\_delta\_fixed/sweep\_seed\_results.csv}. Its 1,620 runs cross \(\delta_0\in\{0,0.20,0.40,0.60,0.80,0.95\}\), \(\sigma\in\{0.25,0.75,0.95\}\), \(\pi\in\{0.05,0.25,0.50\}\), and 30 seeds, with exogenous mode and \(\eta=0\).
+
+The activation-boundary experiments are committed at \texttt{recon/boundary\_open/sweep\_seed\_results.csv} and \texttt{recon/boundary\_sealed/sweep\_seed\_results.csv}. Each contains 1,890 runs crossing \(\sigma\in\{0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.95\}\), \(\pi\in\{0.01,0.03,0.05,0.10,0.15,0.25,0.50\}\), and 30 seeds. Both use exogenous mode and \(\eta=0\); the open boundary fixes \(\delta_0=0\), and the sealed boundary fixes \(\delta_0=0.95\).
+
+The privilege ablation is committed at \texttt{recon/privilege\_ablation/ablation\_seed\_results.csv}. The reported floor and ceiling each contain 120 runs crossing \((\sigma,\pi)\in\{(0.75,0.25),(0.75,0.50),(0.95,0.25),(0.95,0.50)\}\) with 30 seeds. Both use \(\delta_0=0.95\), exogenous mode, no drift, and no shocks. The floor disables monopoly and the cadre quota, equalizes punishment multipliers at 1.0, removes capital gain, removes capital and role cost discounts, removes backlash protection, and sets the patronage budget to zero. The ceiling retains the complete default privilege bundle described above.
+
+\subsection{Reproducibility}
+
+The frozen implementation is written in Python using Mesa, NumPy, pandas, and NetworkX. Run-level outputs and aggregated CSVs are committed at the paths named above. The canonical classifier in \texttt{src/regime\_classifier.py} is the single source of truth for discrete outcomes. All reported regimes are recomputed from continuous \texttt{final\_exit\_rate} and \texttt{max\_punish}; stored regime columns are never treated as authoritative, because some were produced by an obsolete prevalence-gated classifier. This provenance discipline separates immutable simulation outputs from reproducible analytical classification and prevents stale labels from entering the manuscript.

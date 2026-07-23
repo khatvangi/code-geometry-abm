@@ -1,0 +1,87 @@
+\section{Results}
+
+We report the continuous enforcement and exit surfaces first where they are available, and use the four-class discretization as a secondary summary. This ordering distinguishes changes in the underlying outcomes from changes induced by the analytical thresholds.
+
+\subsection{The activation frontier}
+
+With exit open ($\delta_0=0$), the overall active rate was 0.598, but capture was 0/1890: nothing was retained when exit remained open. Table~\ref{tab:activation-frontier} shows the probability of activation across the $\sigma\times\pi$ grid. The underlying continuous surface followed the same frontier pattern. Mean maximum punishment incidence ranged from 0.033 to 0.181 across cells, while mean terminal exit ranged from 0.000 to 0.542.
+
+\begin{table}[htbp]
+\centering
+\caption{Probability of activation with exit open ($\delta_0=0$).}
+\label{tab:activation-frontier}
+\begin{tabular}{lrrrrrrr}
+\hline
+$\sigma\backslash\pi$ & 0.01 & 0.03 & 0.05 & 0.10 & 0.15 & 0.25 & 0.50 \\
+\hline
+0.05 & 0.0 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 & 0.90 \\
+0.15 & 0.0 & 0.00 & 0.00 & 0.00 & 0.40 & 0.90 & 1.00 \\
+0.25 & 0.0 & 0.00 & 0.00 & 0.63 & 0.90 & 1.00 & 1.00 \\
+0.35 & 0.0 & 0.00 & 0.00 & 0.93 & 1.00 & 1.00 & 1.00 \\
+0.45 & 0.0 & 0.00 & 0.60 & 1.00 & 1.00 & 1.00 & 1.00 \\
+0.55 & 0.0 & 0.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+0.65 & 0.0 & 0.27 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+0.75 & 0.0 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+0.95 & 0.0 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+\hline
+\end{tabular}
+\end{table}
+
+The map has a joint-threshold interpretation. The $\pi=0.01$ column was inactive at every value of $\sigma$, and low-$\sigma$ cells activated only at high $\pi$. Thus neither observability nor reward was sufficient alone. Activation required their joint configuration.
+
+\subsection{Exit closure converts activation into capture}
+
+With exit sealed ($\delta_0=0.95$), the capture rate was 0.661 (1249/1890). The continuous surfaces show what changed beneath that classification: relative to the open boundary, mean terminal exit was lower throughout the grid, and maximum punishment incidence increased only in a subset of marginal cells. In the exogenous dose-response, pooled mean exit fell from 0.332 at $\delta_0=0.0$ to 0.072 at $\delta_0=0.95$, while pooled mean maximum punishment incidence rose from 0.136 to 0.161. The corresponding thresholded capture response is reported in Table~\ref{tab:dose-response}.
+
+\begin{table}[htbp]
+\centering
+\caption{Capture rate by imposed exit closure.}
+\label{tab:dose-response}
+\begin{tabular}{lrrrrrr}
+\hline
+$\delta_0$ & 0.0 & 0.2 & 0.4 & 0.6 & 0.8 & 0.95 \\
+\hline
+Capture rate & 0.000 & 0.000 & 0.000 & 0.011 & 0.285 & 0.889 \\
+\hline
+\end{tabular}
+\end{table}
+
+Exit closure was not sufficient to create enforcement. At the necessity cell, $\sigma=0.25$ and $\pi=0.05$, capture remained zero at every value of $\delta_0$, including 0/30 at $\delta_0=0.95$ and 0/180 across the column. The threshold-free result was equally direct: mean maximum punishment incidence was 0.051 at both $\delta_0=0.0$ and $\delta_0=0.95$, a change of 0.000, even as mean exit fell from 0.044 to 0.002. Closure therefore retained agents but did not create enforcement in a cell where the code geometry remained inactive.
+
+The two dimensions were largely separable, but not fully orthogonal. Sealing raised the probability of activation in 12 of 63 cells and never lowered it. Overall activation rose from 0.598 to 0.661, the mean cell shift was +0.062, and the mean shift among the affected cells was +0.328. Thus 51/63 cells were unchanged, while closure and activation were coupled at the frontier margin.
+
+\subsection{Concentration is manufactured by privilege, not emergent}
+
+The privilege ablation compared 120 floor runs with 120 ceiling runs using role-independent concentration measures. Removing the full privilege bundle reduced the active-agent top-five-percent share from 0.580 to 0.091 and the active-agent Gini from 0.901 to 0.240 (Table~\ref{tab:privilege-ablation}). The corresponding random-allocation null Gini was 0.062 at the ceiling and 0.028 at the floor. The privilege-manufactured share of top-five-percent concentration, $(0.580-0.091)/0.580$, was 0.843. The floor residual was real but modest: its Gini of 0.240 remained above the random-null value of 0.028. Exit was also more common at the floor, 0.585 versus 0.331 at the ceiling.
+
+\begin{table}[htbp]
+\centering
+\caption{Concentration and exit under the privilege floor and ceiling.}
+\label{tab:privilege-ablation}
+\begin{tabular}{lrrrr}
+\hline
+Arm & Top5 active & Gini active & Random-null Gini & Exit rate \\
+\hline
+Floor & 0.091 & 0.240 & 0.028 & 0.585 \\
+Ceiling & 0.580 & 0.901 & 0.062 & 0.331 \\
+\hline
+\end{tabular}
+\end{table}
+
+The ablation was conjunctive. Adding any single privilege back to the bare floor recovered no concentration because the privileges operated only on a cadre, while removal of the quota removed the cadre itself. Concentration therefore required the joint operation of the cadre substrate and enforcement asymmetry. [VERIFY: exact single-privilege add-back estimates and the stated count of cadre-dependent privileges are not reported in RESULTS_TABLE.md.]
+
+Concentration also did not discriminate capture among active systems. Top-five-percent concentration and active-agent Gini were near-identical between CAPTURE and MIXED outcomes, whereas exit differed sharply. Retention, rather than concentration, separated the regimes. [VERIFY: add the CAPTURE-versus-MIXED values for top5_active, gini_active, and exit rate to RESULTS_TABLE.md before inserting them here.]
+
+\subsection{Two negative results}
+
+First, exogenous shocks had no effect. After recomputation with the canonical classifier, the regime distributions with shocks off and on were identical: each condition contained 450 QUIET, 720 MIXED, and 2880 CAPTURE runs. Exogenous threat shocks therefore changed no outcome in this factorial.
+
+Second, endogenous closure disappeared when the outside-option variable was decoupled from enforcer share. Capture was zero at all three tested coupling strengths, $\kappa=1.5$, 3.0, and 6.0, with 4050 runs at each strength, including runs with drift active. By contrast, the coupled specification produced 2880 CAPTURE runs. The coupled specification sets the closure target as a function of enforcer share, which is itself a component of the capture criterion, so it is circular by construction. When that circularity was removed, no capture arose anywhere in the tested space. For this reason, exit capacity is treated as an exogenous structural input in this paper rather than as an emergent outcome.
+
+\subsection{Robustness}
+
+The activation-threshold sensitivity analysis identified a robust band of $[0.075,0.15]$, with the canonical threshold of 0.10 in its interior. At 0.05 the necessity cell revived, whereas at 0.20 the dose-response degenerated to approximately zero capture throughout. Removing the enforcer-share criterion changed 0 of 9,570 classifications. Finally, COLLAPSE occurred without activation: 100 percent of collapse runs were below the activation threshold, with maximum punishment incidence no higher than 0.094. COLLAPSE is therefore reported as a descriptive tail of the inactive region rather than as an enforcement outcome.
+
+\paragraph{Verification markers.}
+[VERIFY: exact single-privilege add-back estimates and the stated count of cadre-dependent privileges are not reported in RESULTS_TABLE.md.]
+[VERIFY: add the CAPTURE-versus-MIXED values for top5_active, gini_active, and exit rate to RESULTS_TABLE.md before inserting them here.]

@@ -16,7 +16,9 @@ from __future__ import annotations
 # Canonical thresholds (edit here only).
 EXIT_CAPTURE_MAX = 0.20      # captured systems retain members: low exit
 PUNISH_ACTIVE_MIN = 0.10     # enforcement is active
-ENFORCER_SHARE_MIN = 0.70    # punishment concentrated in the cadre
+ENFORCER_SHARE_MIN = 0.70    # DESCRIPTIVE ONLY (not a CAPTURE gate): a vacuity audit
+                             # found this criterion changed 0/9,570 committed
+                             # classifications. retained here for reporting concentration.
 EXIT_COLLAPSE_MIN = 0.90     # depopulation
 PREVALENCE_LEGACY_MIN = 0.90 # legacy-only: belief reaches majority
 ACQUIESCENCE_CAPTURE_MIN = 0.50  # majority self-polices -> functional capture even
@@ -32,6 +34,27 @@ COLLAPSE_REQUIRES_ENFORCEMENT = False
 def classify(exit_rate, active_punish, enforcer_share, fund_prevalence=None,
              schema="hierarchical", acquiescence=None):
     """Return one of QUIET, MIXED, CAPTURE, COLLAPSE.
+
+    CAPTURE = retained AND active. The four classes are the cells of a 2x2 over
+    two independently manipulable structural outcomes -- activation (active) and
+    retention (retained) -- plus depopulation (COLLAPSE) as a boundary case:
+        not active,  retained     -> QUIET
+        active,      not retained -> MIXED
+        active,      retained     -> CAPTURE
+        exit >= EXIT_COLLAPSE_MIN -> COLLAPSE
+    This maps one-to-one onto the two structural axes: code geometry governs
+    activation, exit capacity governs retention.
+
+    enforcer_share is NO LONGER part of the CAPTURE gate. It was previously a
+    third "concentration" criterion (enforcer_share >= ENFORCER_SHARE_MIN), but a
+    vacuity audit reclassified all 9,570 committed runs with and without it and
+    found it changed 0 classifications -- among retained+active runs the cadre
+    share saturates high wherever punishment occurs, so the gate never excluded a
+    single run. It is redundant with activation, not a graded concentration
+    measure. The constant is retained only so concentration can be REPORTED
+    descriptively (see also the role-independent top5/Gini statistics); the
+    enforcer_share argument is accepted for backward compatibility and ignored by
+    the gate.
 
     schema="hierarchical" (canonical) ignores fund_prevalence.
     schema="legacy" additionally requires fund_prevalence >= PREVALENCE_LEGACY_MIN
@@ -51,12 +74,13 @@ def classify(exit_rate, active_punish, enforcer_share, fund_prevalence=None,
         return "COLLAPSE"
 
     active = active_punish is not None and active_punish >= PUNISH_ACTIVE_MIN
-    concentrated = enforcer_share is not None and enforcer_share >= ENFORCER_SHARE_MIN
     retained = exit_rate <= EXIT_CAPTURE_MAX
     self_policing = acquiescence is not None and acquiescence >= ACQUIESCENCE_CAPTURE_MIN
 
-    # capture via overt enforcement OR via retained self-policing (functional capture).
-    capture = retained and (active and concentrated or self_policing)
+    # CAPTURE = retained AND active (overt enforcement) OR retained AND self-policing
+    # (functional capture by internalized fear). enforcer_share deliberately absent
+    # -- see docstring: it changed 0/9570 committed classifications.
+    capture = retained and (active or self_policing)
     if schema == "legacy":
         if fund_prevalence is None:
             raise ValueError("legacy schema requires fund_prevalence")
@@ -95,11 +119,14 @@ def classify_dataframe(df, schema="hierarchical",
 
 if __name__ == "__main__":
     # Self-check.
-    assert classify(0.006, 0.18, 0.98) == "CAPTURE"
+    # CAPTURE = retained AND active; enforcer_share (3rd arg) no longer gates.
+    assert classify(0.006, 0.18, 0.98) == "CAPTURE"          # retained + active
+    assert classify(0.006, 0.18, 0.05) == "CAPTURE"          # SAME, low enforcer_share: still CAPTURE
     assert classify(0.006, 0.18, 0.98, fund_prevalence=0.10, schema="legacy") == "MIXED"
     assert classify(0.006, 0.18, 0.98, fund_prevalence=0.95, schema="legacy") == "CAPTURE"
-    assert classify(0.05, 0.05, 0.30) == "QUIET"
-    assert classify(0.05, 0.20, 0.50) == "MIXED"
+    assert classify(0.05, 0.05, 0.30) == "QUIET"             # retained, not active
+    assert classify(0.05, 0.20, 0.50) == "CAPTURE"           # retained + active (was "MIXED" pre-reduction)
+    assert classify(0.50, 0.20, 0.98) == "MIXED"             # active but leaking (not retained)
     assert classify(0.95, 0.20, 0.98) == "COLLAPSE"
     # acquiescence-aware: low overt punish + low exit + high self-policing -> functional CAPTURE
     assert classify(0.02, 0.03, 0.40, acquiescence=0.85) == "CAPTURE"

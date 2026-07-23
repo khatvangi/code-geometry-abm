@@ -1,0 +1,4 @@
+arm,n_seeds,ec449_mean,cum_exit_mean,exit_last100_mean,frac_born_inside_mean
+erosion_off,5,0.8174,0.448,0.0403,0.0
+gen_born0.8,5,0.7376,0.4767,0.0896,0.469
+gen_born0.0_control,5,0.8715,0.496,0.0995,0.0

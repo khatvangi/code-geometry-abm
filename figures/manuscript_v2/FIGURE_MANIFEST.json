@@ -1,0 +1,1008 @@
+{
+  "generated_by": "scripts/generate_manuscript_figures.py",
+  "classifier_settings": {
+    "module": "src/regime_classifier.py",
+    "schema": "hierarchical",
+    "capture_rule": "retained (final_exit_rate <= EXIT_CAPTURE_MAX) AND active (max_punish >= PUNISH_ACTIVE_MIN)",
+    "EXIT_CAPTURE_MAX": 0.2,
+    "PUNISH_ACTIVE_MIN": 0.1,
+    "EXIT_COLLAPSE_MIN": 0.9,
+    "exit_col": "final_exit_rate",
+    "punish_col": "max_punish",
+    "stored_regime_column_used": false,
+    "dropped_columns_on_load": [
+      "regime",
+      "regime_hier",
+      "regime_legacy"
+    ]
+  },
+  "palette": {
+    "continuous": "viridis",
+    "categorical": "Okabe-Ito",
+    "okabe_ito": {
+      "orange": "#E69F00",
+      "skyblue": "#56B4E9",
+      "green": "#009E73",
+      "yellow": "#F0E442",
+      "blue": "#0072B2",
+      "vermillion": "#D55E00",
+      "purple": "#CC79A7",
+      "black": "#000000"
+    }
+  },
+  "figures": [
+    {
+      "figure_id": "fig1",
+      "title": "Activation frontier",
+      "files": {
+        "pdf": "figures/manuscript_v2/fig1_activation_frontier.pdf",
+        "png": "figures/manuscript_v2/fig1_activation_frontier.png"
+      },
+      "sources": [
+        {
+          "path": "recon/boundary_open/sweep_seed_results.csv",
+          "sha256": "63d2734b11130c84bbb21707c8971695157fb49ed757a0a620581d2be1464915",
+          "rows": 1890
+        }
+      ],
+      "classifier": {
+        "module": "src/regime_classifier.py",
+        "schema": "hierarchical",
+        "capture_rule": "retained (final_exit_rate <= EXIT_CAPTURE_MAX) AND active (max_punish >= PUNISH_ACTIVE_MIN)",
+        "EXIT_CAPTURE_MAX": 0.2,
+        "PUNISH_ACTIVE_MIN": 0.1,
+        "EXIT_COLLAPSE_MIN": 0.9,
+        "exit_col": "final_exit_rate",
+        "punish_col": "max_punish",
+        "stored_regime_column_used": false,
+        "dropped_columns_on_load": [
+          "regime",
+          "regime_hier",
+          "regime_legacy"
+        ]
+      },
+      "n_runs_used": 1890,
+      "seeds_per_cell": 30,
+      "cells": 63,
+      "series": {
+        "panelA_mean_max_punish": {
+          "sigma": [
+            0.05,
+            0.15,
+            0.25,
+            0.35,
+            0.45,
+            0.55,
+            0.65,
+            0.75,
+            0.95
+          ],
+          "pi": [
+            0.01,
+            0.03,
+            0.05,
+            0.1,
+            0.15,
+            0.25,
+            0.5
+          ],
+          "values": [
+            [
+              0.0499,
+              0.0499,
+              0.0501,
+              0.05,
+              0.0503,
+              0.0908,
+              0.1102
+            ],
+            [
+              0.0504,
+              0.0502,
+              0.0502,
+              0.064,
+              0.0976,
+              0.1088,
+              0.1477
+            ],
+            [
+              0.0511,
+              0.0511,
+              0.0512,
+              0.1017,
+              0.1104,
+              0.1317,
+              0.1717
+            ],
+            [
+              0.0465,
+              0.0466,
+              0.0735,
+              0.1165,
+              0.1298,
+              0.1564,
+              0.1811
+            ],
+            [
+              0.0455,
+              0.0458,
+              0.1046,
+              0.1333,
+              0.1523,
+              0.173,
+              0.1811
+            ],
+            [
+              0.0442,
+              0.0659,
+              0.1259,
+              0.1493,
+              0.1642,
+              0.1726,
+              0.18
+            ],
+            [
+              0.0418,
+              0.0933,
+              0.1358,
+              0.1558,
+              0.163,
+              0.1711,
+              0.1735
+            ],
+            [
+              0.0388,
+              0.118,
+              0.1429,
+              0.1535,
+              0.1618,
+              0.1616,
+              0.163
+            ],
+            [
+              0.0331,
+              0.1279,
+              0.1302,
+              0.1357,
+              0.1381,
+              0.1364,
+              0.1346
+            ]
+          ]
+        },
+        "panelB_P_active": {
+          "sigma": [
+            0.05,
+            0.15,
+            0.25,
+            0.35,
+            0.45,
+            0.55,
+            0.65,
+            0.75,
+            0.95
+          ],
+          "pi": [
+            0.01,
+            0.03,
+            0.05,
+            0.1,
+            0.15,
+            0.25,
+            0.5
+          ],
+          "values": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.1667,
+              0.9
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.4,
+              0.9,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.6333,
+              0.9,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.9333,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.6,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.2667,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          ]
+        },
+        "overall_P_active": 0.5984,
+        "dead_column_pi": 0.01,
+        "dead_column_max_P_active": 0.0
+      },
+      "caption": "\\textbf{Activation frontier under open exit.} Agent-based sweep at $\\delta_0=0$ (exit open), $n=1890$ runs (9 $\\sigma$ $\\times$ 7 $\\pi$ cells $\\times$ 30 seeds per cell). (A) Mean maximum punish rate, the continuous enforcement-intensity surface. (B) Probability that a run is classified active, recomputed with the hierarchical classifier (active: max punish rate $\\geq$ 0.1); overall P(active) $=$ 0.598. Enforcement activates only above a joint $\\sigma$--$\\pi$ threshold: the $\\pi=0.01$ column (dashed outline) is dead in every one of its 9 cells, so an enforcement reward below that level cannot sustain an enforcement apparatus at any level of code observability."
+    },
+    {
+      "figure_id": "fig2",
+      "title": "Exit closure is necessary for capture",
+      "files": {
+        "pdf": "figures/manuscript_v2/fig2_two_dimensions.pdf",
+        "png": "figures/manuscript_v2/fig2_two_dimensions.png"
+      },
+      "sources": [
+        {
+          "path": "recon/boundary_open/sweep_seed_results.csv",
+          "sha256": "63d2734b11130c84bbb21707c8971695157fb49ed757a0a620581d2be1464915",
+          "rows": 1890
+        },
+        {
+          "path": "recon/boundary_sealed/sweep_seed_results.csv",
+          "sha256": "ecbf61896bc45c88389ec7cb0106d1d59fe91a575dcd7272962df795e8a1115b",
+          "rows": 1890
+        }
+      ],
+      "classifier": {
+        "module": "src/regime_classifier.py",
+        "schema": "hierarchical",
+        "capture_rule": "retained (final_exit_rate <= EXIT_CAPTURE_MAX) AND active (max_punish >= PUNISH_ACTIVE_MIN)",
+        "EXIT_CAPTURE_MAX": 0.2,
+        "PUNISH_ACTIVE_MIN": 0.1,
+        "EXIT_COLLAPSE_MIN": 0.9,
+        "exit_col": "final_exit_rate",
+        "punish_col": "max_punish",
+        "stored_regime_column_used": false,
+        "dropped_columns_on_load": [
+          "regime",
+          "regime_hier",
+          "regime_legacy"
+        ]
+      },
+      "n_runs_used": 3780,
+      "seeds_per_cell": 30,
+      "cells": 63,
+      "series": {
+        "panelA_P_active_open": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.1667,
+            0.9
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.4,
+            0.9,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.6333,
+            0.9,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.9333,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.6,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.2667,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "panelB_P_capture_open": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "panelC_P_capture_sealed": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.8667,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.1333,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.4667,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.1667,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "P_active_sealed": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.8667,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.1333,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.4667,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            0.1667,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        ],
+        "activation_shift_sealed_minus_open": [
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.7,
+            0.1
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.1333,
+            0.6,
+            0.1,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.3667,
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.4667,
+            0.0667,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.4,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.1667,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.7333,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "capture_open_total_runs": 0,
+        "capture_open_max_cell_rate": 0.0,
+        "overall_P_active_open": 0.5984,
+        "n_cells_activation_rises": 12,
+        "n_cells_activation_falls": 0,
+        "mean_shift_all_cells": 0.0624,
+        "mean_shift_rising_cells": 0.3278,
+        "sigma": [
+          0.05,
+          0.15,
+          0.25,
+          0.35,
+          0.45,
+          0.55,
+          0.65,
+          0.75,
+          0.95
+        ],
+        "pi": [
+          0.01,
+          0.03,
+          0.05,
+          0.1,
+          0.15,
+          0.25,
+          0.5
+        ]
+      },
+      "caption": "\\textbf{Exit closure is necessary for capture.} All panels share one colour scale; 9 $\\sigma$ $\\times$ 7 $\\pi$ cells $\\times$ 30 seeds per cell. (A) Probability a run is active with the exit open ($\\delta_0=0$, $n=1890$ runs): code geometry alone sets activation, overall P(active) $=$ 0.598. (B) Probability of capture in those same 1890 runs: \\textbf{0 of 1890 runs reach capture with the exit open}, in every one of the 63 cells, despite that active rate of 0.598 -- an active enforcement apparatus never converts to capture while members can leave. (C) Probability of capture with the exit sealed ($\\delta_0=0.95$, $n=1890$ runs): the same active region now captures. Panels B and C are the same quantity under the two exit conditions, so the contrast isolates the effect of closing the exit. The two dimensions are not fully orthogonal: circled cells in (C) are the 12 of 63 cells where sealing also raises P(active) (mean shift over all cells +0.062; +0.328 among circled cells), and activation falls in no cell. Regimes recomputed with the hierarchical classifier."
+    },
+    {
+      "figure_id": "fig3",
+      "title": "Exit-closure dose-response",
+      "files": {
+        "pdf": "figures/manuscript_v2/fig3_exit_closure_dose_response.pdf",
+        "png": "figures/manuscript_v2/fig3_exit_closure_dose_response.png"
+      },
+      "sources": [
+        {
+          "path": "recon/exogenous_delta_fixed/sweep_seed_results.csv",
+          "sha256": "4bf6041f1254ddca6a3519e1b3049e2a581ec456bbed16bff5e4439151f89555",
+          "rows": 1620
+        }
+      ],
+      "classifier": {
+        "module": "src/regime_classifier.py",
+        "schema": "hierarchical",
+        "capture_rule": "retained (final_exit_rate <= EXIT_CAPTURE_MAX) AND active (max_punish >= PUNISH_ACTIVE_MIN)",
+        "EXIT_CAPTURE_MAX": 0.2,
+        "PUNISH_ACTIVE_MIN": 0.1,
+        "EXIT_COLLAPSE_MIN": 0.9,
+        "exit_col": "final_exit_rate",
+        "punish_col": "max_punish",
+        "stored_regime_column_used": false,
+        "dropped_columns_on_load": [
+          "regime",
+          "regime_hier",
+          "regime_legacy"
+        ]
+      },
+      "n_runs_used": 1620,
+      "series": {
+        "delta0": [
+          0.0,
+          0.2,
+          0.4,
+          0.6,
+          0.8,
+          0.95
+        ],
+        "pooled_capture_rate": [
+          0.0,
+          0.0,
+          0.0,
+          0.0111,
+          0.2852,
+          0.8889
+        ],
+        "pooled_wilson_lo": [
+          0.0,
+          0.0,
+          0.0,
+          0.0038,
+          0.2346,
+          0.8458
+        ],
+        "pooled_wilson_hi": [
+          0.014,
+          0.014,
+          0.014,
+          0.0322,
+          0.3418,
+          0.9211
+        ],
+        "pooled_n_per_point": [
+          270,
+          270,
+          270,
+          270,
+          270,
+          270
+        ],
+        "necessity_cell_capture_rate": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "necessity_cell_wilson_lo": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "necessity_cell_wilson_hi": [
+          0.1135,
+          0.1135,
+          0.1135,
+          0.1135,
+          0.1135,
+          0.1135
+        ],
+        "necessity_cell_n_per_point": [
+          30,
+          30,
+          30,
+          30,
+          30,
+          30
+        ]
+      },
+      "caption": "\\textbf{Exit-closure dose-response and the necessity of code geometry.} Capture rate against imposed exit closure $\\delta_0$ ($n=1620$ runs total; 270 runs per pooled point, 30 per cell-specific point), with Wilson 95\\% intervals. Pooled over all $\\sigma\\times\\pi$ cells (circles) capture rises monotonically from 0.000 at $\\delta_0=0$ to 0.889 at $\\delta_0=0.95$. In the $\\sigma=0.25$, $\\pi=0.05$ cell (squares, dashed) the capture rate is 0.000 at every level including $\\delta_0=0.95$: closing the exit cannot manufacture capture where the code geometry does not activate. Regimes recomputed with the hierarchical classifier."
+    },
+    {
+      "figure_id": "fig4",
+      "title": "Privilege ablation",
+      "files": {
+        "pdf": "figures/manuscript_v2/fig4_privilege_ablation.pdf",
+        "png": "figures/manuscript_v2/fig4_privilege_ablation.png"
+      },
+      "sources": [
+        {
+          "path": "recon/privilege_ablation/ablation_seed_results.csv",
+          "sha256": "0fe0d14dd9403b27acd60a3c6a45dd53660399919c9e40c29af7ca68cdd5d7d0",
+          "rows": 2040
+        }
+      ],
+      "classifier": {
+        "module": "src/regime_classifier.py",
+        "schema": "hierarchical",
+        "capture_rule": "retained (final_exit_rate <= EXIT_CAPTURE_MAX) AND active (max_punish >= PUNISH_ACTIVE_MIN)",
+        "EXIT_CAPTURE_MAX": 0.2,
+        "PUNISH_ACTIVE_MIN": 0.1,
+        "EXIT_COLLAPSE_MIN": 0.9,
+        "exit_col": "final_exit_rate",
+        "punish_col": "max_punish",
+        "stored_regime_column_used": false,
+        "dropped_columns_on_load": [
+          "regime",
+          "regime_hier",
+          "regime_legacy"
+        ],
+        "note": "no regime classification used; role-independent metrics only"
+      },
+      "n_runs_used": 240,
+      "seeds_per_arm": 120,
+      "series": {
+        "floor_top5_active_mean": 0.0907,
+        "floor_top5_active_n": 120,
+        "ceiling_top5_active_mean": 0.5799,
+        "ceiling_top5_active_n": 120,
+        "floor_gini_active_mean": 0.2402,
+        "floor_gini_active_n": 120,
+        "floor_gini_null_mean": 0.0276,
+        "ceiling_gini_active_mean": 0.9007,
+        "ceiling_gini_active_n": 120,
+        "ceiling_gini_null_mean": 0.0622
+      },
+      "data_gaps": [
+        "no top5 random-allocation null column in the committed ablation CSV (only gini_null); panel A therefore has no null reference marker"
+      ],
+      "caption": "\\textbf{Concentration is manufactured by the privilege architecture.} Role-independent concentration for the ablation floor (no privilege) and ceiling (full privilege bundle), 120 seeds per arm ($n=240$ runs); points are individual runs, black bars arm means. (A) Top-5\\% share of punishment among active agents rises from 0.091 at the floor to 0.580 at the ceiling, so 84\\% of ceiling concentration is privilege-manufactured. (B) Gini rises from 0.240 to 0.901 against random-allocation nulls (dotted) of 0.028 and 0.062; the floor sits close to its null, so concentration is not an emergent property of the unprivileged model. A committed random-allocation null exists only for the Gini statistic, so panel A carries no null reference."
+    },
+    {
+      "figure_id": "fig5",
+      "title": "Circularity demonstration",
+      "files": {
+        "pdf": "figures/manuscript_v2/fig5_circularity_demonstration.pdf",
+        "png": "figures/manuscript_v2/fig5_circularity_demonstration.png"
+      },
+      "sources": [
+        {
+          "path": "recon/factorial_shock_off/sweep_seed_results.csv",
+          "sha256": "27b6291c04a2fc92a2e143f7e0160027ddd2447d1f4e711d50ea0aee2d1de121",
+          "rows": 4050
+        },
+        {
+          "path": "recon/decoupled_k1.5/sweep_seed_results.csv",
+          "sha256": "f8f736c6ce0785032bf3e99a0ca65376d140547e0ce32d9f4f27bd9b7174d330",
+          "rows": 4050
+        },
+        {
+          "path": "recon/decoupled_k3.0/sweep_seed_results.csv",
+          "sha256": "a23596d500fa02d10de9073be5bdca7ff77c7411fbc9a6c6a49d2c90ac4ff4d6",
+          "rows": 4050
+        },
+        {
+          "path": "recon/decoupled_k6.0/sweep_seed_results.csv",
+          "sha256": "e3839f6931204d735a9dbd870b592fa1a3654257ca23cc2f61a0902ec047a7cd",
+          "rows": 4050
+        }
+      ],
+      "classifier": {
+        "module": "src/regime_classifier.py",
+        "schema": "hierarchical",
+        "capture_rule": "retained (final_exit_rate <= EXIT_CAPTURE_MAX) AND active (max_punish >= PUNISH_ACTIVE_MIN)",
+        "EXIT_CAPTURE_MAX": 0.2,
+        "PUNISH_ACTIVE_MIN": 0.1,
+        "EXIT_COLLAPSE_MIN": 0.9,
+        "exit_col": "final_exit_rate",
+        "punish_col": "max_punish",
+        "stored_regime_column_used": false,
+        "dropped_columns_on_load": [
+          "regime",
+          "regime_hier",
+          "regime_legacy"
+        ]
+      },
+      "n_runs_used": 16200,
+      "series": {
+        "labels": [
+          "coupled $\\delta$ target = f(enforcer share)",
+          "decoupled k=1.5",
+          "decoupled k=3.0",
+          "decoupled k=6.0"
+        ],
+        "capture_rate": [
+          0.7111,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wilson_lo": [
+          0.697,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "wilson_hi": [
+          0.7249,
+          0.0009,
+          0.0009,
+          0.0009
+        ],
+        "n_per_bar": [
+          4050,
+          4050,
+          4050,
+          4050
+        ],
+        "coupling_source": "src/religion_fundamentalism_abm_v2_7.py:578 delta_target = min(1.0, delta_baseline + enforcer_share)",
+        "decoupled_source": "src/religion_fundamentalism_abm_v2_7.py:574 delta_target = min(cap, delta_baseline + kappa*punish_intensity_step)"
+      },
+      "caption": "\\textbf{Capture under the coupled specification is partly definitional.} Capture rate under the coupled exit-closure specification ($n=4050$ runs) versus three decoupled arms ($n=4050$ runs each), Wilson 95\\% intervals, regimes recomputed with the hierarchical classifier. The coupled specification sets the exit-closure target as a function of enforcer share ($\\delta_{target} = \\min(1, \\delta_{baseline} + $ enforcer share$)$), an enforcement-concentration quantity, which mechanically drives the retention component of the capture criterion; it yields a capture rate of 0.711. When the closure target is decoupled from enforcer share and driven by punishment intensity instead, the capture rate is 0.000, 0.000 and 0.000 at $k=1.5$, $3.0$ and $6.0$. The contrast shows that the coupled result is produced by the feedback specification rather than by an independent dynamical mechanism."
+    }
+  ]
+}
