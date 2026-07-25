@@ -1,0 +1,8 @@
+{
+  "aggregated_utc": "2026-07-25T10:21:24.856227+00:00",
+  "arm": "live_econ",
+  "code_sha256": "a3bb242669f1dcd92e60af82912b52126568cf3a1658657fd1a1828272478497",
+  "model_file": "src/religion_fundamentalism_abm_v3_3.py",
+  "n_rows": 80,
+  "n_runs": 80
+}

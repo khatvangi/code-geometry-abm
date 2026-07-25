@@ -1,0 +1,2 @@
+seed,steps,sigma,pi_reward,mu_membership_reward,exit_capacity_mode,turnover_mode,born_inside_frac,ec_tie_renewal_base,ec_tie_renewal,ec_tie_decay,ec_tenure_crowdout,cumulative_exit_rate,exit_rate_last100,n_active_at_anchor,n_present_at_end,mean_exit_capacity_final,enforcer_punish_share_final
+9,450,0.75,0.2210324036529688,0.8,endogenous,on,0.8,0.006,0.004,0.01,0.008,0.24333333333333335,0.03404255319148936,235,235,0.30430507087233366,1.0

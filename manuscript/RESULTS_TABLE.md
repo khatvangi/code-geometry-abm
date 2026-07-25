@@ -270,75 +270,69 @@ This is the key contrast to (c): **coupled** endogenous δ (factorial) closes th
 and yields capture; **decoupled** δ does not, at any k. Source columns:
 `final_exit_rate, max_punish, eta_delta_drift`.
 
-## (f) v3.3 endogenous exit capacity [S] [∞]
-**Provenance: DIRECT** — computed from this session's run_summary/metrics/agent_final + panel; no regime column involved.
+## (f) v3.3 endogenous exit capacity [C] [∞]
+**Provenance: DIRECT**: computed from committed run summaries, metrics, agent
+outputs, and panel data; no regime column is involved. Runs are reproducible via
+`scripts/run_v3_3_experiments.py`. Each per-run `run_config.json` records the model
+source SHA-256.
 _Threshold-free: closure threshold, machine-precision anti-circularity, and capacity/exit are continuous quantities._
 
-Model: `src/religion_fundamentalism_abm_v3_3.py` (edited this session). Aggregated
-CSVs materialized under `results/v3_3_endogenous_capacity/`. **[S]** = these become
-**[C]** once the item-3 commit lands; raw per-run dirs are not committed.
+Model: `src/religion_fundamentalism_abm_v3_3.py`. Aggregated CSVs and per-run
+artifacts are under `results/v3_3_endogenous_capacity_v2/`.
 
-**Closure threshold — `results/v3_3_endogenous_capacity/closure_sweep.csv`.** Tie
-channel fixed point o* = (renewal_base − crowdout)/(decay − renewal); the tie
-channel closes (o*≤0) iff crowd-out > base renewal = 0.006. Sweep (μ=0.3, σ=0.95,
-π=0.25, 5 seeds):
+**Closure threshold: `results/v3_3_endogenous_capacity_v2/closure_summary.csv`.**
+Tie channel fixed point o* = (renewal_base − crowdout)/(decay − renewal); the tie
+channel closes (o*≤0) iff crowd-out > base renewal = 0.006. Sweep (μ=0.0, 5 seeds):
 
 | ec_tenure_crowdout | o* pred | tie closes | mean exit_capacity final | exit_last100 |
 |---|---|---|---|---|
-| 0.0005 | +0.917 | no | 0.910 | 0.023 |
-| 0.002 | +0.667 | no | 0.817 | 0.040 |
-| 0.008 | −0.333 | yes | 0.490 | 0.055 |
+| 0.0005 | +0.917 | no | 0.9302 | 0.0415 |
+| 0.002 | +0.667 | no | 0.8392 | 0.0544 |
+| 0.008 | −0.333 | yes | 0.5166 | 0.0685 |
 
-Threshold, not ratchet. Note: at μ=0.3 the econ channel stays high (~0.96), so total
-capacity floors at ~0.49 when the tie channel closes rather than reaching 0; the
+Threshold, not ratchet. At μ=0.0 the economic channel stays high, so total
+capacity floors at 0.5166 when the tie channel closes rather than reaching 0; the
 capacity→0 closure requires closing the econ channel too (μ above its own threshold).
 
-**Anti-circularity — `results/v3_3_endogenous_capacity/anticircularity_panel.csv`**
-(directional, erosion arm, n=462,702 agent-steps, 1500 clusters). The capacity
+**Anti-circularity: `results/v3_3_endogenous_capacity_v2/anticircularity_panel.csv`.**
+Across 93,268 transitions in 300 clusters, the capacity
 update reconstructs from its declared inputs (ties, econ, tenure, hetero) to **max
-residual 3.33e-16** (machine zero). Regressing that structural residual on lagged
-enforcement gives coefficients ≤ **6.2e-19** (all p>0.05). The naive
-`Δcap ~ cap_{t-1} + enforcement` spec shows a spurious `delivered` term (9.6e-5,
-p=3.7e-5) — omitted-variable bias from the capacity *sum* proxying a nonlinear
-update, not a leak; the structural residual is the correct test. Enforcement has
-provably zero effect on capacity.
+residual 3.331e-16** (machine zero). Regressing that structural residual on lagged
+punishment received, punishment delivered, and enforcer status gives coefficients
+of **7.96e-19** (p=0.188), **5.17e-20** (p=0.604), and **−4.83e-19**
+(p=0.434), respectively. Enforcement has zero structural effect on capacity.
 
-**Generational arms — `results/v3_3_endogenous_capacity/generational_arms.csv`**
-(final code, μ=0.3, σ=0.95, π=0.25, 5 seeds):
+**Generational arms: `results/v3_3_endogenous_capacity_v2/generational_summary.csv`**
+(μ=0.0, 5 seeds):
 
-| arm | ec@449 | cum exit | exit_last100 | frac born-inside |
-|---|---|---|---|---|
-| erosion (turnover off) | 0.817 | 0.448 | 0.040 | 0.000 |
-| born_inside 0.8 | 0.738 | 0.477 | 0.090 | 0.469 |
-| born_inside 0.0 (control) | 0.872 | 0.496 | 0.100 | 0.000 |
+| born_inside | ec@449 | cum exit |
+|---|---|---|
+| 0.0 | 0.8854 | 0.5747 |
+| 0.8 | 0.7721 | 0.5680 |
 
-The born-inside cohort lowers aggregate exit capacity vs the outside-joiner control
-(0.738 vs 0.872) — the predicted direction; the effect on realized exit is modest at
-μ=0.3 because the econ channel is near-saturated there. Erosion per-seed detail:
-`results/v3_3_endogenous_capacity/erosion_arm_summary.csv`.
-
-**Generational arms with the econ channel LIVE — `generational_arms_live_econ.csv`**
+**Generational arms with the econ channel live:
+`results/v3_3_endogenous_capacity_v2/live_econ_summary.csv`**
 (μ∈{0.6,0.8}, both crowd-out levels, born∈{0.8,0.0}, 10 seeds). ei* =
 0.004/(0.01·μ) = 0.667 (μ=0.6) / 0.500 (μ=0.8), both < 1; mean econ_independence
 0.52–0.74 confirms the channel is genuinely **interior**, not clipped at 1.
 
-| μ | crowd | born | ec@449 | cum exit | last100 | fracBorn | mean econ |
-|---|---|---|---|---|---|---|---|
-| 0.6 | 0.002 | 0.8 | 0.604 | 0.426 | 0.075 | 0.494 | 0.645 |
-| 0.6 | 0.002 | 0.0 | 0.750 | 0.449 | 0.055 | 0.000 | 0.743 |
-| 0.6 | 0.008 | 0.8 | 0.363 | 0.211 | 0.030 | 0.480 | 0.641 |
-| 0.6 | 0.008 | 0.0 | 0.488 | 0.304 | 0.060 | 0.000 | 0.736 |
-| 0.8 | 0.002 | 0.8 | 0.538 | 0.405 | 0.083 | 0.505 | 0.519 |
-| 0.8 | 0.002 | 0.0 | 0.672 | 0.436 | 0.077 | 0.000 | 0.595 |
-| 0.8 | 0.008 | 0.8 | 0.303 | 0.138 | 0.017 | 0.472 | 0.520 |
-| 0.8 | 0.008 | 0.0 | 0.416 | 0.248 | 0.044 | 0.000 | 0.593 |
+| μ | crowd | born | ec@449 | cum exit |
+|---|---|---|---|---|
+| 0.6 | 0.002 | 0.0 | 0.7473 | 0.5230 |
+| 0.6 | 0.002 | 0.8 | 0.6015 | 0.5117 |
+| 0.6 | 0.008 | 0.0 | 0.4760 | 0.4060 |
+| 0.6 | 0.008 | 0.8 | 0.3542 | 0.2943 |
+| 0.8 | 0.002 | 0.0 | 0.6686 | 0.5147 |
+| 0.8 | 0.002 | 0.8 | 0.5398 | 0.4757 |
+| 0.8 | 0.008 | 0.0 | 0.4008 | 0.3560 |
+| 0.8 | 0.008 | 0.8 | 0.3006 | 0.2353 |
 
-With the econ channel live, the born-inside effect is **consistent and larger**: in
-every (μ, crowd) pair born_inside=0.8 has lower ec@449 than the born_inside=0.0
-control (Δ ≈ −0.11 to −0.15) and lower cumulative exit — a congregation that
-reproduces internally erodes aggregate exit capacity and retains more members, with
-no enforcement involved. Both structural knobs act monotonically: higher μ (econ
-dependence) and higher crowd-out each lower capacity.
+With the econ channel live, born_inside=0.8 has lower ec@449 than born_inside=0.0
+in every parameter cell and all **40/40 seed-matched comparisons**. Mean cumulative
+exit is also lower in all four parameter cells; at replicate level the comparison
+holds in **32/40** cases, with all reversals or ties concentrated at crowd-out
+0.002. Both structural knobs act monotonically: higher μ (economic dependence) and
+higher crowd-out each lower capacity.
 
 ---
 
@@ -360,7 +354,6 @@ dependence) and higher crowd-out each lower capacity.
    depopulation *without activation*, a descriptive tail of the inactive region.
 6. **v3.3** contributes the endogenous exit-capacity mechanism with a
    machine-precision anti-circularity proof [(f)]; with the econ channel live
-   (μ≥0.6) the born-inside cohort erodes capacity monotonically — pending a
-   committed rerun.
+   (μ≥0.6) the born-inside cohort erodes capacity in every seed-matched comparison.
 
 Threshold-free primary surfaces: `manuscript/RESULTS_CONTINUOUS.md`.

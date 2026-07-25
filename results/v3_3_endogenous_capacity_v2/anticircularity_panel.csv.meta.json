@@ -1,0 +1,10 @@
+{
+  "aggregated_utc": "2026-07-25T10:21:27.228838+00:00",
+  "code_sha256": "a3bb242669f1dcd92e60af82912b52126568cf3a1658657fd1a1828272478497",
+  "max_abs_structural_residual": 3.3306690738754696e-16,
+  "model_file": "src/religion_fundamentalism_abm_v3_3.py",
+  "n_clusters": 300,
+  "n_rows": 4,
+  "n_transitions": 93268,
+  "regression": "residual ~ received_step + delivered_step + is_enforcer (cluster-robust SE by agent_id)"
+}

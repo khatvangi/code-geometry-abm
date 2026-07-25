@@ -81,3 +81,6 @@ HISTORY.md
 *.aux
 *.out
 *.synctex.gz
+
+!results/v3_3_endogenous_capacity_v2/
+!results/v3_3_endogenous_capacity_v2/**
