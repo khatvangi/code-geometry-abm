@@ -1,8 +1,8 @@
-# Code-Geometry ABM: Endogenous Enforcement Delegation in Religious Communities
+# Code-Geometry ABM: Enforcement Activation and Exit Foreclosure in Codified Moral Communities
 
-An agent-based model of how **geometric symmetry in costly signaling** produces **endogenous enforcement delegation** and **punishment concentration** in religious communities -- without pre-assigned enforcer roles.
+An agent-based model that separates two structural conditions for durable capture in rule-governed communities: **activation** of an enforcement apparatus, and **foreclosure** of members' exit. Companion code for the manuscript *"Activation and Foreclosure: Separating Screening from Exit Costs in Codified Moral Communities."*
 
-Agents on a scale-free network cultivate internal belief (ITC) and visible ritual practice (EPC) under periodic external threat. When threat is high, institutional authority rises and a monopoly-on-enforcement mechanism activates: a small cadre of high-literalism agents emerges as enforcers through patronage and institutional capital accumulation, concentrating >80% of punishment acts in <5% of the population. This concentration is not designed in -- it arises from the interaction of costly signaling legibility, exit barriers, and threat-driven authority.
+Agents on a scale-free network observe conduct, sanction deviation, and decide whether to remain. An enforcement apparatus forms only where conduct is observable and enforcement is rewarded; the threshold is joint, and neither condition alone suffices. Punishment then concentrates in a small cadre, but that concentration is a product of institutional design rather than of differences among agents: the top 5% of active agents deliver **0.580** of all punishment under the full privilege architecture and **0.091** without it. An active apparatus retains members only where exit is foreclosed -- with exit open, no run reaches capture in any of the 63 parameter cells despite an activation rate of 0.598, while imposed exit closure raises capture to **0.889**.
 
 ## Repository layout
 
@@ -130,7 +130,7 @@ If you use this code, please cite:
 ```bibtex
 @software{khatvangi2026codegeometry,
   author    = {Khatvangi, Kiran},
-  title     = {Code-Geometry ABM: Endogenous Enforcement Delegation in Religious Communities},
+  title     = {Code-Geometry ABM: Enforcement Activation and Exit Foreclosure in Codified Moral Communities},
   year      = {2026},
   url       = {https://github.com/khatvangi/code-geometry-abm},
   note      = {DOI forthcoming}

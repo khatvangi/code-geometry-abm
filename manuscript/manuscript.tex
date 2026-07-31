@@ -42,7 +42,7 @@
 % TITLE AND AUTHOR
 % ============================================================
 
-\title{Code Geometry, Enforcement Activation, and Exit Closure in Codified Moral Systems: An Agent-Based Model}
+\title{Activation and Foreclosure: Separating Screening from Exit Costs in Codified Moral Communities}
 
 \author{}
 
@@ -63,7 +63,11 @@
 % ============================================================
 
 \begin{abstract}
-Why do some codified moral systems sustain active enforcement while others also retain members under durable control? This paper separates two structural dimensions in an agent-based model: activation of an enforcement apparatus and members' capacity to exit. Enforcement activation follows a joint frontier in code observability and enforcement reward. With exit open, enforcement activates in many parameter cells but capture occurs in 0 of 1,890 runs. Imposed exit closure raises capture monotonically to 0.889 at maximum closure, while the low-observability, low-reward cell remains inactive. A privilege ablation shows that roughly 84 percent of top-five-percent punishment concentration is manufactured by institutional advantages assigned to the enforcement cadre. Born-inside replacement lowers exit capacity in all forty seed-matched comparisons. Exit capacity is an independent structural input. The model identifies distinct conditions for activation, retention, and concentration.
+Strict communities are commonly explained by screening: costly requirements select committed members and deter free-riders. The same requirements also raise the cost of leaving, so observational evidence cannot separate selection from foreclosure. This paper separates them in an agent-based model of codified moral communities, in which agents observe conduct, sanction deviation, and decide whether to remain.
+
+Three structural conditions govern the outcome. An enforcement apparatus forms only where conduct is observable and enforcement is rewarded; the threshold is joint, and neither condition alone suffices. Punishment then concentrates in a small cadre, but that concentration is a product of institutional design rather than of differences among agents: the top five percent of active agents deliver 0.580 of all punishment under the full privilege architecture and 0.091 without it. An active apparatus retains members only where exit is foreclosed. With exit open, no run reaches capture in any of 63 parameter cells despite an activation rate of 0.598; imposed closure raises capture to 0.889. Where the apparatus does not activate, closing the exit produces nothing.
+
+Exit foreclosure arises from external imposition or from internal absorption with generational replacement. The mechanism is defined over structural properties rather than doctrinal content, and applies to any organization that codifies conduct and attaches standing to compliance.
 \end{abstract}
 \vspace{1em}\noindent\textbf{Keywords:} agent-based modeling; institutional design; norm enforcement; organizational capture; path dependence; religious organizations
 
@@ -77,11 +81,11 @@ Why do some codified moral systems sustain active enforcement while others also 
 
 Why are strict religious groups often unusually cohesive and durable? The canonical answer begins with religious organizations as clubs that produce collective goods. In Iannaccone's account, apparently wasteful demands can make these clubs stronger: costly requirements involving dress, diet, ritual, time, and money screen out people whose low commitment would otherwise permit them to free-ride on the sacrifices of others \citep{iannaccone1988,iannaccone1992,iannaccone1994}. Those who remain redirect resources away from competing activities and toward the group, increasing both the average commitment of members and the value of membership itself. Strictness, on this view, is not organizational pathology but a solution to adverse selection and weak participation. This club-goods framework has become the dominant economic explanation of religious strictness, as reviews of the economics of religion emphasize \citep{iyer2016,carvalho2019}. It has also generated an unusually broad family of applications. Sacrifice and nontransferable religious capital help explain ultra-Orthodox Jewish education and fertility \citep{berman2000}; monitoring institutions can sustain religious production \citep{mcbride2007}; costly signals can resolve commitment problems in religious militancy \citep{bermanlaitin2008}; and veiling can operate as a commitment device that changes social interaction and marriage-market incentives \citep{carvalho2013}. Across these applications, costly observances select committed participants and align their investments with the group.
 
-Yet the same arrangements have another face. Mechanisms that screen at entry typically also raise the cost of exit after entry. A social network concentrated inside the group is valuable to a committed member, but it is also difficult to replace after departure. An identity made inseparable from membership can deepen solidarity, but it can also make departure psychologically and socially disorganizing. Distinctive dress, diet, language, schooling, and ritual can certify commitment among insiders while isolating members from outsiders who might provide employment, friendship, marriage, or recognition. Screening and exit foreclosure are therefore the same social structure described from opposite directions. Looking inward from the organizational boundary, strictness selects and coordinates participants; looking outward from the position of a member considering departure, it degrades alternatives and makes separation costly. Case scholarship often recognizes both processes at once without analytically separating them. An analysis of the Skoptsy sect, for example, argues that high entry costs screened for devoted individuals while high exit costs reduced the viable alternatives for living outside the sect [VERIFY: citation key for the Skoptsy sect analysis]. The two mechanisms can coexist, but coexistence does not establish which one accounts for durability.
+Yet the same arrangements have another face. Mechanisms that screen at entry typically also raise the cost of exit after entry. A social network concentrated inside the group is valuable to a committed member, but it is also difficult to replace after departure. An identity made inseparable from membership can deepen solidarity, but it can also make departure psychologically and socially disorganizing. Distinctive dress, diet, language, schooling, and ritual can certify commitment among insiders while isolating members from outsiders who might provide employment, friendship, marriage, or recognition. Screening and exit foreclosure are therefore the same social structure described from opposite directions. Looking inward from the organizational boundary, strictness selects and coordinates participants; looking outward from the position of a member considering departure, it degrades alternatives and makes separation costly. Case scholarship often recognizes both processes at once without analytically separating them. An analysis of the Skoptsy sect, for example, argues that high entry costs screened for devoted individuals while high exit costs reduced the viable alternatives for living outside the sect \citep{engelstein1999}. The two mechanisms can coexist, but coexistence does not establish which one accounts for durability.
 
 That ambiguity is now a live theoretical problem rather than a terminological distinction. \citet{bok2025} observes that research on religious exit has concentrated mainly on who leaves, why they leave, and what follows, while the forms and roles of exit costs have received comparatively little systematic theorization. The systematic theorization of the exit-cost side is therefore recent relative to the mature literature on the determinants and consequences of exit. The field has a mature screening account and a newly articulated exit-cost problem, but no design that can adjudicate their relative causal force. The identification problem is plain. In observational data, screening and exit foreclosure arrive bundled together. Any strict group that persists has already selected some people willing to bear its demands and has also organized relationships, identities, and opportunities in ways that make leaving consequential. Comparing strict and lenient groups cannot recover the separate contribution of either process, because the strictness that filters entrants also transforms the outside option of those who stay. Nor can studying former members solve the problem by itself: observed leavers are selected on having overcome the very costs whose preventive effect is at issue. Without independent variation, evidence consistent with successful screening is also consistent with blocked exit.
 
-Agent-based simulation supplies the missing instrument because it permits the two structures to be varied as distinct inputs while measuring any coupling between their effects. An experimental design can hold the observability and rewards that support enforcement constant while changing members' capacity to leave, or hold exit conditions constant while changing whether an enforcement apparatus can activate. No observational design can cleanly impose either intervention on otherwise equivalent religious communities. The strategy follows an established computational-religion program associated with Shults and Wildman [VERIFY: publication year and citation key for Shults and Wildman], formal arguments for bringing simulation into the study of religion \citep{wildmansosis2011}, computational work linking cognition, culture, and social dynamics \citep{gorelemosshultswildman2018}, and agent-based analysis in the economics of religion \citep{iannacconemakowsky2007}. Simulation here is therefore not a substitute for historical or ethnographic evidence. It is a method for identifying structural effects that those forms of evidence necessarily observe in combination.
+Agent-based simulation supplies the missing instrument because it permits the two structures to be varied as distinct inputs while measuring any coupling between their effects. An experimental design can hold the observability and rewards that support enforcement constant while changing members' capacity to leave, or hold exit conditions constant while changing whether an enforcement apparatus can activate. No observational design can cleanly impose either intervention on otherwise equivalent religious communities. The strategy follows an established computational-religion program associated with Shults and Wildman: formal arguments for bringing simulation into the study of religion \citep{wildmansosis2011}, computational work linking cognition, culture, and social dynamics \citep{gorelemosshultswildman2018}, and agent-based analysis in the economics of religion \citep{iannacconemakowsky2007}. Simulation here is therefore not a substitute for historical or ethnographic evidence. It is a method for identifying structural effects that those forms of evidence necessarily observe in combination.
 
 This paper distinguishes two structural dimensions that are separable across most of the grid and coupled at the frontier margin: whether an enforcement apparatus activates, and whether members can leave. Four findings organize the account. First, activation follows a joint threshold in code observability and the reward for enforcement; neither condition alone is sufficient. Second, institutional privilege concentrates punishment in a small cadre. Third, an active apparatus retains members only where exit is foreclosed. Fourth, foreclosure arises through external imposition or through internal absorption with generational replacement. These findings distinguish the conditions that form enforcement, retain its subjects, and concentrate coercive activity.
 
@@ -848,11 +852,10 @@ frontier. That coupling reinforces the need to measure both processes directly.
 The mechanism is sufficient to generate a regularity documented independently by historical scholarship:
 enforcement-dominant regimes co-occur with foreclosed exit, whereas demanding communities with open exit can sustain
 enforcement without durable lock-in. Inquisitorial enforcement combined doctrinal surveillance with state capacity to
-prevent flight [CITE: inquisitions and state capacity to prevent flight, e.g. Kamen or Bethencourt]. Residential and
-boarding schools severed family and language ties that otherwise supported an outside option [CITE: residential/boarding
-school severance of family and language ties, e.g. Milloy or the Truth and Reconciliation Commission report]. Internally
+prevent flight \citep{given1997}. Residential and
+boarding schools severed family and language ties that otherwise supported an outside option \citep{adams1995}. Internally
 reproducing communities provide a contrasting basis for evaluating persistence under demanding doctrine without equating
-doctrine with coercion [CITE: internally reproducing communities such as Hutterite or Anabaptist persistence].
+doctrine with coercion \citep{hostetler1974}.
 Historical outcomes combine multiple mechanisms. This account isolates one sufficient mechanism among them. Its unit is
 the bounded regime, not a religion across places and centuries.
 
@@ -977,6 +980,9 @@ The resulting framework is narrower and more testable. Empirical applications sh
 % ============================================================
 \begin{thebibliography}{43}
 
+\bibitem[Adams(1995)]{adams1995}
+Adams DW (1995) Education for Extinction: American Indians and the Boarding School Experience, 1875--1928. University Press of Kansas, Lawrence, KS.
+
 \bibitem[Axelrod(1986)]{axelrod1986}
 Axelrod R (1986) An evolutionary approach to norms. \textit{American Political Science Review} 80(4):1095--1111.
 
@@ -1005,13 +1011,16 @@ Carvalho JP (2013) Veiling. \textit{Quarterly Journal of Economics} 128(1):337--
 Carvalho JP (2019) Religious Clubs: The Strategic Role of Religious Identity. In: Carvalho JP, Iyer S, Rubin J (eds) \textit{Advances in the Economics of Religion}, International Economic Association Series, vol 158. Palgrave Macmillan, Cham, pp 25--41.
 
 \bibitem[Centola et~al.(2005)]{centola2005}
-Centola D, Willer R, Macy M (2005) The emperor's dilemma: A computational model of self-enforcing norms. \textit{American Journal of Sociology} 110(4):1009--1040. [VERIFY] volume, number and pages not confirmed from a repository source.
+Centola D, Willer R, Macy M (2005) The emperor's dilemma: A computational model of self-enforcing norms. \textit{American Journal of Sociology} 110(4):1009--1040. doi:10.1086/427321.
 
 \bibitem[Cook(2000)]{cook2000}
 Cook M (2000) Commanding Right and Forbidding Wrong in Islamic Thought. Cambridge University Press.
 
 \bibitem[Cragun and Hammer(2011)]{cragun2011}
 Cragun RT, Hammer JH (2011) One person's apostate is another person's convert: What terminology tells us about pro-religious hegemony in the sociology of religion. \textit{Humanity \& Society} 35(1--2):149--175.
+
+\bibitem[Engelstein(1999)]{engelstein1999}
+Engelstein L (1999) Castration and the Heavenly Kingdom: A Russian Folktale. Cornell University Press, Ithaca, NY.
 
 \bibitem[Fehr and G\"achter(2002)]{fehr2002}
 Fehr E, G\"achter S (2002) Altruistic punishment in humans. \textit{Nature} 415(6868):137--140.
@@ -1048,6 +1057,9 @@ Hilbe C, Traulsen A, R\"ohl T, Milinski M (2014) Democratic decisions establish 
 
 \bibitem[Hirschman(1970)]{hirschman1970}
 Hirschman AO (1970) Exit, Voice, and Loyalty: Responses to Decline in Firms, Organizations, and States. Harvard University Press.
+
+\bibitem[Hostetler(1974)]{hostetler1974}
+Hostetler JA (1974) Hutterite Society. Johns Hopkins University Press, Baltimore, MD.
 
 \bibitem[Iannaccone(1988)]{iannaccone1988}
 Iannaccone LR (1988) A Formal Model of Church and Sect. \textit{American Journal of Sociology} 94(Supplement):S241--S268. doi:10.1086/228948.
@@ -1120,6 +1132,6 @@ All simulation code, data, and analysis scripts are publicly available: an anony
 
 \section*{Supporting Information}
 
-\noindent\textbf{Online Resource 1.} Scoring rubric anchors (0--4 scale definitions for all five code-geometry dimensions), complete parameter tables, illustrative regime scores with source citations, regime classification threshold sensitivity ($\pm$5 pp), monopoly ablation results (180 runs), cadre quota sensitivity (180 runs), and the exit-capacity specification comparison formerly shown as Figure 5.
+\noindent\textbf{Online Resource 1.} Supporting text covering the parameter-to-observable mapping, the complete model-parameter tables, classification robustness including the activation-threshold sensitivity, the continuous observability--reward and closure surfaces, the privilege ablation, the endogenous exit-capacity analysis with its anti-circularity test, and computational reproducibility with the committed-run inventory.
 
 \end{document}
