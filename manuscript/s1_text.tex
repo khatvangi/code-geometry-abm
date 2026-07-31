@@ -7,333 +7,1032 @@
 \usepackage{lineno}
 \usepackage{booktabs}
 \usepackage{amsmath}
+\usepackage{longtable}
 \usepackage{hyperref}
+
+% -- breakable file paths: \path{} allows line breaks inside long
+%    directory/file names, which \texttt{} cannot do --
+\usepackage{url}
+\urlstyle{tt}
+\def\UrlBreaks{\do\/\do\_\do\-\do\.}
 
 \doublespacing
 \linenumbers
 
 \title{Online Resource 1\\[0.5em]
-\large Code Geometry and Endogenous Concentration\\in an Agent-Based Model of Fundamentalism}
+\large Code Geometry, Enforcement Activation, and Exit Closure\\in Codified Moral Systems: An Agent-Based Model}
 \author{}
 \date{}
 
 \begin{document}
 \maketitle
 
-\section{Scoring Rubric Anchors}
+\noindent This supplement documents the parameterization of the simulation model,
+the robustness of the outcome classification, the continuous surfaces that
+underlie the discretized results, the privilege ablation, the endogenous
+exit-capacity module, and the computational provenance of every reported
+quantity. Section~S1 is taken from the frozen model sources. Sections~S2
+through~S5 report quantities computed from the committed run outputs.
+Section~S6 states where those outputs and the code that produced them reside.
 
-Each historically bounded regime is scored on five primary dimensions using a 0--4 ordinal scale. The anchors below define each scale point with observable proxies and worked examples.
+\section{Parameter-to-observable mapping}
+\label{sec:observable-mapping}
 
-\subsection{Legibility ($\sigma$)}
+This section supplies the detailed measurement material moved from the main
+text. The mapping proceeds from model parameters to institutional indicators.
+Legibility is the extent to which compliance is classifiable through visible
+acts, speech, dress, attendance, dietary practice, or other public markers.
+Substitutability asks whether visible compliance is accepted as sufficient, or
+near-sufficient, for moral standing. Enforcement affordance is the ease with
+which deviations are detected, coded, and linked to sanctions. Centralization
+is the concentration of interpretive and punitive authority. Exit cost is
+approximated by legal penalties, kinship endogamy, economic dependence,
+identity foreclosure, and the social cost of disaffiliation.
 
-\begin{itemize}
-\item \textbf{0}: Compliance criteria are entirely internal (contemplative attainment, sincerity of intention). No external markers reliably distinguish compliant from non-compliant members. Example: early Quaker ``Inner Light'' doctrine before behavioral codification.
-\item \textbf{1}: Some external markers exist but are ambiguous or contested. Internal states remain the primary criterion of moral standing. Example: Sufi tariqa practice, where external observance is valued but interior transformation (hal, maqam) is the recognized goal.
-\item \textbf{2}: A mix of external and internal criteria. Behavioral requirements are codified but interior transformation is explicitly required alongside them. Example: Theravada Buddhist vinaya, which prescribes detailed behavioral rules but locates their purpose in mental purification.
-\item \textbf{3}: External markers dominate moral evaluation. Internal states are acknowledged but practical assessment relies primarily on visible compliance. Example: Orthodox Jewish halakhic observance, where detailed behavioral requirements are the primary standard of communal standing.
-\item \textbf{4}: Compliance is almost entirely externally classifiable through binary observable acts: dress, attendance, dietary markers, verbal formulae, public prayer. Interior states are doctrinally relevant but practically irrelevant to communal standing. Example: Taliban governance, where compliance is assessed through dress, beard length, prayer attendance, and gender segregation.
-\end{itemize}
+Enforcement reward is observed in promotion, prestige, institutional access,
+or material compensation tied to disciplinary activity. Delegation is observed
+in specialized offices, enforcement jurisdictions, and recognized roles for
+monitoring and sanctioning. These indicators locate a bounded regime in a
+common structural space; they do not produce a ranked taxonomy of traditions.
 
-\subsection{Substitutability}
-
-\begin{itemize}
-\item \textbf{0}: External performance explicitly cannot substitute for interior transformation. The tradition's canonical texts and institutional practices actively prevent such substitution. Example: Advaita Vedanta, where external ritual is explicitly declared secondary to direct knowledge (jnana).
-\item \textbf{1}: External performance is valued but treated as instrumental, not constitutive, of moral standing. Example: Chan/Zen Buddhism, where ritual practice supports realization but is not identified with it.
-\item \textbf{2}: External performance and interior commitment are treated as jointly necessary. Neither alone is sufficient. Example: mainstream Sunni Islam, where both niyyah (intention) and correct performance are doctrinally required.
-\item \textbf{3}: External performance functions as the primary practical criterion, though interior commitment is nominally required. Example: Counter-Reformation Catholicism, where sacramental participation and behavioral conformity dominate practical assessment.
-\item \textbf{4}: External performance is effectively sufficient for moral standing. Interior states are irrelevant to communal assessment. Example: Stalinist party membership, where behavioral conformity and verbal orthodoxy constitute full standing regardless of private belief.
-\end{itemize}
-
-\subsection{Enforcement Affordance}
-
-\begin{itemize}
-\item \textbf{0}: No institutional sanction mechanisms exist. Deviation is addressed, if at all, through private counsel. Example: early Christian house churches before episcopal authority.
-\item \textbf{1}: Informal social sanctions (gossip, mild shunning) exist but are decentralized and inconsistent. Example: mainstream Protestant congregations with voluntary attendance.
-\item \textbf{2}: Formal sanction categories exist and are sometimes applied, but enforcement is inconsistent and contested. Example: Catholic canon law, which defines infractions but applies them unevenly across jurisdictions.
-\item \textbf{3}: Well-defined violation categories, established complaint channels, and regular disciplinary proceedings exist. Example: Jehovah's Witnesses judicial committee system, which processes disfellowshipping cases through structured proceedings.
-\item \textbf{4}: Binary violation categories, routinized surveillance, and immediate sanction pathways. Example: Saudi CPVPV (Committee for the Promotion of Virtue and Prevention of Vice) before 2016 reforms, with street-level enforcement of dress, prayer, and gender mixing.
-\end{itemize}
-
-\subsection{Centralization of Adjudication}
-
-\begin{itemize}
-\item \textbf{0}: No recognized central authority. Interpretive and disciplinary authority is fully distributed. Example: early Theravada sangha, where each local community governs its own vinaya application.
-\item \textbf{1}: Regional or denominational authorities exist but lack binding jurisdiction. Example: mainstream Sunni Islam, where multiple juristic schools (madhahib) coexist without hierarchical subordination.
-\item \textbf{2}: A recognized central authority exists but its reach is limited or its rulings are non-binding in practice. Example: the Ecumenical Patriarch in Eastern Orthodoxy, who holds primacy of honor but not jurisdiction.
-\item \textbf{3}: A central authority controls orthodoxy definition and can initiate disciplinary proceedings, though enforcement depends on local compliance. Example: the Roman Catholic magisterium, which defines doctrine authoritatively but relies on diocesan bishops for enforcement.
-\item \textbf{4}: A single authority monopolizes orthodoxy, controls appeals, and can impose sanctions directly. Example: Iranian Guardian Council, which combines doctrinal authority with state enforcement power.
-\end{itemize}
-
-\subsection{Exit Cost}
-
-\begin{itemize}
-\item \textbf{0}: Exit carries no penalty. Members leave freely and maintain social relationships. Example: mainstream US Protestantism, where denominational switching is socially costless.
-\item \textbf{1}: Exit carries mild social cost (disappointment, reduced contact) but no institutional penalty. Example: moderate Catholic communities, where lapsed members face social but not formal consequences.
-\item \textbf{2}: Exit carries significant social cost and some institutional penalty, but is legally and practically feasible. Example: Mormon excommunication, which severs temple access and some social ties but does not prevent physical departure.
-\item \textbf{3}: Exit carries severe social penalty (complete shunning, kinship severance) and substantial economic cost (loss of community-dependent livelihood). Example: Amish Meidung (shunning), which severs family contact and economic cooperation.
-\item \textbf{4}: Exit carries legal penalty, physical danger, or effective impossibility due to structural barriers. Example: apostasy under Taliban governance (capital punishment) or Saudi Arabia (criminal offense until recent reforms).
-\end{itemize}
-
-
-\section{Complete Parameter Tables}
-
-Tables S1--S4 provide expanded parameter specifications for each model component. All parameters, their default values, tested ranges, and sensitivity results are listed.
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
-\caption{Table S1: Agent-level parameters}
-\begin{tabular}{llll}
+\caption{Code geometry dimensions and observable indicators.}
+\begin{tabular}{lp{5.5cm}p{5.5cm}}
 \toprule
-Parameter & Default & Range tested & Sensitivity \\
+Dimension & Model parameter & Observable indicators \\
 \midrule
-$\sigma$ (legibility) & 0.75 & 0.10--0.95 & Key sweep variable \\
-$v_{\text{obs}}$ (ext. observability) & 0.90 & Fixed & High by design \\
-$a_{\text{obs}}$ (int. observability) & 0.05 & Fixed & Low by design \\
-$\pi$ (enforcement reward) & 0.22 & 0.05--0.50 & Key sweep variable \\
-$\kappa$ (enforcement cost) & 0.08 & Fixed & Backlash risk \\
-$\lambda$ (punishment severity) & 0.25 & Fixed & Per-act penalty \\
-L (literalism) & Beta(1.5, 4.5) & Fixed dist. & Enrichment metric \\
+Legibility & $\sigma$ & Visible prescriptions, dress, attendance, dietary markers \\
+Substitutability & Collapsed into $\sigma$ & Visible compliance accepted as sufficient for standing \\
+Enforcement affordance & $\pi$, $\kappa$ & Violation categories, complaint channels, sanction pathways \\
+Centralization & Cadre and monopoly & Adjudicating bodies, orthodoxy monopoly, restricted appeals \\
+Exit capacity & base opportunity, $\delta$ & Legal, kinship, economic, identity, and social outside options \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
-\caption{Table S2: Network and institutional parameters}
+\caption{Main-text model parameters and observable interpretation.}
 \begin{tabular}{llll}
 \toprule
-Parameter & Default & Range tested & Sensitivity \\
+Parameter & Symbol & Reported value & Interpretation \\
 \midrule
-N (population) & 350 & Fixed & Scale check at 1000 \\
-Graph type & Scale-free & Fixed & BA preferential attach. \\
-$q$ (enforcer quota) & 0.08 & 0.04--0.25 & Robust (Table S4) \\
-$A_{\text{monopoly}}$ (authority threshold) & 0.35 & Fixed & Monopoly activation \\
-Cap decay & 0.005/step & Fixed & Slow decay \\
-Cap gain per punish & 0.15 & Fixed & Capital compounding \\
+Legibility weight & $\sigma$ & swept & Weight of external compliance \\
+Enforcement reward & $\pi$ & swept & Return to successful punishment \\
+Enforcement cost & $\kappa$ & 0.08 & Backlash risk per act \\
+Enforcer quota & $q$ & 0.08 & Fraction designated as cadre \\
+Alt. degradation & $\delta$ & swept & Loss of outside-option quality \\
+Drift speed & $\eta$ & swept & Rate of endogenous degradation \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+No single dimension is sufficient to determine regime type. High legibility
+with open exit can produce active but leaky enforcement; high exit cost without
+activation conditions can retain members without producing an apparatus.
+The same tradition may occupy different locations across periods, states, or
+rival institutions. The mapping compares configurations and does not measure
+latent interior states.
+\section{Model parameters}
+\label{sec:params}
+
+Two frozen model sources generate the reported results. The main experiments
+(activation boundary, imposed-closure dose-response, shock factorial,
+closure-decoupling, and privilege ablation) use
+\path{src/religion_fundamentalism_abm_v2_7.py}. The endogenous exit-capacity
+experiments of Section~S5 use \path{src/religion_fundamentalism_abm_v3_3.py},
+which reproduces the former exactly when \texttt{exit\_capacity\_mode} is
+\texttt{off}.
+
+Tables~S1.1 through~S1.8 list every parameter of the main model with the
+default value declared in the frozen source and the role that value plays.
+The rightmost column records how the reported experiments set the parameter:
+\emph{default} means the source default is used, \emph{swept} means the
+experimental design varies it across the values given in the Methods, and
+\emph{set} means the sweep launcher passes an explicit value that differs from
+the source default. Table~S1.9 lists the additional parameters introduced by
+the endogenous exit-capacity module. Table~S1.10 gives the calibration parameter
+set that the sweep launcher supplies, which is provided in the repository at
+\path{results/BEST_PARAMS_frozen.json}.
+
+\begin{table}[htbp]
 \centering
-\caption{Table S3: Exit parameters}
-\begin{tabular}{llll}
+\footnotesize
+\caption{Table S1.1: Population, network, and schedule.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
 \toprule
-Parameter & Default & Range tested & Sensitivity \\
+Parameter & Default & Role & In reported runs \\
 \midrule
-base\_opp & 0.30 & 0.30--0.90 & Key sweep variable \\
-exit\_threshold & $-1.0$ & $-1.0$, $1.5$ & Facet variable \\
-exit\_block\_exponent & 2.5 & Fixed & Nonlinear suppression \\
-exit\_commit\_steps & 8 & Fixed & Delay before exit \\
-exit\_cost & 0.4 & Fixed & Per-exit penalty \\
-$\delta$ (alt. degradation) & 0.0--0.3 & 0.0--1.0 & Critical for capture \\
-$\eta$ (drift speed) & 0.0 & 0.0--0.30 & Enables endogenous $\delta$ \\
+\texttt{n} & 300 & Number of agents at initialization & set to 350 \\
+\texttt{graph} & scale\_free & Network generator; Barab\'asi--Albert with attachment parameter $m=\max\{2,\operatorname{round}[\log(N+1)]\}$ & default \\
+\texttt{seed} & 1 & Seed for network generation, trait draws, and all stochastic updates & swept, 1 to 30 \\
+\texttt{steps} & 350 & Number of simulated steps & set to 450 \\
+\texttt{fixed\_y0} & False & When true, freezes the orthodox belief position at its initial value & default \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-
-\section{Illustrative Regime Scores with Source Citations}
-
-Table~S3a expands the illustrative scoring table from the main text with source citations for each score and adjudication notes where rater disagreement exceeded one scale point.
-
-\begin{table}[ht]
+\begin{table}[htbp]
 \centering
-\caption{Table S3a: Expanded illustrative regime scores with source evidence.}
+\footnotesize
+\caption{Table S1.2: Code geometry and observation.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{sigma} & 0.75 & Weight of externally legible compliance relative to intrinsic cultivation in the perceived-morality signal & swept \\
+\texttt{v\_obs} & 0.90 & Probability that a compliance marker is observed & default \\
+\texttt{a\_obs} & 0.05 & Probability that intrinsic cultivation is observed & default \\
+\texttt{h\_obs} & 0.15 & Probability that an agent's belief position is observed for the heresy-distance term & default \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.3: Agent behaviour, learning, and social dynamics.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{c\_epc} & 0.12 & Utility cost of displaying the visible compliance marker & default \\
+\texttt{eps\_cult} & 0.06 & Utility cost of investing in intrinsic cultivation & default \\
+\texttt{eta\_cult} & 0.07 & Utility return to intrinsic cultivation & default \\
+\texttt{beta\_epc} & 5.0 & Logistic slope converting net status gain into the probability of displaying compliance & default \\
+\texttt{beta\_pun} & 6.0 & Logistic slope converting the perceived compliance deficit into punishment probability & default \\
+\texttt{k\_h} & 10.0 & Logistic slope of the heresy-distance term & default \\
+\texttt{rho\_r} & 0.04 & Step size for updating enforcement propensity after a punishment outcome & default \\
+\texttt{rho\_b} & 0.03 & Step size for updating rigidity after a punishment outcome & default \\
+\texttt{w\_m} & 1.0 & Weight on the perceived-morality shortfall in the punishment deficit & default \\
+\texttt{w\_heresy} & 0.6 & Weight on the heresy-distance term in the punishment deficit & default \\
+\texttt{d0} & 0.18 & Baseline heresy-distance threshold above which belief counts as deviant & default \\
+\texttt{norm\_weight} & 0.55 & Weight on the local compliance norm in the status gain from displaying compliance & default \\
+\texttt{shame\_weight} & 0.70 & Weight on the local enforcement norm in that status gain & default \\
+\texttt{noise\_x} & 0.02 & Standard deviation of per-step noise on intrinsic cultivation & default \\
+\texttt{cult\_step} & 0.04 & Maximum per-step change in intrinsic cultivation & default \\
+\texttt{F\_star} & 0.45 & Threshold on the fundamentalism index used to report prevalence & default \\
+\texttt{L\_alpha} & 1.5 & First shape parameter of the Beta distribution of literalism & default \\
+\texttt{L\_beta} & 4.5 & Second shape parameter of that distribution & default \\
+\texttt{theta\_L\_gain} & 0.12 & Sensitivity of an agent's effective strictness threshold to its literalism & default \\
+\texttt{d0\_L\_gain} & 0.08 & Sensitivity of an agent's effective heresy threshold to its literalism & default \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.4: Policing economy.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{pi\_reward} & 0.22 & Coefficient on the legibility index in the institutional return to a successful punishment & swept \\
+\texttt{kappa\_cost} & 0.08 & Base utility cost of issuing a punishment & default \\
+\texttt{lam\_punish} & 0.25 & Utility penalty imposed on the punished agent & default \\
+\texttt{backlash\_base} & 0.25 & Baseline probability that a punishment provokes backlash against the punisher & default \\
+\texttt{backlash\_cost} & 0.30 & Utility cost borne by the punisher when backlash occurs & default \\
+\texttt{backlash\_sensitivity} & 1.0 & Sensitivity of backlash probability to the illegibility of the code & default \\
+\texttt{punish\_floor} & 0.08 & Minimum step-level fraction of active agents punished that gates any update of outside-option closure & set to 0.08 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.5: Exit desire, opportunity, and cost.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{enable\_exit} & True & Master switch for the exit process & default \\
+\texttt{exit\_threshold} & $-1.0$ & Utility level below which exit desire begins to accumulate & set to $-1.0$ \\
+\texttt{exit\_prob\_slope} & 3.0 & Logistic slope converting exit drive into exit desire & default \\
+\texttt{exit\_cost} & 0.40 & Base cost of leaving, before degree and lock-in adjustments & set to 1.00 \\
+\texttt{exit\_degree\_coeff} & 0.03 & Rate at which network degree raises the effective exit cost & default \\
+\texttt{exit\_epc\_lockin\_coeff} & 0.25 & Rate at which an agent's accumulated visible compliance raises its exit cost & default \\
+\texttt{exit\_min\_cost} & 0.0 & Floor on the effective exit cost & default \\
+\texttt{exit\_opportunity\_base} & 0.6 & Baseline logit intercept of the exit-opportunity draw & set to 0.30 \\
+\texttt{exit\_opportunity\_deg\_coeff} & 0.03 & Rate at which degree lowers exit opportunity & default \\
+\texttt{exit\_opportunity\_threat\_coeff} & 1.5 & Rate at which external threat lowers exit opportunity & set to 2.9081 \\
+\texttt{exit\_block\_exponent} & 2.5 & Exponent applied to the raw opportunity, concentrating opportunity at high values & set to 5.9806 \\
+\texttt{exit\_block\_floor} & 0.02 & Additive floor on exit opportunity after the exponent is applied & default \\
+\texttt{exit\_commit\_steps} & 8 & Consecutive steps for which desire must persist before an opportunity draw is taken & set to 12 \\
+\texttt{exit\_cooldown} & 0 & Steps an agent must wait after a failed exit attempt & default \\
+\texttt{exit\_rewire\_fraction} & 0.90 & Fraction of an exiting agent's incident edges removed on departure & default \\
+\texttt{alpha\_punish\_revalue} & 0.0 & Weight by which received punishment revalues staying inside the group & set to 0.00 \\
+\texttt{mu\_membership\_reward} & 0.0 & Weight on the membership reward that offsets exit desire & set to 0.00 \\
+\texttt{membership\_benefit} & 0.03 & Base per-step benefit of remaining a member & set to 0.0634 \\
+\texttt{membership\_benefit\_sigma} & 0.08 & Sensitivity of that benefit to code legibility & default \\
+\texttt{membership\_benefit\_threat} & 0.10 & Sensitivity of that benefit to external threat & set to 0.1055 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.6: Outside-option closure.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{delta\_outside\_degrade} & 0.0 & Imposed baseline degradation of the outside option, denoted $\delta_0$ & swept \\
+\texttt{eta\_delta\_drift} & 0.0 & Rate at which closure drifts toward its target, denoted $\eta$ & swept \\
+\texttt{delta\_mode} & legacy & Selects the closure specification: \texttt{legacy} makes the target a function of enforcer share, \texttt{decoupled} makes it a function of active-agent punishment incidence, and \texttt{exogenous} holds closure fixed & swept \\
+\texttt{delta\_cap} & 0.85 & Upper bound on the closure target in decoupled mode, denoted $\delta_{\max}$ & default \\
+\texttt{delta\_kappa} & 3.0 & Coupling strength from punishment incidence to closure in decoupled mode & swept over 1.5, 3.0, 6.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.7: Institutional privilege bundle.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{enforcer\_quota\_frac} & 0.08 & Target cadre size as a fraction of active agents & default \\
+\texttt{cap\_to\_enforcer} & 0.25 & Institutional capital required for first-round cadre eligibility & default \\
+\texttt{A\_enforcer\_monopoly} & 0.35 & Controller authority above which the punishment monopoly excludes non-enforcers & default \\
+\texttt{enforcer\_punish\_mult} & 1.5 & Multiplier on an enforcer's punishment probability & default \\
+\texttt{non\_enforcer\_punish\_eps} & 0.02 & Operative multiplier applied to non-enforcers when the monopoly is off & default \\
+\texttt{non\_enforcer\_punish\_mult} & 0.25 & Declared non-enforcer multiplier; passed by the sweeps but not used in the operative branch & default \\
+\texttt{kappa\_cap\_discount} & 0.20 & Fraction by which accumulated capital reduces the base punishment cost & default \\
+\texttt{enforcer\_kappa\_mult} & 0.30 & Further multiplier on an enforcer's punishment cost, a 70 percent role discount & default \\
+\texttt{enforcer\_backlash\_mult} & 0.25 & Multiplier on an enforcer's backlash probability, 75 percent protection & default \\
+\texttt{cap\_gain\_per\_punish} & 0.15 & Institutional capital added per successful punishment & default \\
+\texttt{cap\_max} & 2.0 & Ceiling on accumulated institutional capital & default \\
+\texttt{cap\_decay} & 0.005 & Per-step decay rate of institutional capital & default \\
+\texttt{service\_decay} & 0.02 & Per-step decay rate of accumulated service & default \\
+\texttt{budget\_base} & 0.15 & Constant term of the controller patronage budget & default \\
+\texttt{budget\_threat\_gain} & 0.60 & Coefficient on threat in the patronage budget & default \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.8: Institutional controller and threat schedule.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{shock\_schedule} & 100, 220, 320 & Steps at which external threat is raised & swept: empty, or 100, 220, 320 \\
+\texttt{shock\_strength} & 0.25 & Increment added to threat at each scheduled shock & set to 0.10 \\
+\texttt{relax\_rate} & 0.03 & Per-step proportional decay of threat between shocks & default \\
+\texttt{A\_gain\_threat} & 2.0 & Rate at which threat raises controller authority through $A_t=1-\exp(-A_{\mathrm{gain}}T_t)$ & default \\
+\texttt{tighten\_gain\_pi} & 0.20 & Increase in enforcement reward per unit threat & default \\
+\texttt{tighten\_gain\_lam} & 0.20 & Increase in punishment severity per unit threat & default \\
+\texttt{tighten\_gain\_d0} & 0.08 & Reduction in the heresy threshold per unit threat & default \\
+\texttt{baseline\_pi} & $-1.0$ & Sentinel; a negative value makes the run adopt \texttt{pi\_reward} as the baseline & default \\
+\texttt{baseline\_lam} & $-1.0$ & Sentinel for the punishment-severity baseline & default \\
+\texttt{baseline\_d0} & $-1.0$ & Sentinel for the heresy-threshold baseline & default \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Note on launcher-supplied values.}
+The sweep launcher \path{scripts/run_v2_7_endogenous_delta_sweep.py} reads seven
+parameters from a calibration file supplied through its \texttt{-{}-best}
+argument: \path{exit_cost}, \path{exit_block_exponent},
+\path{exit_commit_steps}, \path{exit_opportunity_threat_coeff},
+\path{membership_benefit}, \path{membership_benefit_threat}, and
+\path{shock_strength}. Its \texttt{load\_best\_params} function reads these seven
+keys and its \texttt{run\_one} function passes each of them to the model as a
+command-line flag. For all seven, the value that ran differs from the frozen
+source default, so each is a \emph{set} row above rather than a \emph{default}
+row.
+
+The calibration file is provided in the repository at
+\path{results/BEST_PARAMS_frozen.json}. Table~S1.10 gives its contents.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.10: The calibration parameter set, in
+\texttt{results/BEST\_PARAMS\_frozen.json}.}
+\begin{tabular}{p{5.4cm}p{2.2cm}p{2.2cm}p{3.4cm}}
+\toprule
+Parameter & Source default & Value that ran & How it was confirmed \\
+\midrule
+\texttt{exit\_cost} & 0.40 & 1.0 & algebraic inversion; replay \\
+\texttt{exit\_block\_exponent} & 2.5 & 5.980606901200484 & replay \\
+\texttt{exit\_commit\_steps} & 8 & 12 & disengagement threshold; replay \\
+\texttt{exit\_opportunity\_threat\_coeff} & 1.5 & 2.908096432532684 & replay, shock-on only \\
+\texttt{membership\_benefit} & 0.03 & 0.06336634914903713 & \texttt{stay\_value} column; replay \\
+\texttt{membership\_benefit\_threat} & 0.10 & 0.10553999169992101 & \texttt{stay\_value} regression, shock-on only \\
+\texttt{shock\_strength} & 0.25 & 0.1 & \texttt{threat} column, shock-on only \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+An eighth key, \texttt{exit\_opportunity\_base}, is present in the calibration
+file but is not read by \texttt{load\_best\_params}. The launcher passes its own
+\texttt{-{}-base-opp}, which is 0.30 in every reported sweep and is recorded as
+\texttt{base\_opp=0.3} in each \path{sweep_report.txt}.
+
+\paragraph{How the seven values were confirmed.}
+The committed run outputs do not record a command line, so each value was
+recovered from what the runs wrote and then checked by replay. Three methods
+agree.
+
+First, algebraic inversion. \path{agent_summary.csv} records
+\texttt{exit\_cost\_eff\_last}, which the model computes as
+$\texttt{exit\_cost}\,(1+0.03d_i)+0.25s_i$ with $s_i\in\{0,1\}$. Inverting this
+over every agent with a nonzero entry returns exactly 1.0 and never 0.40.
+
+Second, direct reading of echoed columns. In \path{recon/factorial_shock_on}, the
+\texttt{threat} column steps from 0 to exactly 0.1 across the first scheduled
+shock and peaks at 0.1050330, the value implied by an increment of 0.1 under the
+0.97 per-step relaxation. Regressing the \texttt{stay\_value} column on
+\texttt{threat} in the same run returns an intercept of 0.0843663 and a slope of
+0.1055400, which give \texttt{membership\_benefit} $=0.0633663$ and
+\texttt{membership\_benefit\_threat} $=0.1055400$ once the legibility term is
+subtracted. The agent-level \texttt{disengaged} flag is set at
+$\lfloor\texttt{exit\_commit\_steps}/2\rfloor$; its observed threshold of 6
+implies 12 and excludes 8.
+
+Third, replay, which is decisive. Re-running
+\path{src/religion_fundamentalism_abm_v2_7.py} at the recorded cell and seed
+reproduces the committed \path{metrics.csv} and \path{agent_summary.csv} exactly
+under the parameter set in Table~S1.10, for one run drawn from each of
+\path{recon/exogenous_delta_fixed}, \path{recon/boundary_sealed}, and
+\path{recon/factorial_shock_on}. Substituting the frozen-source defaults breaks
+the reproduction in all three: terminal exit moves from 0.046 to 0.871 in the
+first run and from 0.003 to 0.354 in the second.
+
+\paragraph{Identifiability caveat.}
+The three parameters \path{shock_strength},
+\path{exit_opportunity_threat_coeff}, and
+\path{membership_benefit_threat} all enter the model multiplied by threat.
+Every sweep except \path{recon/factorial_shock_on} runs with an empty shock
+schedule, so threat is identically zero and those three parameters are inert and
+formally unidentifiable there. This was confirmed directly: replaying the
+\path{recon/exogenous_delta_fixed} run with those three set to the source
+defaults still reproduces the committed output bit-for-bit. They are identified
+only in \path{recon/factorial_shock_on}, where setting
+\texttt{exit\_opportunity\_threat\_coeff} to 1.5 breaks bit-for-bit identity and
+2.908096432532684 restores it.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S1.9: Additional parameters of the endogenous exit-capacity module.}
+\begin{tabular}{p{4.9cm}p{1.3cm}p{4.5cm}p{2.4cm}}
+\toprule
+Parameter & Default & Role & In reported runs \\
+\midrule
+\texttt{exit\_capacity\_mode} & off & Selects the capacity specification; \texttt{off} reproduces the main model exactly, \texttt{endogenous} replaces global closure with a per-agent capacity & set to endogenous \\
+\texttt{ec\_init\_random} & True & Draws per-agent outside ties and economic independence from Beta(2,2) at initialization & default \\
+\texttt{ec\_outside\_ties\_init} & 1.0 & Initial outside-tie level when homogeneous initialization is selected & default \\
+\texttt{ec\_tie\_decay} & 0.01 & Per-step decay rate of outside social ties & default \\
+\texttt{ec\_tie\_renewal\_base} & 0.006 & Constant term of outside-tie renewal; the tie channel closes when crowd-out exceeds this value & default \\
+\texttt{ec\_tie\_renewal} & 0.004 & Renewal of outside ties proportional to current ties & default \\
+\texttt{ec\_tenure\_crowdout} & 0.002 & Rate at which tenure inside the group crowds out outside ties & swept over 0.0005, 0.002, 0.008 \\
+\texttt{ec\_econ\_recovery\_base} & 0.004 & Constant term of economic-independence recovery & default \\
+\texttt{ec\_econ\_recovery} & 0.002 & Recovery of economic independence proportional to its current level & default \\
+\texttt{ec\_dependence\_rate} & 0.01 & Rate at which membership reward erodes economic independence & default \\
+\texttt{ec\_hetero\_sd} & 0.25 & Standard deviation of per-agent heterogeneity in capacity & default \\
+\texttt{lambda\_exit\_opportunity} & 1.0 & Weight of capacity on the exit-opportunity channel & default \\
+\texttt{lambda\_exit\_willingness} & 1.0 & Weight of capacity on the exit-willingness channel & default \\
+\texttt{turnover\_mode} & off & Enables cohort turnover through death and replacement & set to off \\
+\texttt{death\_hazard} & 0.002 & Per-step death hazard when turnover is on & default \\
+\texttt{born\_inside\_frac} & 0.8 & Fraction of the population initialized as born inside the group & swept over 0.0 and 0.8 \\
+\texttt{emit\_panel} & False & Emits the per-step per-agent panel used for the anti-circularity test & set to on for the panel runs \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\clearpage
+
+\section{Classification robustness}
+\label{sec:robustness}
+
+The canonical classifier defines capture as retention together with activation:
+a run is retained when \texttt{final\_exit\_rate} $\leq 0.20$ and active when
+\texttt{max\_punish} $\geq 0.10$. This section reports the sensitivity of that
+definition to the activation threshold, the vacuity of the concentration
+criterion that the definition omits, and the relationship between COLLAPSE and
+activation.
+
+\subsection{Activation-threshold sensitivity}
+
+Table~S2.1 varies the activation threshold and records, for each value, the
+capture rate in the imposed-closure experiment, the capture rate at the sealed
+boundary, whether the imposed-closure dose-response remains monotone, and
+whether the low-observability, low-reward cell at $\sigma=0.25$, $\pi=0.05$
+remains inactive.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S2.1: Capture rate and qualitative behaviour against the activation threshold.}
+\begin{tabular}{p{2.0cm}p{2.5cm}p{2.5cm}p{2.2cm}p{3.6cm}}
+\toprule
+Threshold & Imposed-closure capture & Sealed-boundary capture & Dose-response & $\sigma=0.25$, $\pi=0.05$ cell \\
+\midrule
+0.05 & 0.253 & 0.816 & monotone & breaks, 90 of 180 capture \\
+0.075 & 0.198 & 0.694 & monotone & holds, 0 of 180 \\
+0.10 (canonical) & 0.198 & 0.661 & monotone & holds, 0 of 180 \\
+0.15 & 0.186 & 0.473 & monotone & holds, 0 of 180 \\
+0.20 & 0.006 & 0.070 & degenerates & holds, 0 of 180 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both the dose-response and the necessity result survive across the band
+$[0.075, 0.15]$, and the canonical value 0.10 lies in the interior of that
+band. The two edges fail in opposite directions. At the loose edge, 0.05, the
+$\sigma=0.25$, $\pi=0.05$ cell ceases to be inactive and returns 90 of 180 runs
+as capture, so the necessity result no longer holds. At the strict edge, 0.20,
+capture falls to approximately zero everywhere, with an imposed-closure capture
+rate of 0.006 and a sealed-boundary rate of 0.070, so the dose-response
+degenerates and carries no information. The reported band is therefore joint:
+it is the set of thresholds at which both results hold simultaneously. Sources:
+\path{recon/exogenous_delta_fixed} and \path{recon/boundary_sealed}.
+
+\subsection{Vacuity of the concentration criterion}
+
+An earlier form of the classifier gated capture on an enforcer punishment share
+of at least 0.70. Reclassifying every committed run with and without that gate
+changes 0 of 9,570 classifications. The 9,570 runs comprise 4,050 from the
+shock-off factorial, 1,620 from the imposed-closure experiment, 1,890 from the
+sealed boundary, 1,890 from the open boundary, and 120 from the ablation
+ceiling.
+
+The reason the gate is inert is distributional. Enforcer share has no mass near
+zero in any of the five datasets: the fraction of runs at or below 0.05 is 0.000
+throughout, and the median lies between 0.97 and 0.98. The statistic saturates
+high wherever punishment occurs at all, which makes it redundant with activation
+rather than a graded measure of concentration. It is therefore reported
+descriptively and excluded from the capture definition.
+
+\subsection{COLLAPSE and activation}
+
+Every COLLAPSE run in the committed data falls below the canonical activation
+threshold. Table~S2.2 gives the count and the observed range of maximum
+punishment incidence by dataset.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S2.2: COLLAPSE runs and their maximum punishment incidence.}
+\begin{tabular}{p{6.0cm}p{1.9cm}p{2.9cm}p{2.6cm}}
+\toprule
+Dataset & COLLAPSE runs & Of which \texttt{max\_punish} $<0.10$ & min / median / max \\
+\midrule
+\path{results/v2.5_methodology_paper_canonical} & 45 & 45 (100 percent) & 0.037 / 0.063 / 0.094 \\
+\path{results/v2.5_corrected_three_regime_confirm} & 45 & 45 (100 percent) & 0.037 / 0.063 / 0.094 \\
+\path{results/v2.5_corrected_sweep_regime_search_fast} & 18 & 18 (100 percent) & 0.037 / 0.059 / 0.094 \\
+All \path{recon/} sweeps & 0 & not applicable & not applicable \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All 108 COLLAPSE runs are inactive, and the largest maximum punishment incidence
+observed among them is 0.094, below the 0.10 activation threshold. Depopulation
+in these runs is therefore driven by open exit rather than by enforcement, and
+COLLAPSE is properly described as depopulation without activation.
+
+This has a direct consequence for the structure of the classifier. Reclassifying
+all committed data as activation crossed with retention, with no separate
+COLLAPSE rule, changes 108 of 28,581 runs, or 0.38 percent, and every change is
+COLLAPSE to QUIET. The inactive cell with exit strictly between 0.20 and 0.90
+contains 560 runs, or 1.96 percent, all already labelled QUIET. COLLAPSE is
+retained only as a descriptive flag for the exit $\geq 0.90$ tail within the
+inactive region, not as a separate dynamical regime.
+
+\clearpage
+
+\section{Continuous surfaces}
+\label{sec:continuous}
+
+The classification in Section~S2 discretizes two continuous quantities. This
+section reports those quantities directly, so that the reported results can be
+read without reference to any threshold. Each entry is a mean over 30 seeds for
+the corresponding cell.
+
+\subsection{Open exit}
+
+The open-exit condition fixes $\delta_0=0$ and comprises 1,890 runs on a grid of
+9 values of $\sigma$ by 7 values of $\pi$ by 30 seeds. Source:
+\path{recon/boundary_open/sweep_seed_results.csv}.
+
+\begin{table}[htbp]
+\centering
 \small
-\begin{tabular}{lcccccp{4.5cm}}
+\caption{Table S3.1: Mean terminal exit rate, open exit.}
+\begin{tabular}{lccccccc}
 \toprule
-Regime & L & S & EA & C & EC & Primary source evidence \\
+$\sigma \backslash \pi$ & 0.01 & 0.03 & 0.05 & 0.10 & 0.15 & 0.25 & 0.50 \\
 \midrule
-Taliban (1996--2001) & 4 & 4 & 4 & 4 & 4 & CPVPV street enforcement of dress, prayer, beard length, gender mixing; apostasy = capital offense. Source: Rashid (2000); HRW reports. \\
-Saudi CPVPV (pre-2016) & 4 & 3 & 4 & 3 & 3 & Mutaween patrol enforcement; exit legal but socially costly. S rated 3 (not 4): private piety still doctrinally valued. Source: Fox RAS Rd3; Lacroix (2011). \\
-Counter-Ref. Catholicism & 3 & 3 & 3 & 4 & 3 & Confessionalization program; Index, Inquisition, Tridentine discipline. C=4: magisterial monopoly. Source: Reinhard (1983); Schilling (1988). \\
-Medieval Inquisition & 3 & 3 & 4 & 4 & 4 & Given (1997): cumulative record-keeping, informer networks, procedural compounding. EC=4: apostasy = death. \\
-Ultra-Orthodox Judaism & 3 & 3 & 3 & 2 & 3 & Berman (2000): non-transferable yeshiva capital. C=2: no single central authority (multiple Rebbes, batei din). \\
-Stalinist party discipline & 4 & 4 & 4 & 4 & 4 & Kotkin (1995); Fitzpatrick (2005). Behavioral conformity sufficient; private belief irrelevant. EC=4: purge, gulag, execution. \\
-Mainstream Sunni Islam & 2 & 2 & 2 & 1 & 2 & Multiple madhahib, no binding hierarchy (C=1). Niyyah required (S=2). Fox RAS Rd3. \\
-Therav\=ada vinaya & 2 & 1 & 2 & 1 & 1 & Behavioral rules serve mental purification (S=1). Local sangha governance (C=1). Exit = return to lay life, minimal penalty. \\
-Advaita Ved\=anta & 0 & 0 & 0 & 0 & 0 & Apaurusheya doctrine; internal realization is sole criterion. No institutional enforcement apparatus. Source: Author (forthcoming; reference masked for review). \\
-Early Quaker movement & 1 & 0 & 1 & 0 & 1 & Inner Light doctrine; no creed, no clergy, no enforcement roles. Mild social cost of departure. \\
+0.05 & 0.176 & 0.173 & 0.176 & 0.174 & 0.172 & 0.542 & 0.500 \\
+0.15 & 0.096 & 0.097 & 0.094 & 0.374 & 0.490 & 0.464 & 0.440 \\
+0.25 & 0.046 & 0.044 & 0.044 & 0.446 & 0.433 & 0.405 & 0.426 \\
+0.35 & 0.016 & 0.016 & 0.319 & 0.409 & 0.383 & 0.403 & 0.446 \\
+0.45 & 0.005 & 0.005 & 0.400 & 0.385 & 0.382 & 0.400 & 0.448 \\
+0.55 & 0.002 & 0.219 & 0.380 & 0.384 & 0.393 & 0.417 & 0.440 \\
+0.65 & 0.000 & 0.306 & 0.368 & 0.378 & 0.384 & 0.424 & 0.419 \\
+0.75 & 0.000 & 0.343 & 0.366 & 0.374 & 0.389 & 0.400 & 0.399 \\
+0.95 & 0.000 & 0.319 & 0.318 & 0.324 & 0.322 & 0.317 & 0.310 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\noindent L = Legibility, S = Substitutability, EA = Enforcement Affordance, C = Centralization, EC = Exit Cost. All scores 0--4 ordinal. Scores assigned by two independent raters; no disagreements exceeded one scale point in the cases shown. Cohen's $\kappa$ across the 10 regimes: L = 0.88, S = 0.82, EA = 0.85, C = 0.90, EC = 0.92.
-
-
-\section{Regime Classification Threshold Sensitivity}
-
-The operational regime classifier uses researcher-specified thresholds. To assess robustness, we perturbed each threshold by $\pm 5$ percentage points and reclassified all 360 confirmatory runs.
-
-\begin{table}[ht]
+\begin{table}[htbp]
 \centering
-\caption{Table S3b: Regime counts under threshold perturbation ($\pm 5$ pp).}
-\begin{tabular}{lccccc}
+\small
+\caption{Table S3.2: Mean maximum punishment incidence, open exit.}
+\begin{tabular}{lccccccc}
 \toprule
-Threshold variant & QUIET & MIXED & COLLAPSE & CAPTURE & Changed \\
+$\sigma \backslash \pi$ & 0.01 & 0.03 & 0.05 & 0.10 & 0.15 & 0.25 & 0.50 \\
 \midrule
-Default (exit $\geq 0.90$, prev $\geq 0.90$, punish $\geq 0.10$) & 137 & 166 & 45 & 12 & -- \\
-Exit threshold $\pm 5$pp (0.85 / 0.95) & 137/137 & 158/172 & 53/39 & 12/12 & 14/12 \\
-Prevalence threshold $\pm 5$pp (0.85 / 0.95) & 137/137 & 166/166 & 45/45 & 12/12 & 0/0 \\
-Punish threshold $\pm 5$pp (0.05 / 0.15) & 104/156 & 199/149 & 45/45 & 12/10 & 35/19 \\
+0.05 & 0.050 & 0.050 & 0.050 & 0.050 & 0.050 & 0.091 & 0.110 \\
+0.15 & 0.050 & 0.050 & 0.050 & 0.064 & 0.098 & 0.109 & 0.148 \\
+0.25 & 0.051 & 0.051 & 0.051 & 0.102 & 0.110 & 0.132 & 0.172 \\
+0.35 & 0.046 & 0.047 & 0.074 & 0.117 & 0.130 & 0.156 & 0.181 \\
+0.45 & 0.046 & 0.046 & 0.105 & 0.133 & 0.152 & 0.173 & 0.181 \\
+0.55 & 0.044 & 0.066 & 0.126 & 0.149 & 0.164 & 0.173 & 0.180 \\
+0.65 & 0.042 & 0.093 & 0.136 & 0.156 & 0.163 & 0.171 & 0.174 \\
+0.75 & 0.039 & 0.118 & 0.143 & 0.154 & 0.162 & 0.162 & 0.163 \\
+0.95 & 0.033 & 0.128 & 0.130 & 0.136 & 0.138 & 0.136 & 0.135 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The four-region structure is preserved under all perturbations. The punish threshold produces the largest reclassification (35 runs at 0.05, 19 at 0.15), shifting runs between QUIET and MIXED near the activation boundary. COLLAPSE and CAPTURE counts are stable. No perturbation eliminates any regime or creates a new one. The qualitative finding of four distinct regions is robust.
+\subsection{Sealed exit}
 
+The sealed-exit condition fixes $\delta_0=0.95$ on the same grid, again 1,890
+runs. Source: \path{recon/boundary_sealed/sweep_seed_results.csv}.
 
-\section{Monopoly Ablation Results}
-
-To test whether enforcement concentration is an artifact of the cadre restriction, we ran 180 simulations (90 with monopoly enabled, 90 with monopoly disabled) at three parameter points, 30 seeds each.
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
-\caption{Table S4: Monopoly ON vs OFF concentration metrics}
-\begin{tabular}{lcccccc}
+\small
+\caption{Table S3.3: Mean terminal exit rate, sealed exit.}
+\begin{tabular}{lccccccc}
 \toprule
-$\sigma$ & $\pi$ & Condition & Top-5 share & Top-10 share & Enf. share & Exit rate \\
+$\sigma \backslash \pi$ & 0.01 & 0.03 & 0.05 & 0.10 & 0.15 & 0.25 & 0.50 \\
 \midrule
-0.25 & 0.50 & ON  & 0.897 & 0.975 & 0.250 & 0.826 \\
-0.25 & 0.50 & OFF & 0.897 & 0.975 & 0.253 & 0.826 \\
-0.75 & 0.25 & ON  & 0.811 & 0.948 & 0.547 & 0.520 \\
-0.75 & 0.25 & OFF & 0.810 & 0.945 & 0.529 & 0.521 \\
-0.95 & 0.50 & ON  & 0.866 & 0.971 & 0.788 & 0.449 \\
-0.95 & 0.50 & OFF & 0.862 & 0.970 & 0.786 & 0.450 \\
+0.05 & 0.008 & 0.008 & 0.009 & 0.007 & 0.008 & 0.084 & 0.107 \\
+0.15 & 0.004 & 0.004 & 0.004 & 0.047 & 0.080 & 0.099 & 0.138 \\
+0.25 & 0.002 & 0.002 & 0.002 & 0.077 & 0.081 & 0.105 & 0.141 \\
+0.35 & 0.001 & 0.001 & 0.042 & 0.076 & 0.096 & 0.128 & 0.128 \\
+0.45 & 0.000 & 0.000 & 0.068 & 0.089 & 0.110 & 0.117 & 0.118 \\
+0.55 & 0.000 & 0.023 & 0.068 & 0.100 & 0.108 & 0.113 & 0.110 \\
+0.65 & 0.000 & 0.041 & 0.073 & 0.092 & 0.100 & 0.097 & 0.097 \\
+0.75 & 0.000 & 0.058 & 0.076 & 0.081 & 0.083 & 0.082 & 0.083 \\
+0.95 & 0.000 & 0.056 & 0.053 & 0.055 & 0.055 & 0.054 & 0.054 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Concentration metrics are virtually identical across all matched pairs, confirming that enforcement concentration is endogenous to delegation and capital compounding, not to the monopoly restriction.
-
-
-\section{Cadre Quota Sensitivity}
-
-To show that concentration is not an artifact of the specific 8\% quota choice, we varied enforcer\_quota\_frac across six values at the fixed parameter point $\sigma = 0.75$, $\pi = 0.25$, base\_opp = 0.30, 30 seeds per value (180 runs total).
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
-\caption{Table S5: Concentration metrics by cadre quota fraction}
-\begin{tabular}{ccccccc}
+\small
+\caption{Table S3.4: Mean maximum punishment incidence, sealed exit.}
+\begin{tabular}{lccccccc}
 \toprule
-Quota & Top-5 share & Top-10 share & Enf. share & Max punish & Fund. prev. & Exit rate \\
+$\sigma \backslash \pi$ & 0.01 & 0.03 & 0.05 & 0.10 & 0.15 & 0.25 & 0.50 \\
 \midrule
-0.04 & 0.868 & 0.905 & 0.538 & 0.077 & 0.079 & 0.420 \\
-0.08 & 0.811 & 0.948 & 0.547 & 0.126 & 0.133 & 0.520 \\
-0.12 & 0.656 & 0.946 & 0.542 & 0.166 & 0.188 & 0.570 \\
-0.16 & 0.565 & 0.878 & 0.533 & 0.194 & 0.243 & 0.607 \\
-0.20 & 0.495 & 0.798 & 0.538 & 0.217 & 0.304 & 0.636 \\
-0.25 & 0.448 & 0.722 & 0.528 & 0.241 & 0.354 & 0.660 \\
+0.05 & 0.050 & 0.050 & 0.050 & 0.050 & 0.050 & 0.107 & 0.126 \\
+0.15 & 0.050 & 0.050 & 0.050 & 0.087 & 0.113 & 0.131 & 0.186 \\
+0.25 & 0.051 & 0.051 & 0.051 & 0.121 & 0.129 & 0.164 & 0.196 \\
+0.35 & 0.046 & 0.047 & 0.099 & 0.136 & 0.159 & 0.192 & 0.202 \\
+0.45 & 0.046 & 0.046 & 0.130 & 0.163 & 0.183 & 0.197 & 0.204 \\
+0.55 & 0.044 & 0.086 & 0.147 & 0.182 & 0.192 & 0.200 & 0.202 \\
+0.65 & 0.042 & 0.125 & 0.161 & 0.179 & 0.189 & 0.197 & 0.195 \\
+0.75 & 0.039 & 0.151 & 0.173 & 0.179 & 0.189 & 0.189 & 0.189 \\
+0.95 & 0.033 & 0.154 & 0.158 & 0.164 & 0.166 & 0.165 & 0.165 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The enforcer punishment share remains stable at approximately 0.53 across all quota values, confirming that the cadre consistently dominates punishment regardless of its size. Top-5 share declines mechanically with larger quotas (more agents sharing a fixed punishment volume), but the structural concentration persists.
+Comparing Tables~S3.1 and~S3.3 shows that sealing the exit lowers terminal exit
+throughout the grid. Comparing Tables~S3.2 and~S3.4 shows that it also raises
+enforcement intensity across most of the grid, which is the continuous form of
+the coupling between the two axes at the frontier margin.
 
+\subsection{Imposed closure}
 
-\section{Intensity Gate Sensitivity}
+The imposed-closure experiment holds closure fixed at a series of levels and
+comprises 1,620 runs over 3 values of $\sigma$ by 3 values of $\pi$ by 6 values
+of $\delta_0$ by 30 seeds. Source:
+\path{recon/exogenous_delta_fixed/sweep_seed_results.csv}.
 
-The drift mechanism's intensity gate (punish\_floor = 0.08) was tested for robustness by varying the floor across six values under the drift specification ($\sigma = 0.95$, $\pi = 0.25$, $\eta = 0.10$, $\delta_0 = 0.2$), 30 seeds per value (180 runs total).
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
-\caption{Table S6: Regime counts and median $\delta$ by intensity gate floor}
-\begin{tabular}{cccccccc}
+\small
+\caption{Table S3.5: Mean maximum punishment and mean terminal exit by imposed closure, pooled over $\sigma$ and $\pi$.}
+\begin{tabular}{lccc}
 \toprule
-Floor & COLLAPSE & CAPTURE & MIXED & QUIET & Median $\delta$ & Exit rate & Fund. prev. \\
+$\delta_0$ & Mean maximum punishment & Mean terminal exit & $n$ \\
 \midrule
-0.04 & 0 & 0 & 30 & 0 & 1.000 & 0.016 & 0.109 \\
-0.06 & 0 & 0 & 30 & 0 & 1.000 & 0.040 & 0.108 \\
-0.08 & 0 & 0 & 30 & 0 & 1.000 & 0.074 & 0.112 \\
-0.10 & 0 & 0 & 30 & 0 & 1.000 & 0.133 & 0.112 \\
-0.12 & 0 & 0 & 29 & 1 & 0.551 & 0.401 & 0.122 \\
-0.15 & 0 & 0 & 29 & 1 & 0.200 & 0.440 & 0.133 \\
+0.00 & 0.136 & 0.332 & 270 \\
+0.20 & 0.139 & 0.324 & 270 \\
+0.40 & 0.143 & 0.313 & 270 \\
+0.60 & 0.148 & 0.288 & 270 \\
+0.80 & 0.155 & 0.216 & 270 \\
+0.95 & 0.161 & 0.072 & 270 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Drift-to-capture dynamics are robust for punish\_floor values in the range [0.04, 0.10], with all 30 seeds reaching the MIXED regime with $\delta_{\text{final}} = 1.0$. At floor = 0.12, the gate begins to block drift ($\delta$ drops to 0.55), and at floor = 0.15, drift is effectively blocked ($\delta = 0.20$). The qualitative result is preserved across the predicted robust range [0.06, 0.12].
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S3.6: Mean maximum punishment over $\sigma$ and $\pi$ at $\delta_0=0.95$.}
+\begin{tabular}{lccc}
+\toprule
+$\sigma \backslash \pi$ & 0.05 & 0.25 & 0.50 \\
+\midrule
+0.25 & 0.051 & 0.164 & 0.196 \\
+0.75 & 0.173 & 0.189 & 0.189 \\
+0.95 & 0.158 & 0.165 & 0.165 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
+Raising imposed closure from 0.00 to 0.95 lowers mean terminal exit from 0.332
+to 0.072 while raising mean maximum punishment only from 0.136 to 0.161. Closure
+acts principally on retention rather than on activation.
 
-\section{Bootstrap Distribution of R-squared Ratio}
+\subsection{The necessity result without a threshold}
 
-Cross-national regression analysis using 36 countries with complete data from the World Values Survey (Wave 7, ``importance of God'' variable), the Religion and State Project (Round 3, religious legislation composite), and World Bank GDP per capita (PPP, 2022).
+The necessity claim has a form that requires no classification. At the
+low-observability, low-reward corner $\sigma=0.25$, $\pi=0.05$, mean maximum
+punishment over 30 seeds is 0.051 at $\delta_0=0.0$ and 0.051 at
+$\delta_0=0.95$, a change of $+0.000$, while mean terminal exit falls from 0.044
+to 0.002. Sealing the exit in this corner removes the departures without
+producing any enforcement. Both values lie far below the 0.10 activation band,
+so the statement is a claim about the continuous enforcement surface and does
+not depend on where the activation threshold is placed.
 
-\subsection{Model results with HC3 robust standard errors}
+\clearpage
 
-\begin{itemize}
-\item GDP-only model: $R^2 = 0.607$, $\beta_{\text{GDP}} = -2.34$ ($p < 0.001$)
-\item Legislation-only model: $R^2 = 0.516$, $\beta_{\text{leg}} = 0.077$ ($p < 0.001$)
-\item Combined model: $R^2 = 0.728$, both predictors significant
-\end{itemize}
+\section{Privilege ablation}
+\label{sec:ablation}
 
-\subsection{Bootstrap results}
+The ablation isolates the contribution of the institutional privilege bundle to
+the concentration of punishment. It compares a floor arm, in which every
+privilege is removed, against a ceiling arm carrying the complete bundle, and
+then adds each privilege back individually. All metrics are computed over agents
+active at the end of the run, and each arm contains 120 runs. Source:
+\path{recon/privilege_ablation/ablation_seed_results.csv}.
 
-10,000 bootstrap resamples of the R-squared ratio (GDP model $R^2$ / legislation model $R^2$):
+\subsection{Floor, ceiling, and the random-allocation null}
 
-\begin{itemize}
-\item Original ratio: 1.18
-\item Bootstrap median: 1.18
-\item 95\% confidence interval: [0.64, 2.18]
-\end{itemize}
+The null holds the observed active-agent punishment volume fixed and reallocates
+those events uniformly at random across active agents, which gives the
+concentration that arises from counting alone.
 
-The confidence interval includes 1.0, indicating that the sample is underpowered to establish a statistically significant difference between the explanatory power of outside-option quality and enforcement legislation. The most that can be concluded is that both structural development conditions and enforcement-related legal structure appear relevant to religious retention.
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S4.1: Floor and ceiling concentration against the random-allocation null.}
+\begin{tabular}{lcccc}
+\toprule
+Arm & Top-5 percent share & Gini & Gini, random null & Terminal exit rate \\
+\midrule
+Floor & 0.091 & 0.240 & 0.028 & 0.585 \\
+Ceiling & 0.580 & 0.901 & 0.062 & 0.331 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\subsection{Power analysis}
+The privilege-manufactured share of top-5 percent concentration is
+$(0.580 - 0.091)/0.580 = 0.843$, that is 84 percent. The floor Gini of 0.240 sits
+only modestly above its random null of 0.028, so the residual concentration in a
+privilege-free model is small. Concentration is a product of the privilege
+architecture rather than an emergent property of the underlying interaction.
 
-Combined model $R^2 = 0.728$, Cohen's $f^2 = 2.67$, power at $N = 36$: 0.182. The sample is substantially underpowered for detecting the relative contribution of individual predictors. Larger cross-national samples or within-country panel designs would be required for definitive inference.
+\subsection{Single-privilege add-back}
 
-\subsection{Data sources}
+Each privilege is added individually to the floor, holding all others removed,
+with 120 seeds per arm. Recovery is expressed as a fraction of the floor to
+ceiling span in top-5 percent share, which runs from 0.0907 to 0.5799.
 
-\begin{itemize}
-\item \textbf{WVS}: World Values Survey Wave 7 (2017--2022). Variable: ``How important is God in your life?'' (1--10 scale). Country-level means used as retention proxy.
-\item \textbf{RAS}: Religion and State Project, Round 3 (Fox, 2019). Composite religious legislation score (range 0--100). Measures government regulation, legislation, and enforcement related to religion.
-\item \textbf{GDP}: World Bank, GDP per capita, PPP (current international \$), 2022. Natural log transformed.
-\end{itemize}
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S4.2: Concentration after adding one privilege to the floor.}
+\begin{tabular}{lccc}
+\toprule
+Arm & Top-5 percent share & Gini & Share of span recovered \\
+\midrule
+Floor & 0.0907 & 0.2402 & not applicable \\
+Quota & 0.0907 & 0.2402 & 0.0 percent \\
+Monopoly & 0.0907 & 0.2402 & 0.0 percent \\
+Punishment multiplier & 0.2505 & 0.6317 & 32.7 percent \\
+Backlash protection & 0.0907 & 0.2402 & 0.0 percent \\
+Capital gain & 0.0907 & 0.2402 & 0.0 percent \\
+Budget patronage & 0.0907 & 0.2402 & 0.0 percent \\
+Cost discount & 0.0907 & 0.2402 & 0.0 percent \\
+Ceiling & 0.5799 & 0.9007 & 100 percent \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-The 36-country dataset and reproducibility script are available in the repository at \texttt{data/cross\_national\_data.csv}.
+Seven of the eight single privileges are exactly inert, reproducing the floor
+values to four decimal places. The exception is the punishment multiplier, which
+on its own recovers 32.7 percent of the span. The accurate statement is
+therefore conjunctivity with one exception rather than conjunctivity outright:
+concentration requires the privileges jointly, except for the coercive-power
+multiplier, which is the single load-bearing privilege. The seven inert
+privileges are inert for a common reason. Each acts only on a cadre, and the
+quota-less floor never forms one, so there is no differentiated group for them
+to act upon.
 
+The multiplier exception carries a volume caveat that the concentration
+statistics alone do not show. Table~S4.2 reports shares and Gini coefficients,
+which are scale-free and can be computed over any nonzero punishment count. The
+multiplier arm issues a mean of 393.2 punishments per run, against 75{,}611.8 at
+the floor and 19{,}100.6 at the ceiling, a volume roughly two orders of
+magnitude below either reference arm. It also retains almost the entire
+population, with a mean terminal exit rate of 0.010 against 0.585 at the floor
+and 0.331 at the ceiling, so the 32.7 percent recovery is a concentration
+measured over about 1.1 punishment events per surviving active agent across 450
+steps. The exception is real but thin: it establishes that the coercive-power
+multiplier is the one privilege that can concentrate sanctioning without a
+cadre, not that it reproduces the enforcement volume of the full bundle.
 
-\section{Drift Mechanism Technical Details}
+\subsection{Concentration does not discriminate capture}
 
-\subsection{Intensity-gated drift rule}
+Concentration is high wherever punishment occurs and therefore does not separate
+the outcome classes. Table~S4.3 reports active-agent concentration by recomputed
+regime in the imposed-closure experiment.
 
-The endogenous alternative degradation parameter $\delta$ evolves according to:
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S4.3: Concentration and exit by regime, imposed-closure experiment.}
+\begin{tabular}{lcccc}
+\toprule
+Regime & $n$ & Top-5 percent share & Gini & Terminal exit rate \\
+\midrule
+CAPTURE & 320 & 0.678 & 0.918 & 0.105 \\
+MIXED & 1120 & 0.625 & 0.903 & 0.339 \\
+QUIET & 180 & 0.425 & 0.713 & 0.021 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\begin{equation}
-\delta(t+1) = \delta(t) + \eta \cdot (\delta_{\text{target}} - \delta(t))
-\end{equation}
+Among active systems, that is CAPTURE against MIXED, the two concentration
+measures are nearly identical, 0.678 against 0.625 for top-5 percent share and
+0.918 against 0.903 for the Gini, while terminal exit differs by roughly a factor
+of three, 0.105 against 0.339. Retention rather than concentration separates the
+regimes. QUIET sits lower on both concentration measures only because it is
+barely active, which is an activation effect rather than a retention one, and is
+the reason the non-capture classes must not be pooled.
 
-where:
-\begin{equation}
-\delta_{\text{target}} = \min(1.0, \delta_0 + \text{enforcer\_share})
-\end{equation}
+\clearpage
 
-and enforcer\_share is the fraction of total punishment issued by cadre members in the current timestep.
+\section{Endogenous exit capacity}
+\label{sec:capacity}
 
-The drift fires only when:
-\begin{equation}
-\max_i(\text{punish}_i / N_{\text{active}}) \geq \text{punish\_floor}
-\end{equation}
+The endogenous exit-capacity module replaces the global closure parameter with a
+per-agent capacity built from outside social ties and economic independence.
+This section reports the closure threshold of the tie channel, the generational
+arms, and the anti-circularity test. Model:
+\path{src/religion_fundamentalism_abm_v3_3.py}. Aggregated outputs and per-run
+artifacts are under \path{results/v3_3_endogenous_capacity_v2/}.
 
-The punish\_floor parameter (default 0.08) was calibrated to the quiet-to-active boundary observed in the baseline sweep:
-\begin{itemize}
-\item Quiet cells: median max\_punish = 0.051 (range 0.036--0.091)
-\item Active cells: max\_punish $\geq$ 0.091
-\end{itemize}
+\subsection{Closure of the tie channel}
 
-The gate implements a theoretical constraint: narrative drift requires an enforcement apparatus with institutional salience. A single functionary issuing occasional sanctions does not reshape community cosmology; a vigorous enforcement apparatus that visibly punishes deviants and controls institutional discourse does.
+The tie channel has fixed point
+$o^{*} = (\text{renewal base} - \text{crowd-out})/(\text{decay} - \text{renewal})$,
+and closes when $o^{*} \leq 0$, which occurs when crowd-out exceeds the base
+renewal rate of 0.006. Table~S5.1 reports a sweep over crowd-out at
+$\mu = 0.0$ with 5 seeds per level. Source:
+\path{results/v3_3_endogenous_capacity_v2/closure_summary.csv}.
 
-\subsection{Salience threshold justification}
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S5.1: Closure sweep over tenure crowd-out.}
+\begin{tabular}{lcccc}
+\toprule
+Crowd-out & Predicted $o^{*}$ & Tie channel closes & Mean final exit capacity & Exit over last 100 steps \\
+\midrule
+0.0005 & $+0.917$ & no & 0.9302 & 0.0415 \\
+0.002 & $+0.667$ & no & 0.8392 & 0.0544 \\
+0.008 & $-0.333$ & yes & 0.5166 & 0.0685 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-The 0.08 floor sits between the quiet-cell maximum (0.091) and the active-cell minimum, ensuring:
-\begin{itemize}
-\item Quiet cells (max\_punish $< 0.08$): drift is blocked, $\delta$ remains at initial value
-\item Active cells (max\_punish $\geq 0.08$): drift engages, $\delta$ trends toward 1.0
-\end{itemize}
+The behaviour is a threshold rather than a ratchet. At $\mu=0.0$ the economic
+channel remains high, so total capacity floors at 0.5166 when the tie channel
+closes rather than falling to zero. Driving capacity to zero requires closing
+the economic channel as well, which needs $\mu$ above its own threshold.
 
-Sensitivity analysis confirms robustness across floor values in [0.06, 0.12] (Table S6).
+\subsection{Generational arms}
 
+With the economic channel inactive at $\mu=0.0$ and 5 seeds per arm, the
+born-inside cohort has lower terminal capacity. Source:
+\path{results/v3_3_endogenous_capacity_v2/generational_summary.csv}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S5.2: Generational arms, economic channel inactive.}
+\begin{tabular}{lcc}
+\toprule
+Born-inside fraction & Exit capacity at step 449 & Cumulative exit \\
+\midrule
+0.0 & 0.8854 & 0.5747 \\
+0.8 & 0.7721 & 0.5680 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+With the economic channel live, the same comparison is run at
+$\mu \in \{0.6, 0.8\}$, both crowd-out levels, both born-inside fractions, and
+10 seeds. The economic fixed point is $e^{*} = 0.004/(0.01\mu)$, giving 0.667 at
+$\mu=0.6$ and 0.500 at $\mu=0.8$, both below 1, and the observed mean economic
+independence of 0.52 to 0.74 confirms that the channel is genuinely interior
+rather than clipped at its bound. Source:
+\path{results/v3_3_endogenous_capacity_v2/live_econ_summary.csv}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S5.3: Generational arms, economic channel live.}
+\begin{tabular}{lcccc}
+\toprule
+$\mu$ & Crowd-out & Born inside & Exit capacity at step 449 & Cumulative exit \\
+\midrule
+0.6 & 0.002 & 0.0 & 0.7473 & 0.5230 \\
+0.6 & 0.002 & 0.8 & 0.6015 & 0.5117 \\
+0.6 & 0.008 & 0.0 & 0.4760 & 0.4060 \\
+0.6 & 0.008 & 0.8 & 0.3542 & 0.2943 \\
+0.8 & 0.002 & 0.0 & 0.6686 & 0.5147 \\
+0.8 & 0.002 & 0.8 & 0.5398 & 0.4757 \\
+0.8 & 0.008 & 0.0 & 0.4008 & 0.3560 \\
+0.8 & 0.008 & 0.8 & 0.3006 & 0.2353 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A born-inside fraction of 0.8 gives lower terminal capacity than a fraction of
+0.0 in every parameter cell and in all 40 of 40 seed-matched comparisons. Mean
+cumulative exit is likewise lower in all four parameter cells; at the level of
+individual replicates the comparison holds in 32 of 40 cases, and every reversal
+or tie occurs at the lower crowd-out level of 0.002. Both structural knobs act
+monotonically: higher economic dependence and higher crowd-out each lower
+capacity.
+
+\subsection{Anti-circularity}
+
+The concern this test addresses is that exit capacity might be responding to
+enforcement, which would make capture follow by construction. The test proceeds
+in two stages over a panel of 93,268 transitions in 300 clusters. Source:
+\path{results/v3_3_endogenous_capacity_v2/anticircularity_panel.csv}.
+
+First, the capacity update is reconstructed from its declared inputs, namely
+ties, economic independence, tenure, and heterogeneity. The maximum residual
+across all transitions is $3.331\times10^{-16}$, which is machine zero. The
+update therefore contains no undeclared term.
+
+Second, that structural residual is regressed on lagged punishment received,
+lagged punishment delivered, and enforcer status. Table~S5.4 reports the
+coefficients.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S5.4: Regression of the structural residual on enforcement history.}
+\begin{tabular}{lccc}
+\toprule
+Regressor & Coefficient & Standard error & $p$ \\
+\midrule
+Lagged punishment received & $7.96\times10^{-19}$ & [VERIFY] & 0.188 \\
+Lagged punishment delivered & $5.17\times10^{-20}$ & [VERIFY] & 0.604 \\
+Enforcer status & $-4.83\times10^{-19}$ & [VERIFY] & 0.434 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+[VERIFY: standard errors for the three coefficients in Table~S5.4. The source
+results tables record coefficients and $p$-values only.]
+
+All three coefficients are of order $10^{-19}$ or smaller, that is at the scale
+of the machine-zero residual itself, and none approaches conventional
+significance. Enforcement has no structural effect on exit capacity, so the
+capacity mechanism is an independent input to capture rather than a restatement
+of it.
+
+\clearpage
+
+\section{Computational reproducibility}
+\label{sec:repro}
+
+\subsection{Committed run outputs}
+
+Every reported quantity derives from one of the committed aggregate files listed
+in Table~S6.1. Each row of a \path{sweep_seed_results.csv} file is one run, and
+the per-run directories beneath it hold that run's \path{metrics.csv}, with one
+row per step, and \path{agent_summary.csv}, with one row per agent.
+
+The parameter set behind these sweeps is provided in the repository, in the file
+\path{results/BEST_PARAMS_frozen.json}, and is reproduced in Table~S1.10.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Table S6.1: Committed aggregate outputs.}
+\begin{tabular}{p{4.4cm}p{7.4cm}p{2.0cm}}
+\toprule
+Experiment & Path & Runs \\
+\midrule
+Shock factorial, off & \path{recon/factorial_shock_off/sweep_seed_results.csv} & 4{,}050 \\
+Shock factorial, on & \path{recon/factorial_shock_on/sweep_seed_results.csv} & 4{,}050 \\
+Closure decoupling, $\kappa=1.5$ & \path{recon/decoupled_k1.5/sweep_seed_results.csv} & 4{,}050 \\
+Closure decoupling, $\kappa=3.0$ & \path{recon/decoupled_k3.0/sweep_seed_results.csv} & 4{,}050 \\
+Closure decoupling, $\kappa=6.0$ & \path{recon/decoupled_k6.0/sweep_seed_results.csv} & 4{,}050 \\
+Imposed closure & \path{recon/exogenous_delta_fixed/sweep_seed_results.csv} & 1{,}620 \\
+Activation boundary, open & \path{recon/boundary_open/sweep_seed_results.csv} & 1{,}890 \\
+Activation boundary, sealed & \path{recon/boundary_sealed/sweep_seed_results.csv} & 1{,}890 \\
+Privilege ablation & \path{recon/privilege_ablation/ablation_seed_results.csv} & 120 per arm \\
+Endogenous exit capacity & \path{results/v3_3_endogenous_capacity_v2/} & see Section~S5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Drivers and aggregators}
+
+Table~S6.2 names the script that produced each set of outputs and the script
+that reduces them. The classifier in \path{src/regime_classifier.py} is the
+single source of truth for discrete outcomes and carries a self-check.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Table S6.2: Drivers and aggregators.}
+\begin{tabular}{ll}
+\toprule
+Role & Script \\
+\midrule
+Main sweep driver & \path{scripts/run_v2_7_endogenous_delta_sweep.py} \\
+Factorial launcher & \path{recon/run_factorial.sh} \\
+Decoupling launcher & \path{recon/run_decoupled.sh} \\
+Privilege ablation driver & \path{recon/run_privilege_ablation.py} \\
+Endogenous capacity driver & \path{scripts/run_v3_3_experiments.py} \\
+Boundary aggregator & \path{recon/analyze_boundary.py} \\
+Imposed-closure aggregator & \path{recon/analyze_exogenous_fixed.py} \\
+Decoupling aggregator & \path{recon/analyze_decoupled.py} \\
+Endogenous capacity aggregator & \path{scripts/aggregate_v3_3.py} \\
+Outcome classifier & \path{src/regime_classifier.py} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Per-run configuration records}
+
+Each run of the endogenous exit-capacity experiments writes a
+\path{run_config.json} into its own output directory. That file records the full
+command line, the resolved model parameters, the creation and completion
+timestamps, the model file path, and the SHA-256 digest of the model source
+under the key \texttt{code\_sha256}. A reader can therefore confirm that a given
+committed run was produced by the exact source file now in the repository.
+
+The main sweeps under \path{recon/} do not write a per-run configuration record.
+Their launch parameters are recorded in three places. The swept parameters
+appear as columns of \path{sweep_seed_results.csv} and as the directory names
+beneath it. The population-level settings \texttt{base\_opp},
+\texttt{punish\_floor}, \texttt{exit\_threshold}, and
+\texttt{capture\_exit\_cap} appear in the \path{sweep_report.txt} written
+alongside it. The seven calibration-supplied parameters appear in neither, and
+are instead provided in the repository as the file
+\path{results/BEST_PARAMS_frozen.json}, whose values are listed in Table~S1.10
+and whose empirical confirmation against the committed outputs is described in
+the note to Section~S1.
+
+The absence of a per-run configuration record under \path{recon/} is a
+reproducibility weakness of these sweeps rather than of the model. It is the
+reason the seven values had to be recovered from run output and verified by
+replay, and it is the reason the parameter set is now committed as a file in its
+own right. The endogenous exit-capacity runs of Section~S5 do not have this
+weakness, because each writes a \path{run_config.json}.
+
+\subsection{Recomputation of outcome classes}
+
+All reported regimes are recomputed from the continuous columns
+\texttt{final\_exit\_rate} and \texttt{max\_punish} using the canonical
+classifier. No reported quantity reads a stored \texttt{regime} column. This
+rule is load-bearing rather than stylistic. The \texttt{regime} column committed
+alongside the \path{recon/} sweeps was written under an earlier classifier that
+applied a prevalence gate, and for the shock factorial that stored column
+disagrees with the canonical classifier on 71 percent of runs, labelling 2,880
+runs MIXED that the canonical classifier labels CAPTURE. Stored regime columns
+are retained in the committed files as immutable simulation outputs, but they
+are not authoritative, and analysis recomputes classification from the
+continuous quantities every time.
 
 \end{document}

@@ -1,0 +1,43 @@
+{
+  "_header": "FROZEN CALIBRATION PARAMETER SET. This is the parameter set behind every reported sweep in the manuscript and in Online Resource 1. It is a verbatim copy of the params block of runs/batch_v2_3_search_20260213_043518/summary/BEST_PARAMS.json, which is the default --best argument of scripts/run_v2_7_endogenous_delta_sweep.py. The runs/ tree is gitignored, so this file exists to make the parameter set committable alongside the results it produced. See BEST_PARAMS_frozen.README.md for the empirical verification.",
+  "_source_file": "runs/batch_v2_3_search_20260213_043518/summary/BEST_PARAMS.json",
+  "_source_sha256": "62bbfdb7ded11c745e9173e0693c8ae7fc9150eb2433bdc63f1c0b5d92f2b776",
+  "_read_by": "scripts/run_v2_7_endogenous_delta_sweep.py (load_best_params, --best default)",
+  "_model": "src/religion_fundamentalism_abm_v2_7.py",
+  "_model_sha256": "d654d802661baf5940af492f46a5ff4ba019be15cd90af83e19a7d8c466f438d",
+  "_driver_sha256": "3cf9a062f74ddd21e037018598524184a7c2919d3410e39d7d9744a6fee73ee1",
+  "_covers_sweeps": [
+    "recon/factorial_shock_off",
+    "recon/factorial_shock_on",
+    "recon/decoupled_k1.5",
+    "recon/decoupled_k3.0",
+    "recon/decoupled_k6.0",
+    "recon/exogenous_delta_fixed",
+    "recon/boundary_open",
+    "recon/boundary_sealed"
+  ],
+  "_verification": "All seven values were confirmed by bit-for-bit replay of committed runs against the frozen v2.7 source. See BEST_PARAMS_frozen.README.md.",
+
+  "params": {
+    "membership_benefit": 0.06336634914903713,
+    "membership_benefit_threat": 0.10553999169992101,
+    "exit_opportunity_base": 0.2381166236911743,
+    "exit_opportunity_threat_coeff": 2.908096432532684,
+    "exit_block_exponent": 5.980606901200484,
+    "exit_commit_steps": 12,
+    "exit_cost": 1.0,
+    "shock_strength": 0.1
+  },
+
+  "_params_note": "load_best_params() reads only seven of these eight keys: membership_benefit, membership_benefit_threat, exit_opportunity_threat_coeff, exit_block_exponent, exit_commit_steps, exit_cost, shock_strength. The eighth key, exit_opportunity_base, is NOT read from this file; the driver passes its own --base-opp value, which is 0.30 in every reported sweep. The value 0.2381166236911743 recorded here is inert.",
+
+  "_search_provenance": {
+    "found_hit": true,
+    "trial": 12,
+    "metrics": {
+      "median_final_exit_rate": 0.6857142857142857,
+      "median_final_prevalence": 0.5342857142857143,
+      "median_max_punish_rate": 0.3057142857142857
+    }
+  }
+}
